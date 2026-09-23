@@ -30,8 +30,8 @@ this file instead.
 npm start        # electron .            — full app (controller window)
 npm run server   # electron server/main.js — headless server only
 npm test         # eslint .              — the only automated check in the repo
-npm run pack     # bin/pack.js           — platform/arch package
-npm run build    # macOS universal via electron-packager → dist/
+npm run pack     # current platform/arch → dist/ (bin/pack.js → bin/build.js)
+npm run build    # macOS universal + Windows x64 via @electron/packager 18 → dist/
 npm run reset    # wipe server/backend/storage/*.db
 ```
 
@@ -303,7 +303,22 @@ than a fragile regex; follow with `npx eslint <file>`.
 
 ---
 
-## 10. State of the tree (as of 2026-09-22)
+## 10. Licensing
+
+- New work is **AGPL-3.0-or-later** (`LICENSE`, verbatim from gnu.org) with Section 7 terms
+  in `NOTICE`. Upstream Console Lite MIT notices live in `LICENSES/MIT.txt`: never edit or
+  remove them, or any upstream copyright line.
+- Every new source file needs an SPDX header (see CONTRIBUTING.md); `node bin/check-spdx.js`
+  lists files missing one. Files derived from upstream use `AGPL-3.0-or-later AND MIT`.
+- `THIRD_PARTY_NOTICES.md` is generated:
+  `npx license-checker --production --json | node bin/third-party-notices.js > THIRD_PARTY_NOTICES.md`.
+- The host sends `version` in the global `pong` so remote clients show the host's source link
+  (Settings > About line, Help > Source Code, About window via `shared/source.js`). The relay
+  answers `GET /` with its license and source URL.
+- Source links point at `https://github.com/Eric-ZhehanZ/Console-Neo/tree/v<version>`, so
+  every released version needs a matching `v<version>` git tag.
+
+## 11. State of the tree (as of 2026-09-22)
 
 - Branch `main`, pushed to `github.com/Eric-ZhehanZ/Console-Neo`. History starts at the
   initial commit; the Console Lite fork's history was not carried over. `pending/` (new icon
