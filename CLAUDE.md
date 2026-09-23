@@ -328,6 +328,11 @@ than a fragile regex; follow with `npx eslint <file>`.
   writes `dist/` (git-ignored); rebuild after any change before distributing.
 - App icon master is `images/icon.png` (full-bleed 1024). `icon.icns` puts it on Apple's
   824/1024 grid with a drop shadow; `icon.ico` and the window PNGs use it full-bleed.
+- `website/` is live at **consoleneo.com** (Worker `console-neo-product-site`, ZhehanZ account,
+  custom domain set in `website/vite.config.ts`). Deploy: `cd website && npm run build && npx
+  wrangler deploy`. Download buttons hit `/download/mac|win` in `website/worker/index.ts`, which
+  302s to the GitHub release asset, or via `https://gh-proxy.com/` for `CN` visitors. Bump
+  `website/app/release.ts` with each release.
 - `website/` is a separate Next.js (vinext) project. Its feature sections embed DOM
   snapshots of the real app (`website/public/ui/`); regenerate them after UI changes with
   `website/scripts/ui-snapshots/` (see its README).

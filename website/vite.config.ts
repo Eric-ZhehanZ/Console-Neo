@@ -16,6 +16,8 @@ const localBindingConfig = {
   // Deployed on the ZhehanZ Cloudflare account, which holds the consoleneo.com zone
   account_id: "0b33d8900e842c048562a4b70d9ecee4",
   routes: [{ pattern: "consoleneo.com", custom_domain: true }],
+  // Serve public/ui/*.html snapshots at their own URLs (no .html-stripping redirect)
+  assets: { html_handling: "none" },
   compatibility_flags: ["nodejs_compat"],
   d1_databases: d1
     ? [
