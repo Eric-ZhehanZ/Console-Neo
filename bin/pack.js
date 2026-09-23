@@ -1,6 +1,7 @@
 const packager = require('electron-packager');
 const process = require('process');
 const path = require('path');
+const { version } = require('../package.json');
 
 function pack(cb, silent) {
   if(!silent) {
@@ -19,9 +20,12 @@ function pack(cb, silent) {
       /^\/server\/.*\.files($|\/)/,
       /^\/Console Lite/,
       /^\/Console-Lite-/,
-    ], // Ignores databases, files and artifacts
+      /^\/(dist|website|pending|test-results|relay|\.claude|\.vscode)(\/|$)/,
+    ], // Ignores databases, files, artifacts, and non-app sources
     tmpdir: false,
     icon: path.join(__dirname, '../images/icon'),
+    // Numeric only: macOS and Windows version fields reject prerelease tags
+    appVersion: version.split('-')[0],
   };
 
   if(process.env.ELECTRON_MIRROR)

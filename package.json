@@ -1,7 +1,7 @@
 {
   "name": "console-neo",
   "productName": "Console Neo",
-  "version": "2.0.0",
+  "version": "2.0.0-beta.1",
   "description": "The next generation of MUN conference softwares",
   "main": "main.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "rebuildNative": "node bin/rebuild.js",
     "beforeBuild": "npm i && npm i electron-packager --save-dev && source ./predeploy.sh",
     "build": "npm run buildMac",
-    "buildMac": "node -e \"require('electron-packager')({ dir: '.', name: 'Console Neo', platform: 'darwin', arch: 'universal', icon: 'images/icon.icns', out: 'dist', overwrite: true, ignore: [/^\\/dist/], osxUniversal: { x64ArchFiles: '**/*.node' }, extendInfo: { NSLocalNetworkUsageDescription: 'Console Neo discovers nearby sessions on your local network.', NSBonjourServices: ['_console-neo._tcp'] } }).then(p => console.log('PACKAGED:', p))\"",
+    "buildMac": "node -e \"require('electron-packager')({ dir: '.', name: 'Console Neo', platform: 'darwin', arch: 'universal', icon: 'images/icon.icns', appVersion: require('./package.json').version.split('-')[0], buildVersion: require('./package.json').version, out: 'dist', overwrite: true, ignore: [/^\\/(dist|website|pending|test-results|relay|\\.claude|\\.vscode)(\\/|$)/], osxUniversal: { x64ArchFiles: '**/*.node' }, extendInfo: { NSLocalNetworkUsageDescription: 'Console Neo discovers nearby sessions on your local network.', NSBonjourServices: ['_console-neo._tcp'] } }).then(p => console.log('PACKAGED:', p))\"",
     "afterBuild": "tar zcf dist/Console-Neo-$(git log -n 1 --pretty=format:'%h').tar.gz dist/"
   },
   "author": "Liu Xiaoyi",
