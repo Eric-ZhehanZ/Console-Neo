@@ -132,3 +132,37 @@
 .reminder-times {
   width: 40px;
 }
+
+/* About: version, license, and source, for every user including remote ones */
+
+.about-line {
+  font-size: 13px;
+  line-height: 20px;
+  color: rgba(0,0,0,.54);
+}
+
+.about-attribution {
+  margin-top: 2px;
+  font-size: 12px;
+  color: rgba(0,0,0,.38);
+}
+
+.about-sep {
+  margin: 0 6px;
+  opacity: .5;
+}
+
+.about-link {
+  color: rgba(0,0,0,.87);
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0,0,0,.2);
+  -webkit-app-region: no-drag;
+}
+
+.about-link:hover {
+  border-bottom-color: rgba(0,0,0,.6);
+}
+
+.about-actions {
+  margin-top: 10px;
+}

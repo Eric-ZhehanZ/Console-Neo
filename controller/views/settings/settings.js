@@ -4,7 +4,9 @@
 
 const Vue = require('vue');
 const fs = require('fs');
+const { ipcRenderer } = require('electron');
 const reminder = require('../../../shared/reminder');
+const source = require('../../../shared/source');
 
 const SettingsView = Vue.extend({
   template: fs.readFileSync(`${__dirname}/settings.html`).toString('utf-8'),
@@ -27,6 +29,7 @@ const SettingsView = Vue.extend({
     'relayStatus',
     'relayUrl',
     'routePref',
+    'hostVersion',
   ],
 
   data: () => ({
@@ -36,6 +39,8 @@ const SettingsView = Vue.extend({
     reminderEnabled: true,
     reminderSingle: false,
     rules: [],
+    appVersion: source.version,
+    attribution: source.ATTRIBUTION,
   }),
 
   created() {
@@ -50,6 +55,11 @@ const SettingsView = Vue.extend({
   },
 
   computed: {
+    // Connected to someone else's server: show that host's version and source
+    remoteHost() {
+      return !!this.serverUrl && !this.isLocalServer;
+    },
+
     /* What identifies the session, and stays on screen even with no
        connectivity - it is still the right thing to read out loud */
     sessionItems() {
@@ -83,6 +93,14 @@ const SettingsView = Vue.extend({
   },
 
   methods: {
+    openAbout() {
+      ipcRenderer.send('openAbout');
+    },
+
+    openSource() {
+      ipcRenderer.send('openSource');
+    },
+
     /* Connect codes are minted by the embedded server and rotate every
        30s, so only the machine hosting it has any to show */
     hostCode(code) {

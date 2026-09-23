@@ -139,6 +139,7 @@ const desc = {
     backendReaderKey: '',
     isLocalServer: false,
     connLost: false,
+    hostVersion: null,
 
     pickerMode: 'menu',
     selectedConf: null,
@@ -256,6 +257,9 @@ const desc = {
       ipcRenderer.on('navigateTo', (event, dest) => {
         if(this.frame) this.navigate(dest);
       });
+
+      // A reload starts unconnected until the session is back
+      ipcRenderer.send('setHostInfo', null);
 
       ipcRenderer.on('serverKeysRotated', (event, keys) => {
         if(!this.isLocalServer) return;
@@ -492,6 +496,16 @@ const desc = {
       });
     },
 
+    /**
+     * Hosts report their version in the welcome payload (older hosts
+     * don't). Main uses it for the About window and the Source Code menu,
+     * so a remote user's source link matches what that host runs.
+     */
+    _setHostVersion(version) {
+      this.hostVersion = version || null;
+      ipcRenderer.send('setHostInfo', { remote: !this.isLocalServer, version: this.hostVersion });
+    },
+
     _isLiveSocket(socket) {
       return (!!globalConn && globalConn.socket === socket)
         || (!!confConn && confConn.socket === socket);
@@ -640,7 +654,10 @@ const desc = {
 
       this._watchRemoteDrop(socket);
 
-      globalConn = new GlobalConnection(socket, ({ confs, authorized, idkey, readerkey }) => {
+      globalConn = new GlobalConnection(socket, ({
+        confs, authorized, idkey, readerkey, version,
+      }) => {
+        this._setHostVersion(version);
         this.confs = confs;
         this.authorized = authorized;
         this.backendIDKey = idkey;
@@ -668,7 +685,10 @@ const desc = {
         if(rc) this.connectConf(rc.id, rc.name);
       });
 
-      globalConn.onResync = ({ confs, authorized, idkey, readerkey }) => {
+      globalConn.onResync = ({
+        confs, authorized, idkey, readerkey, version,
+      }) => {
+        this._setHostVersion(version);
         if(confs) this.confs = confs;
         this.authorized = authorized;
         if(idkey) this.backendIDKey = idkey;

@@ -11,7 +11,7 @@
 const electron = require('electron');
 const {
   powerSaveBlocker, ipcMain, app,
-  protocol, globalShortcut, BrowserWindow,
+  protocol, globalShortcut, BrowserWindow, shell,
 } = electron;
 
 // Isolated dev/test instances: point storage (and the server port below)
@@ -31,6 +31,7 @@ const getIpv4 = require('./packages/ipv4/index');
 const server = require('./server/server');
 const tunnel = require('./shared/tunnel');
 const util = require('./util');
+const source = require('./shared/source');
 
 remoteMain.initialize();
 
@@ -502,6 +503,77 @@ ipcMain.on('openNote', (event, opts) => {
   noteWindows.set(opts.key, win);
   win.on('closed', () => {
     if(noteWindows.get(opts.key) === win) noteWindows.delete(opts.key);
+  });
+});
+
+/* About and license files (AGPL Sections 5(d) and 13). The controller
+   reports the host it is connected to, so a remote user's source link
+   matches the version that host actually runs */
+let hostInfo = { remote: false, version: null };
+
+ipcMain.on('setHostInfo', (event, info) => {
+  hostInfo = {
+    remote: Boolean(info && info.remote),
+    version: (info && info.version) || null,
+  };
+});
+
+let aboutWin = null;
+
+function openAbout() {
+  if(aboutWin && !aboutWin.isDestroyed()) return void aboutWin.focus();
+
+  aboutWin = new BrowserWindow({
+    width: 480,
+    height: 680,
+    resizable: false,
+    title: 'Console Neo',
+    backgroundColor: '#FFF',
+    icon: path.join(__dirname, 'images', 'icon_256x256.png'),
+    webPreferences: rendererPrefs,
+  });
+  aboutWin.setMenuBarVisibility(false);
+  const q = new URLSearchParams(hostInfo.remote && hostInfo.version
+    ? { host: hostInfo.version } : {});
+  aboutWin.loadURL(`file://${__dirname}/about/index.html?${q.toString()}`);
+  aboutWin.on('closed', () => { aboutWin = null; });
+  return undefined;
+}
+
+function openSource() {
+  // A remote host that predates version reporting gets the repository root
+  shell.openExternal(source.sourceUrl(hostInfo.remote ? hostInfo.version : source.version));
+}
+
+ipcMain.on('openAbout', openAbout);
+ipcMain.on('openSource', openSource);
+app.on('cln-open-about', openAbout);
+app.on('cln-open-source', openSource);
+
+const docWindows = new Map();
+
+ipcMain.on('openLegalDoc', (event, doc) => {
+  if(source.LEGAL_DOCS.indexOf(doc) === -1) return;
+
+  const existing = docWindows.get(doc);
+  if(existing && !existing.isDestroyed()) {
+    existing.focus();
+    return;
+  }
+
+  const win = new BrowserWindow({
+    width: 760,
+    height: 680,
+    title: doc,
+    backgroundColor: '#FFF',
+    icon: path.join(__dirname, 'images', 'icon_256x256.png'),
+    webPreferences: rendererPrefs,
+  });
+  win.setMenuBarVisibility(false);
+  win.loadURL(`file://${__dirname}/about/doc.html?doc=${encodeURIComponent(doc)}`);
+  docWindows.set(doc, win);
+  win.on('closed', () => {
+    if(docWindows.get(doc) === win) docWindows.delete(doc);
   });
 });
 

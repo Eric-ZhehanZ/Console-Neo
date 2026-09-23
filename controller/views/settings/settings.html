@@ -190,4 +190,19 @@
       </button>
     </div>
   </template>
+
+  <div class="view-pagetitle">{{ t('about') }}</div>
+  <div class="about-line">
+    <span v-if="remoteHost && hostVersion">{{ tf('hostVersionFmt', { v: hostVersion }) }}</span>
+    <span v-if="remoteHost && !hostVersion">Console Neo</span>
+    <span v-if="!remoteHost">Console Neo v{{ appVersion }}</span>
+    <span class="about-sep">·</span>AGPL-3.0<span class="about-sep">·</span>
+    <a class="about-link" @click="openSource">{{ t('sourceCode') }}</a>
+  </div>
+  <div class="about-line about-attribution">{{ attribution }}</div>
+  <div class="conn-actions about-actions">
+    <button class="embedded" @click="openAbout">
+      {{ t('aboutApp') }}<i class="material-icons">info_outline</i>
+    </button>
+  </div>
 </div>

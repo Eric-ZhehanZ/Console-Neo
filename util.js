@@ -103,6 +103,16 @@ function getControllerMenu(controller) {
       role: 'help',
       submenu: [
         {
+          label: 'About Console Neo',
+          click() { app.emit('cln-open-about'); },
+        },
+        {
+          // For remote users this is the connected host's exact version
+          label: 'Source Code',
+          click() { app.emit('cln-open-source'); },
+        },
+        { type: 'separator' },
+        {
           label: 'About Electron',
           click() { shell.openExternal('https://electronjs.org'); },
         },
@@ -114,7 +124,10 @@ function getControllerMenu(controller) {
     tmpl.unshift({
       label: app.getName(),
       submenu: [
-        { role: 'about' },
+        {
+          label: `About ${app.getName()}`,
+          click() { app.emit('cln-open-about'); },
+        },
         { type: 'separator' },
         {
           role: 'services',

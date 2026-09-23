@@ -1,0 +1,94 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE and NOTICE for terms.
+ */
+
+html, body {
+  margin: 0;
+  background: #fff;
+  color: rgba(0,0,0,.87);
+  font-family: 'Roboto', 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  -webkit-user-select: text;
+}
+
+.about {
+  padding: 36px 36px 28px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.about-icon {
+  display: block;
+  width: 88px;
+  height: 88px;
+  margin: 0 auto;
+}
+
+.about-name {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 300;
+}
+
+.about-version {
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: .5px;
+  color: rgba(0,0,0,.38);
+}
+
+.about-block {
+  margin-top: 22px;
+}
+
+.about-attribution {
+  margin-top: 2px;
+  overflow-wrap: break-word;
+}
+
+.about-muted {
+  color: rgba(0,0,0,.54);
+}
+
+.about-docs {
+  margin: 20px 0 0;
+}
+
+.about-docs .list-item-content {
+  padding: 7px 16px;
+  font-size: 13px;
+}
+
+.about-file {
+  margin-left: 8px;
+  font-size: 11px;
+  color: rgba(0,0,0,.38);
+}
+
+.about-links {
+  margin-top: 18px;
+  text-align: center;
+}
+
+.about-links + .about-links {
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.about-links a {
+  color: rgba(0,0,0,.87);
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0,0,0,.2);
+}
+
+.about-links a:hover {
+  border-bottom-color: rgba(0,0,0,.6);
+}
+
+.about-sep {
+  margin: 0 6px;
+  opacity: .5;
+}

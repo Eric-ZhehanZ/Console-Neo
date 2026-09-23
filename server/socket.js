@@ -7,6 +7,8 @@
 const socketIO = require('socket.io');
 const crypto = require('crypto');
 const backend = require('./backend/main');
+// Sent to every client so remote users can reach this host's exact source (AGPL Section 13)
+const { version } = require('../package.json');
 
 let io;
 const namespaces = new Map();
@@ -736,6 +738,7 @@ function init(app, idk, psk, rdk, code, rcode) {
       confs: backend.list(),
       idkey: idk,
       readerkey: socket.consoleAuthorized ? readerkey : undefined,
+      version,
     });
 
     socket.on('ping', () => {
@@ -744,6 +747,7 @@ function init(app, idk, psk, rdk, code, rcode) {
         confs: backend.list(),
         idkey: idk,
         readerkey: socket.consoleAuthorized ? readerkey : undefined,
+        version,
       });
     });
 
