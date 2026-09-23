@@ -138,6 +138,13 @@ function initController() {
   });
 }
 
+// A replaced projector closes after its successor exists; only the current one clears state
+function onProjectorClosed(win) {
+  if(projector !== win) return;
+  projector = null;
+  if(controller) controller.webContents.send('projectorClosed');
+}
+
 function initProjector(opts) {
   const windowed = Boolean(opts && opts.windowed);
 
@@ -152,25 +159,23 @@ function initProjector(opts) {
     const disp = screen.getDisplayMatching(base);
     const width = Math.round(disp.workArea.width * 0.62);
     const height = Math.round(width * 9 / 16);
-    projector = new BrowserWindow(Object.assign({}, projectorOpt, {
+    const win = new BrowserWindow(Object.assign({}, projectorOpt, {
       x: disp.workArea.x + Math.round((disp.workArea.width - width) / 2),
       y: disp.workArea.y + Math.round((disp.workArea.height - height) / 2),
       width,
       height,
     }));
-    remoteMain.enable(projector.webContents);
-    watchRenderer(projector, 'projector');
+    projector = win;
+    remoteMain.enable(win.webContents);
+    watchRenderer(win, 'projector');
 
-    projector.webContents.on('dom-ready', () => {
-      projector.show();
+    win.webContents.on('dom-ready', () => {
+      win.show();
     });
-    projector.loadURL(`file://${__dirname}/projector/index.html`);
-    util.applyProjectorMenu(projector);
+    win.loadURL(`file://${__dirname}/projector/index.html`);
+    util.applyProjectorMenu(win);
 
-    projector.on('closed', () => {
-      projector = null;
-      if(controller) controller.webContents.send('projectorClosed');
-    });
+    win.on('closed', () => onProjectorClosed(win));
     return;
   }
 
@@ -198,34 +203,32 @@ function initProjector(opts) {
       projector = new BrowserWindow(projectorOpt);
     }
   }
-  remoteMain.enable(projector.webContents);
-  watchRenderer(projector, 'projector');
+  const win = projector;
+  remoteMain.enable(win.webContents);
+  watchRenderer(win, 'projector');
 
-  projector.hide();
+  win.hide();
 
-  projector.webContents.on('dom-ready', () => {
-    // projector.webContents.openDevTools();
-    projector.show();
+  win.webContents.on('dom-ready', () => {
+    // win.webContents.openDevTools();
+    win.show();
     if(external) {
       console.log(`[Proj] maximizing projector window, id=${external.id}`);
-      projector.setFullScreen(true);
+      win.setFullScreen(true);
     }
   });
-  projector.loadURL(`file://${__dirname}/projector/index.html`);
-  util.applyProjectorMenu(projector);
+  win.loadURL(`file://${__dirname}/projector/index.html`);
+  util.applyProjectorMenu(win);
 
   // Minimizing or leaving fullscreen ends the cast
-  projector.on('minimize', () => {
-    if(projector) projector.close();
+  win.on('minimize', () => {
+    if(!win.isDestroyed()) win.close();
   });
-  projector.on('leave-full-screen', () => {
-    if(projector) projector.close();
+  win.on('leave-full-screen', () => {
+    if(!win.isDestroyed()) win.close();
   });
 
-  projector.on('closed', () => {
-    projector = null;
-    if(controller) controller.webContents.send('projectorClosed');
-  });
+  win.on('closed', () => onProjectorClosed(win));
 }
 
 function setupExportHandler() {
