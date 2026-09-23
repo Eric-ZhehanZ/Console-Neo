@@ -18,6 +18,17 @@
  */
 const http = require('http');
 const { WebSocketServer } = require('ws');
+const { version } = require('../package.json');
+
+// The relay is a network service, so it points to its own source (AGPL Section 13)
+const SOURCE_URL = `https://github.com/Eric-ZhehanZ/Console-Neo/tree/v${version}`;
+const INFO = [
+  'Console Neo relay',
+  `Version ${version}`,
+  'Licensed under AGPL-3.0-or-later',
+  `Source: ${SOURCE_URL}`,
+  '',
+].join('\n');
 
 const OPEN = 1;
 const CLOSE = 3;
@@ -146,8 +157,8 @@ function attachClient(s, ws) {
 }
 
 const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'content-type': 'text/plain' });
-  res.end('Console Neo relay\n');
+  res.writeHead(200, { 'content-type': 'text/plain; charset=utf-8', 'x-source-code': SOURCE_URL });
+  res.end(INFO);
 });
 
 const wss = new WebSocketServer({ noServer: true, perMessageDeflate: false });

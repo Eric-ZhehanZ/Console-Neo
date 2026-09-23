@@ -18,6 +18,8 @@
 
 /* global WebSocketPair */
 
+import pkg from '../package.json';
+
 const OPEN = 1;
 const CLOSE = 3;
 const PING = 4;
@@ -27,6 +29,17 @@ const PONG = 5;
 // that a reconnecting host may replace
 const HOST_STALE = 45 * 1000;
 const SESSION_RE = /^[A-Za-z0-9-]{4,64}$/;
+
+/* The relay is a network service, so it points to its own source (AGPL Section 13) */
+const SOURCE_URL = `https://github.com/Eric-ZhehanZ/Console-Neo/tree/v${pkg.version}`;
+const INFO = [
+  'Console Neo relay',
+  `Version ${pkg.version}`,
+  'Licensed under AGPL-3.0-or-later',
+  `Source: ${SOURCE_URL}`,
+  '',
+].join('\n');
+const SOURCE_HEADERS = { 'content-type': 'text/plain; charset=utf-8', 'x-source-code': SOURCE_URL };
 
 function frame(type, connId) {
   const buf = new Uint8Array(5);
@@ -177,9 +190,9 @@ export default {
     const session = (url.searchParams.get('session') || '').toUpperCase();
 
     if(role !== 'host' && role !== 'join')
-      return new Response('Console Neo relay\n', { status: 200 });
+      return new Response(INFO, { status: 200, headers: SOURCE_HEADERS });
     if(!SESSION_RE.test(session))
-      return new Response('bad session', { status: 400 });
+      return new Response('bad session', { status: 400, headers: SOURCE_HEADERS });
 
     const stub = env.SESSIONS.get(env.SESSIONS.idFromName(session));
     return stub.fetch(request);
