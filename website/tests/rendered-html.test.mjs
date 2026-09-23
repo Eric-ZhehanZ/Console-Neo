@@ -34,7 +34,10 @@ test("server-renders the Console Neo site", async () => {
 
   const html = await response.text();
   assert.match(html, /<title>Console Neo<\/title>/i);
-  assert.match(html, /模拟联合国会议控制台/);
+  assert.match(html, /模联主席团的会议控制台/);
+  assert.match(html, /releases\/download\/v[^"]+macos-universal\.zip/);
+  assert.match(html, /releases\/download\/v[^"]+windows-x64\.zip/);
+  assert.match(html, /contact@consoleneo\.com/);
   assert.match(html, /\/ui\/controller-list-zh\.html/);
   assert.match(html, /\/ui\/projector-list-zh\.html/);
   assert.match(html, /Liu Xiaoyi/);
@@ -71,8 +74,15 @@ test("keeps bilingual guides, attribution, and assets self-contained", async () 
     readFile(new URL("../public/NOTICE.txt", import.meta.url), "utf8"),
   ]);
 
-  for(const id of ["start", "sessions", "meeting", "collaboration", "reference", "data", "troubleshooting"])
+  for(const id of ["start", "invite", "speakers", "motions", "voting", "casting", "backup", "reference", "troubleshooting"])
     assert.match(content, new RegExp(`id: "${id}"`));
+
+  // Every guide screenshot exists in both languages
+  const shots = new Set([...content.matchAll(/shot: "([a-z-]+)"/g)].map((match) => match[1]));
+  const guideFiles = new Set(await readdir(new URL("../public/guides/", import.meta.url)));
+  for(const shot of shots)
+    for(const lang of ["zh", "en"])
+      assert.ok(guideFiles.has(`${shot}-${lang}.webp`), `missing guides/${shot}-${lang}.webp`);
   assert.match(page, /console-neo-site-lang/);
   assert.match(css, /prefers-reduced-motion/);
   assert.equal(inheritedLicense, rootLicense);

@@ -12,11 +12,13 @@ CLN_USERDATA=/tmp/cn-demo CLN_PORT=3466 npx electron . --remote-debugging-port=9
 
 # 2. Demo committees in both languages, then the snapshots
 node website/scripts/ui-snapshots/setup.cjs
-node website/scripts/ui-snapshots/capture.cjs
+PYTHON=/path/to/python node website/scripts/ui-snapshots/capture.cjs
 
-# 3. The app's stylesheets, flattened (PYTHON: fontTools + brotli for WOFF2)
+# 3. The app's stylesheets, flattened (PYTHON: fontTools + brotli for WOFF2, Pillow for WebP)
 PYTHON=/path/to/python node website/scripts/ui-snapshots/bundle-css.cjs
 ```
 
-Output goes to `website/public/ui/`. Quit the instance and delete `/tmp/cn-demo`
-afterwards.
+Output: DOM snapshots in `website/public/ui/` (feature sections) and guide
+screenshots in `website/public/guides/` (WebP when `PYTHON` also has Pillow). The
+controller is captured at the app's own default window size, recorded in
+`website/app/ui-sizes.json`. Quit the instance and delete `/tmp/cn-demo` afterwards.
