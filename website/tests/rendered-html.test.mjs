@@ -6,14 +6,15 @@ import assert from "node:assert/strict";
 import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
-async function render() {
+async function render(path = "/", headers = {}) {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html", host: "localhost" },
+    new Request(`http://localhost${path}`, {
+      headers: { accept: "text/html", host: "localhost", ...headers },
+      redirect: "manual",
     }),
     {
       ASSETS: {
@@ -35,14 +36,26 @@ test("server-renders the Console Neo site", async () => {
   const html = await response.text();
   assert.match(html, /<title>Console Neo<\/title>/i);
   assert.match(html, /模联主席团的会议控制台/);
-  assert.match(html, /releases\/download\/v[^"]+macos-universal\.zip/);
-  assert.match(html, /releases\/download\/v[^"]+windows-x64\.zip/);
+  assert.match(html, /href="\/download\/mac"/);
+  assert.match(html, /href="\/download\/win"/);
   assert.match(html, /contact@consoleneo\.com/);
   assert.match(html, /\/ui\/controller-list-zh\.html/);
   assert.match(html, /\/ui\/projector-list-zh\.html/);
   assert.match(html, /Liu Xiaoyi/);
   assert.match(html, /Pan Ruizhe/);
   assert.match(html, /\/licenses\/INHERITED-MIT\.txt/);
+});
+
+test("downloads redirect to GitHub, or gh-proxy for mainland China", async () => {
+  for(const [platform, file] of [["mac", "macos-universal.zip"], ["win", "windows-x64.zip"]]) {
+    const direct = await render(`/download/${platform}`, { "cf-ipcountry": "US" });
+    assert.equal(direct.status, 302);
+    assert.match(direct.headers.get("location"), new RegExp(`^https://github\\.com/Eric-ZhehanZ/Console-Neo/releases/download/v[^/]+/Console-Neo-[^/]+-${file}$`));
+
+    const mirrored = await render(`/download/${platform}`, { "cf-ipcountry": "CN" });
+    assert.equal(mirrored.status, 302);
+    assert.equal(mirrored.headers.get("location"), `https://gh-proxy.com/${direct.headers.get("location")}`);
+  }
 });
 
 test("ships real UI snapshots for every feature in both languages", async () => {

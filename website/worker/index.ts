@@ -1,6 +1,7 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
+import { DOWNLOAD_FILES, downloadUrl, type Platform } from "../app/release";
 
 interface Env {
   ASSETS: Fetcher;
@@ -28,6 +29,20 @@ interface ExecutionContext {
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+
+    // /download/mac and /download/win: GitHub, or gh-proxy for visitors in mainland China
+    const download = /^\/download\/(mac|win)\/?$/.exec(url.pathname);
+    if(download && download[1] in DOWNLOAD_FILES) {
+      const cf = (request as Request & { cf?: { country?: string } }).cf;
+      const country = cf?.country ?? request.headers.get("cf-ipcountry");
+      return new Response(null, {
+        status: 302,
+        headers: {
+          location: downloadUrl(download[1] as Platform, country),
+          "cache-control": "private, no-store",
+        },
+      });
+    }
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];

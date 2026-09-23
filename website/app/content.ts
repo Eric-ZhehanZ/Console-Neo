@@ -7,19 +7,19 @@ export type Localized = { zh: string; en: string };
 
 const bi = (zh: string, en: string): Localized => ({ zh, en });
 
-export const VERSION = "2.0.0-beta.1";
-export const REPO = "https://github.com/Eric-ZhehanZ/Console-Neo";
-export const RELEASE_PAGE = `${REPO}/releases/tag/v${VERSION}`;
-const RELEASE = `${REPO}/releases/download/v${VERSION}`;
+import { VERSION } from "./release";
 
+export { REPO, RELEASE_PAGE, VERSION } from "./release";
+
+// Links go through the Worker, which picks GitHub or a mirror by the visitor's country
 export const downloads = {
   mac: {
-    href: `${RELEASE}/Console-Neo-${VERSION}-macos-universal.zip`,
+    href: "/download/mac",
     label: bi("下载 macOS 版", "Download for macOS"),
     detail: bi("Apple 芯片与 Intel", "Apple silicon and Intel"),
   },
   win: {
-    href: `${RELEASE}/Console-Neo-${VERSION}-windows-x64.zip`,
+    href: "/download/win",
     label: bi("下载 Windows 版", "Download for Windows"),
     detail: bi("64 位", "64-bit"),
   },
