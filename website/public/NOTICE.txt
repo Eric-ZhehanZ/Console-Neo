@@ -1,4 +1,4 @@
-Console Neo Product Site — License and Attribution Notice
+Console Neo Product Site: License and Attribution Notice
 
 Inherited Console Lite software
 --------------------------------
@@ -26,13 +26,18 @@ Licensed under the Apache License, Version 2.0.
 The Apache License, Version 2.0 text is provided at:
 licenses/APACHE-2.0.txt
 
-Private 2026 work
------------------
+Console Neo
+-----------
 
-The new 2026 Console Neo revamp and this product-site work remain private while
-their ownership and licensing are being decided. No public license is granted
-for the use, copying, modification, or distribution of that new work at this
-time. All rights in that new work are reserved by their respective owners.
+Console Neo, including this site, is Copyright (C) 2026 Zhehan Zhang and is
+free software, licensed under the GNU Affero General Public License v3.0 or
+later, with additional terms under Section 7 covering attribution and
+trademarks. The license text is provided at licenses/AGPL-3.0.txt; the
+additional terms are in the NOTICE file of the source repository:
+https://github.com/Eric-ZhehanZ/Console-Neo
 
-Nothing in this notice limits or changes the rights granted for inherited or
-third-party materials under the MIT License or Apache License, Version 2.0.
+Licenses without the conditions of the AGPL are available from
+contact@consoleneo.com.
+
+The licenses above for inherited and third-party materials (MIT License,
+Apache License, Version 2.0) continue to apply to those materials.

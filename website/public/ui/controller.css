@@ -1,4 +1,19 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Copyright (C) 2018 Pan Ruizhe
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 /* fonts/fonts.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 /* Material icons */
 
 @font-face {
@@ -103,6 +118,14 @@
 }
 
 /* shared/style/selector.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Copyright (C) 2018 Pan Ruizhe
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .selector {
 }
 
@@ -153,6 +176,14 @@
 }
 
 /* shared/style/input.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Copyright (C) 2018 Pan Ruizhe
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .input-group {
   display: block;
   margin-bottom: 20px;
@@ -297,6 +328,13 @@ button.light[disabled]:hover {
 }
 
 /* shared/style/dialog.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .dialog-overlap {
   position: fixed;
   top: 0;
@@ -377,6 +415,14 @@ button.light[disabled]:hover {
 }
 
 /* shared/style/transitions.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Copyright (C) 2018 Pan Ruizhe
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .opacity-transition {
   transition: opacity 0.2s ease-out;
   opacity: 1;
@@ -458,6 +504,13 @@ button.light[disabled]:hover {
 }
 
 /* shared/style/list.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .list {
   display: block;
   margin-bottom: 24px;
@@ -544,6 +597,13 @@ button.light[disabled]:hover {
 
 
 /* controller/startup.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .mask {
   position: absolute;
   top: 0;
@@ -959,8 +1019,31 @@ button.light[disabled]:hover {
 }
 
 /* controller/frame.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Copyright (C) 2018 Pan Ruizhe
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 /* controller/views/styles.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 /* controller/views/seats/seats.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Copyright (C) 2018 Pan Ruizhe
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .seats {
   position: absolute;
   padding: 0 40px;
@@ -1020,6 +1103,13 @@ div.seats-input-div[contenteditable="true"] {
 }
 
 /* controller/views/files/files.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .dnd-mask {
   position: absolute;
   top: 0;
@@ -1068,6 +1158,14 @@ div.seats-input-div[contenteditable="true"] {
 }
 
 /* controller/views/file/file.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Copyright (C) 2018 Pan Ruizhe
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .file-view .view-title {
   white-space: nowrap;
 }
@@ -1166,6 +1264,13 @@ div.seats-input-div[contenteditable="true"] {
 }
 
 /* controller/views/votes/votes.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .vote-row {
   display: flex;
   align-items: center;
@@ -1305,6 +1410,13 @@ div.seats-input-div[contenteditable="true"] {
 }
 
 /* controller/views/vote/vote.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .vote-view .view-title {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto;
@@ -1455,6 +1567,13 @@ div.seats-input-div[contenteditable="true"] {
 }
 
 /* controller/views/lists/lists.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .list-row {
   display: flex;
   align-items: center;
@@ -1501,6 +1620,14 @@ div.seats-input-div[contenteditable="true"] {
 }
 
 /* controller/views/list/list.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Copyright (C) 2018 Pan Ruizhe
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .view.list-view {
   overflow: visible;
 
@@ -1819,6 +1946,12 @@ div.seats-input-div[contenteditable="true"] {
 
 
 /* controller/views/motions/motions.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE and NOTICE for terms.
+ */
+
 .motion-row {
   display: flex;
   align-items: center;
@@ -2061,6 +2194,12 @@ div.seats-input-div[contenteditable="true"] {
 }
 
 /* controller/views/stats/stats.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE and NOTICE for terms.
+ */
+
 .stat-grid {
   display: flex;
   flex-wrap: wrap;
@@ -2302,6 +2441,12 @@ div.seats-input-div[contenteditable="true"] {
 }
 
 /* controller/views/timerpage/timerpage.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE and NOTICE for terms.
+ */
+
 .timerpage-view {
   display: flex;
   flex-direction: column;
@@ -2370,6 +2515,12 @@ div.seats-input-div[contenteditable="true"] {
 }
 
 /* controller/views/settings/settings.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE and NOTICE for terms.
+ */
+
 .setting-row {
   display: flex;
   align-items: flex-end;
@@ -2499,8 +2650,48 @@ div.seats-input-div[contenteditable="true"] {
   width: 40px;
 }
 
+/* About: version, license, and source, for every user including remote ones */
+
+.about-line {
+  font-size: 13px;
+  line-height: 20px;
+  color: rgba(0,0,0,.54);
+}
+
+.about-attribution {
+  margin-top: 2px;
+  font-size: 12px;
+  color: rgba(0,0,0,.38);
+}
+
+.about-sep {
+  margin: 0 6px;
+  opacity: .5;
+}
+
+.about-link {
+  color: rgba(0,0,0,.87);
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0,0,0,.2);
+  -webkit-app-region: no-drag;
+}
+
+.about-link:hover {
+  border-bottom-color: rgba(0,0,0,.6);
+}
+
+.about-actions {
+  margin-top: 10px;
+}
+
 
 /* controller/views/delegate/delegate.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE and NOTICE for terms.
+ */
+
 .delegate-insights {
   position: absolute;
   top: 40px;
@@ -2538,6 +2729,13 @@ div.seats-input-div[contenteditable="true"] {
 
 
 /* shared/components/timer.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .timer {
   font-weight: 300;
   opacity: 0.7;
@@ -2558,6 +2756,12 @@ div.seats-input-div[contenteditable="true"] {
 }
 
 /* shared/components/delegate-selector.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE and NOTICE for terms.
+ */
+
 .delegate-selector {
   position: relative;
   flex: 1;

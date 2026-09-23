@@ -65,7 +65,7 @@ test("keeps bilingual guides, attribution, and assets self-contained", async () 
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../public/licenses/INHERITED-MIT.txt", import.meta.url), "utf8"),
-    readFile(new URL("../../LICENSE", import.meta.url), "utf8"),
+    readFile(new URL("../../LICENSES/MIT.txt", import.meta.url), "utf8"),
     readFile(new URL("../public/licenses/APACHE-2.0.txt", import.meta.url), "utf8"),
     readFile(new URL("../node_modules/aria-query/LICENSE", import.meta.url), "utf8"),
     readFile(new URL("../public/NOTICE.txt", import.meta.url), "utf8"),
@@ -80,6 +80,11 @@ test("keeps bilingual guides, attribution, and assets self-contained", async () 
   assert.match(notice, /Copyright 2015 Google Inc\./);
   assert.match(notice, /Material Icons/);
   assert.match(notice, /public\/ui\/assets/);
+  assert.match(notice, /GNU Affero General Public License v3\.0 or/);
+  assert.equal(
+    await readFile(new URL("../public/licenses/AGPL-3.0.txt", import.meta.url), "utf8"),
+    await readFile(new URL("../../LICENSE", import.meta.url), "utf8"),
+  );
 
   await Promise.all([
     access(new URL("../public/icon.png", import.meta.url)),

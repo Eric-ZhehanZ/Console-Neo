@@ -1,4 +1,19 @@
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Copyright (C) 2018 Pan Ruizhe
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 /* fonts/fonts.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 /* Material icons */
 
 @font-face {
@@ -103,6 +118,14 @@
 }
 
 /* shared/style/transitions.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Copyright (C) 2018 Pan Ruizhe
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .opacity-transition {
   transition: opacity 0.2s ease-out;
   opacity: 1;
@@ -184,6 +207,13 @@
 }
 
 /* shared/style/list.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .list {
   display: block;
   margin-bottom: 24px;
@@ -270,6 +300,13 @@
 
 
 /* shared/components/timer.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .timer {
   font-weight: 300;
   opacity: 0.7;
@@ -291,6 +328,13 @@
 
 
 /* projector/styles/timer.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .layer.timer-layer {
   display: flex;
   align-items: center;
@@ -355,6 +399,14 @@
 }
 
 /* projector/styles/file.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Copyright (C) 2018 Pan Ruizhe
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 /* Document preview goes truly full screen */
 
 .layer.file-full {
@@ -452,6 +504,14 @@
 }
 
 /* projector/styles/vote.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Copyright (C) 2018 Pan Ruizhe
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 /* Header right side: round + total on top, the tallies right-aligned
    directly beneath them */
 
@@ -676,6 +736,14 @@
 }
 
 /* projector/styles/list.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+ * Copyright (C) 2016 Liu Xiaoyi
+ * Copyright (C) 2018 Pan Ruizhe
+ * Modifications Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+ */
+
 .list-layer .bottom-title {
   flex: 1;
   overflow: hidden;
@@ -847,6 +915,12 @@
 }
 
 /* projector/styles/motions.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE and NOTICE for terms.
+ */
+
 .pmotion-counters {
   display: flex;
   align-items: baseline;
@@ -1009,6 +1083,12 @@
 }
 
 /* projector/styles/rollcall.css */
+/*
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2026 Zhehan Zhang
+ * Part of Console Neo. See LICENSE and NOTICE for terms.
+ */
+
 .rollcall {
   margin-bottom: 0;
 

@@ -15,7 +15,7 @@ export const ui = {
     "主席在控制窗口操作，会场在投影窗口跟随，联席主席在各自设备上实时协作。",
     "The chair works in the controller, the room follows on the cast, and co-chairs collaborate live from their own devices.",
   ),
-  platform: bi("macOS 通用应用 · Apple 芯片与 Intel", "macOS Universal · Apple silicon and Intel"),
+  platform: bi("macOS（Apple 芯片与 Intel）与 Windows · 公开测试版", "macOS (Apple silicon and Intel) and Windows · Beta"),
   controller: bi("控制窗口", "Controller"),
   cast: bi("投影窗口", "Cast"),
   search: bi("搜索指南", "Search guides"),
@@ -24,8 +24,15 @@ export const ui = {
     "Console Neo 包含 Console Lite（© 2016 Liu Xiaoyi）与 Console Lite Edited（© 2018 Pan Ruizhe）的代码，依 MIT 许可使用。",
     "Console Neo includes code from Console Lite (© 2016 Liu Xiaoyi) and Console Lite Edited (© 2018 Pan Ruizhe), used under the MIT License.",
   ),
-  license: bi("许可", "License"),
+  source: bi("源代码", "Source"),
+  freeSoftware: bi(
+    "Console Neo 是自由软件，依 GNU AGPL v3 或更高版本授权，并附加署名与商标条款。",
+    "Console Neo is free software under the GNU AGPL v3 or later, with additional attribution and trademark terms.",
+  ),
+  license: bi("许可证", "License"),
   notices: bi("声明", "Notices"),
+  feedback: bi("反馈", "Feedback"),
+  partnerships: bi("商务合作", "Partnerships"),
 };
 
 export type Feature = {

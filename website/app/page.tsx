@@ -84,6 +84,7 @@ export default function Home() {
         <nav>
           <a href="#features">{t(ui.features)}</a>
           <a href="#guides">{t(ui.guides)}</a>
+          <a href="https://github.com/Eric-ZhehanZ/Console-Neo">{t(ui.source)}</a>
           <span className="lang-switch">
             <button className={lang === "zh" ? "active" : ""} onClick={() => changeLanguage("zh")} lang="zh-CN">中文</button>
             <span className="sep">·</span>
@@ -189,11 +190,21 @@ export default function Home() {
       </main>
 
       <footer className="site-footer">
+        <p>{t(ui.freeSoftware)}</p>
         <p>{t(ui.lineage)}</p>
         <p>
-          <a href="/licenses/INHERITED-MIT.txt">{t(ui.license)}</a>
+          <a href="https://github.com/Eric-ZhehanZ/Console-Neo">{t(ui.source)}</a>
+          <span className="sep">·</span>
+          <a href="/licenses/AGPL-3.0.txt">{t(ui.license)}</a>
           <span className="sep">·</span>
           <a href="/NOTICE.txt">{t(ui.notices)}</a>
+          <span className="sep">·</span>
+          <a href="/licenses/INHERITED-MIT.txt">MIT</a>
+        </p>
+        <p>
+          {t(ui.feedback)} <a href="mailto:feedback@consoleneo.com">feedback@consoleneo.com</a>
+          <span className="sep">·</span>
+          {t(ui.partnerships)} <a href="mailto:contact@consoleneo.com">contact@consoleneo.com</a>
         </p>
       </footer>
     </>
