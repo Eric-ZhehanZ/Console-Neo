@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="style.css" rel="stylesheet">
+    <script src="action.js"></script>
+  </head>
+  <body onload="setup()" tabindex="0" @keydown="checkKeyHold" @keyup="checkKeyRelease">
+
+    <div class="conn-lost" v-show="connLost" transition="opacity">
+      <i class="material-icons">sync_problem</i>{{ t('connLost') }}
+    </div>
+
+    <div class="frame">
+      <component
+        :is="activeView"
+        v-ref:active
+        transition="opacity"
+
+        :timers="timers"
+        :seats="seats"
+        :files="files"
+        :votes="votes"
+        :lists="lists"
+        :motions="motions"
+        :history="history"
+        :spoken-time="spokenTime"
+        :brand="brand"
+        :delegates="delegates"
+        :conf-title="title"
+        :pinned-last="pinnedLast"
+        :delegate-focus="delegateFocus"
+        :notes-meta="notesMeta"
+        :motions-sort="motionsSort"
+        :motions-filter="motionsFilter"
+        :motions-filter-hidden="motionsFilterHidden"
+        :lang="lang"
+        :server-url="backendUrl"
+        :server-id="backendIDKey"
+        :server-passkey="backendPasskey"
+
+        :vote="vote"
+        :file="file"
+        :list="list"
+        :focus-timer="focusTimer"
+
+        :list-current-timers="listCurrentTimers",
+        :list-total-timers="listTotalTimers",
+
+        :search-input="searchInput"
+        :alt-hold="altHold"
+        :authorized="authorized && !readOnly"
+        :server-readerkey="backendReaderKey"
+        :server-code="backendCode"
+        :server-reader-code="backendReaderCode"
+        :is-local-server="isLocalServer"
+        :sync-cast="syncCast"
+        :cast-fallback="castFallback"
+        :net-ok="netOk"
+        :relay-ok="relayOk"
+        :net-checking="netChecking"
+        :relay-checking="relayChecking"
+        :collab-ok="collabOk"
+        :relay-status="relayHostStatus"
+        :relay-url="relayUrl"
+        :route-pref="routePref"
+
+        @navigate="navigate"
+
+        @update-seats="updateSeats"
+
+        @add-timer="addTimer"
+        @manipulate-timer="manipulateTimer"
+        @update-timer="updateTimer"
+        @update-timer-left="updateTimerLeft"
+        @project-timer="projectTimer"
+        @view-timer="viewTimer"
+        @view-delegate="viewDelegate"
+        @open-note="openNote"
+        @set-motions-opts="setMotionsOpts"
+
+        @add-file="addFile"
+        @edit-file="editFile"
+        @get-file="getFile"
+        @view-file="viewFile"
+        @project-file="projectFile"
+        @file-scroll="fileScrolled"
+        @file-zoom="fileZoomed"
+        
+        @add-vote="addVote"
+        @view-vote="viewVote"
+        @update-vote="updateVote"
+        @iterate-vote="iterateVote"
+        @project-vote="projectVote"
+        
+        @add-motion="addMotion"
+        @edit-motion="editMotion2"
+        @update-motion="updateMotion"
+        @toggle-motion-visible="toggleMotionVisible"
+        @execute-motion="executeMotion"
+        @sync-motion-draft="syncMotionDraft"
+        @motion-scroll="motionScrolled"
+        @set-brand="setBrand"
+        @rename-conf="renameConf"
+        @set-lang="setLang"
+        @set-reminder="setReminder"
+        @switch-committee="switchCommittee"
+        @disconnect-server="disconnectServer"
+        @reset-server-keys="resetServerKeys"
+        @set-sync-cast="setSyncCast"
+        @set-cast-fallback="setCastFallback"
+        @rename-item="renameItem"
+        @remove-item="removeItem"
+        @project-motions="projectMotions"
+        @project-rollcall="projectRollcall"
+
+        @add-list="addList"
+        @update-list="updateList"
+        @update-list-total="updateListTotal"
+        @update-list-current="updateListCurrent"
+        @update-list-current-left="updateListCurrentLeft"
+        @update-list-timers="updateListTimers"
+        @start-list="startList"
+        @stop-list="stopList"
+        @iterate-list="iterateList"
+        @undo-list-step="undoListStep"
+        @view-list="viewList"
+        @project-list="projectList">
+
+      </component>
+      <!-- Events will loop back through server broadcast -->
+      <!-- So we are using one way binding -->
+
+      <div class="back-arrow" v-show="viewStack.length > 0" @click="back" :title="t('back')">
+        <svg viewBox="0 0 24 44" class="back-arrow-svg">
+          <polyline points="18,8 8,22 18,36" fill="none" stroke="currentColor"
+            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="action-bar">
+        <div class="counter-group">
+          <i class="material-icons">person</i>
+          <div class="counter">
+            <div class="present">{{ presentCount }}</div>
+            <div class="separator">/</div>
+            <div class="all">{{ seatCount }}</div>
+          </div>
+          <div class="counter-indicator">
+            <div class="counter-indicator-hint">{{ t('simpleMajority') }}</div>
+            <div class="counter-indicator-value">{{ simpleHalfCount }}</div>
+          </div>
+          <div class="counter-indicator">
+            <div class="counter-indicator-hint">{{ t('twoThirds') }}</div>
+            <div class="counter-indicator-value">{{ twoThirdCount }}</div>
+          </div>
+          <div class="counter-indicator">
+            <div class="counter-indicator-hint">{{ t('oneFifth') }}</div>
+            <div class="counter-indicator-value">{{ twentyPercentCount }}</div>
+          </div>
+        </div>
+        <div class="actions">
+          <div class="action" :title="t('committee')" @click="navigate('home')">
+            <i class="material-icons">home</i>
+          </div>
+          <div class="action" :title="t('seats')" @click="navigate('seats')">
+            <i class="material-icons">event_seat</i>
+          </div>
+          <div class="action" :title="t('motions')" @click="navigate('motions')">
+            <i class="material-icons">gavel</i>
+          </div>
+          <div class="action" :title="t('debate')" @click="navigate('lists')">
+            <i class="material-icons">record_voice_over</i>
+          </div>
+          <div class="action" :title="t('timers')" @click="navigate('timers')">
+            <i class="material-icons">timer</i>
+          </div>
+          <div class="action" :title="t('files')" @click="navigate('files')">
+            <i class="material-icons">folder</i>
+          </div>
+          <div class="action" :title="t('votes')" @click="navigate('votes')">
+            <i class="material-icons">thumbs_up_down</i>
+          </div>
+          <div class="action" :title="t('data')" @click="navigate('stats')">
+            <i class="material-icons">equalizer</i>
+          </div>
+          <div class="action" :title="t('settings')" @click="navigate('settings')">
+            <i class="material-icons">settings</i>
+          </div>
+          <div class="action page-cast" :class="pageCastClass"
+            @click="pageCastClick($event)"
+            @contextmenu.prevent="jumpToCasting"
+            :title="pageCastTitle">
+            <i class="material-icons">{{ pageCastIcon }}</i>
+          </div>
+          <div class="action" :title="projOn ? t('castOffDevice') : t('castOnDevice')"
+            @click="castSwitchClick($event)"
+            @contextmenu.prevent="castSwitchAlt">
+            <i class="material-icons" v-show="projOn">cast_connected</i>
+            <i class="material-icons" v-else>cast</i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="picker" transition="opacity" v-show="!frame">
+      <div class="picker-content" v-show="pickerMode === 'menu'">
+        <div class="selector">
+          <div class="selector-item" @click="pickerBrowse">
+            <i class="material-icons">history</i>{{ t('resumeExisting') }}
+          </div>
+          <div class="selector-item" @click="createConf" v-if="authorized">
+            <i class="material-icons">add</i>{{ t('createConf') }}
+          </div>
+          <div class="selector-item" @click="disconnectServer">
+            <i class="material-icons">arrow_back</i>{{ t('backToLaunch') }}
+          </div>
+        </div>
+
+        <div class="picker-code" v-if="backendCode && authorized && !readOnly">
+          <code-badge :chair="backendCode" :reader-code="backendReaderCode"
+            :id="backendIDKey" :collab-ok="collabOk"></code-badge>
+        </div>
+      </div>
+
+      <!-- Committee browser: mirrors the in-committee window layout -->
+      <div class="picker-browse" v-show="pickerMode === 'browse'">
+        <div class="view">
+          <div class="view-title">{{ t('existingCommittees') }}</div>
+          <div class="view-search">
+            <i class="material-icons">search</i>
+            <div class="input-group">
+              <input v-model="confSearch" @keydown.esc="confSearch = ''">
+              <div class="border-line"></div>
+            </div>
+            <div class="clear-btn" @click="confSearch = ''" v-show="confSearch" transition="opacity">
+              <i class="material-icons">close</i>
+            </div>
+          </div>
+          <div class="list delegation-grid">
+            <div class="list-item clickable" v-for="conf of sortedConfs" track-by="id"
+              :class="{ bold: selectedConf && selectedConf.id === conf.id }"
+              @click="selectConfItem(conf)">
+              <div class="list-item-indicator"></div>
+              <div class="list-item-content" :title="conf.name">{{ conf.name }}</div>
+            </div>
+            <div class="empty-hint">{{ t('noCommittees') }}</div>
+          </div>
+          <div class="fab-controls" v-show="selectedConf">
+            <button class="fab medium" @click="startReadOnly" :title="t('readOnlyMode')">
+              <i class="material-icons">visibility</i>
+            </button>
+            <button class="fab primary" @click="startChairing"
+              :disabled="!authorized" :title="t('startChairing')">
+              <i class="material-icons">gavel</i>
+            </button>
+          </div>
+        </div>
+        <div class="action-bar">
+          <div class="picker-back-group">
+            <div class="picker-back" @click="pickerMenu">
+              <i class="material-icons">arrow_back</i>{{ t('back') }}
+            </div>
+          </div>
+          <div class="actions">
+            <div class="action disabled"><i class="material-icons">home</i></div>
+            <div class="action disabled"><i class="material-icons">event_seat</i></div>
+            <div class="action disabled"><i class="material-icons">gavel</i></div>
+            <div class="action disabled"><i class="material-icons">record_voice_over</i></div>
+            <div class="action disabled"><i class="material-icons">timer</i></div>
+            <div class="action disabled"><i class="material-icons">folder</i></div>
+            <div class="action disabled"><i class="material-icons">thumbs_up_down</i></div>
+            <div class="action disabled"><i class="material-icons">equalizer</i></div>
+            <div class="action disabled"><i class="material-icons">settings</i></div>
+            <div class="action page-cast cast-disabled disabled">
+              <i class="material-icons">pause_presentation</i>
+            </div>
+            <div class="action" :title="t('castSwitch')"
+              @click="castSwitchClick($event)"
+              @contextmenu.prevent="castSwitchAlt">
+              <i class="material-icons" v-show="projOn">cast_connected</i>
+              <i class="material-icons" v-else>cast</i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="startup" :class="{ ready: ready }" v-show="!picker && !frame" transition="opacity">
+      <!-- Title and language live only on the very first page of the flow -->
+      <div class="brand" :class="{ tucked: startupStage !== 'menu' }">
+        Console Neo
+      </div>
+      <div class="selector">
+        <div class="loading-hint" transition="opacity" v-show="loading">
+          {{ t('loading') }}
+        </div>
+
+        <template v-if="startupStage === 'menu'">
+          <div class="startup-stage">
+            <!-- Joining resolves a session ID through the relay, so it
+                 works with no LAN at all - the relay being reachable is
+                 just as good a reason to leave this enabled -->
+            <div class="selector-item" :class="{ disabled: !collabOk }"
+              @click="collabOk ? connectBackend() : manualNetCheck()">
+              <i class="material-icons">settings_ethernet</i>{{ t('connectToSession') }}
+            </div>
+            <div class="selector-item" @click="createBackend">
+              <i class="material-icons">wifi_tethering</i>{{ t('createLocalSession') }}
+            </div>
+            <div class="startup-nettip" v-if="!collabOk">
+              {{ netChecking ? t('loading') : t('needNetworkForCollab') }}
+            </div>
+          </div>
+        </template>
+
+        <template v-if="startupStage === 'connect'">
+          <div class="startup-stage">
+            <!-- Primary path: session ID resolved through the relay;
+                 a matching nearby session short-circuits to the LAN -->
+            <div class="input-group">
+              <div class="hint">{{ t('sessionIdHint') }}</div>
+              <input class="code-input session-id-input" v-model="sessionIdInput" spellcheck="false"
+                @keydown.enter="performSessionConnection">
+              <div class="border-line"></div>
+            </div>
+            <div class="selector-item" :class="{ disabled: relayConnecting }"
+              @click="performSessionConnection">
+              <i class="material-icons">cloud</i>{{ relayConnecting ? t('loading') : t('connect') }}
+            </div>
+
+            <!-- Nearby (LAN) sessions: the fallback path -->
+            <div class="selector-item service-row" v-for="service of nearbyTop" track-by="id"
+              transition="srow"
+              @click="applyService(service)">
+              <i class="material-icons">router</i>
+              <div class="service-info">
+                <div class="service-id">{{ service.id }}</div>
+                <div class="service-conf" v-if="service.conf">{{ service.conf }}</div>
+              </div>
+            </div>
+            <div class="selector-item" @click="startupStage = 'manual'">
+              <i class="material-icons">settings_ethernet</i>{{ t('manualConnect') }}
+            </div>
+            <div class="selector-item" @click="startupMenu">
+              <i class="material-icons">arrow_back</i>{{ t('back') }}
+            </div>
+          </div>
+        </template>
+
+        <template v-if="startupStage === 'code'">
+          <div class="startup-stage">
+            <div class="startup-target" v-if="selectedService">
+              <strong>{{ selectedService.id }}</strong>
+              <template v-if="selectedService.conf"> · {{ selectedService.conf }}</template>
+            </div>
+            <div class="input-group">
+              <div class="hint">{{ t('enterCode') }}</div>
+              <input class="code-input" v-model="codeInput" maxlength="6" spellcheck="false"
+                v-el:code-input
+                @keydown.enter="performCodeConnection" @keydown.esc="startupStage = 'connect'">
+              <div class="border-line"></div>
+            </div>
+            <div class="selector-item" @click="performCodeConnection">
+              <i class="material-icons">keyboard_arrow_right</i>{{ t('connect') }}
+            </div>
+            <div class="selector-item" @click="startupStage = 'connect'">
+              <i class="material-icons">arrow_back</i>{{ t('back') }}
+            </div>
+          </div>
+        </template>
+
+        <template v-if="startupStage === 'manual'">
+          <div class="startup-stage">
+            <div class="input-group">
+              <div class="hint">{{ t('serverUrl') }}</div>
+              <input v-model="backendUrl" value="http://">
+              <div class="border-line"></div>
+            </div>
+            <div class="input-group">
+              <div class="hint">{{ t('password') }}</div>
+              <input v-model="backendPasskey" @keydown.enter="performBackendConnection">
+              <div class="border-line"></div>
+            </div>
+            <div class="selector-item" @click="performBackendConnection">
+              <i class="material-icons">keyboard_arrow_right</i>{{ t('connect') }}
+            </div>
+            <div class="selector-item" @click="startupStage = 'connect'">
+              <i class="material-icons">arrow_back</i>{{ t('back') }}
+            </div>
+          </div>
+        </template>
+      </div>
+      <div class="picker-lang startup-lang" :class="{ tucked: startupStage !== 'menu' }">
+        <span class="picker-lang-option" :class="{ active: lang === 'zh' }" @click="setLang('zh')">中文</span>
+        <span class="picker-lang-sep">·</span>
+        <span class="picker-lang-option" :class="{ active: lang === 'en' }" @click="setLang('en')">English</span>
+      </div>
+    </div>
+
+    <div id="ah-oh" class="mask" transition="opacity" v-show="!started"></div>
+
+    <div class="dialog-overlap" transition="opacity" v-show="createConfFlag" @click="discardConfCreation">
+      <div class="dialog" @click.stop.prevent>
+        <div class="dialog-title">
+          {{ t('createCommittee') }}
+        </div>
+        <div class="dialog-content">
+          <div class="input-group">
+            <div class="hint">{{ t('committeeName') }}</div>
+            <input v-model="confName" @keydown.enter="performConfCreation" @keydown.esc="discardConfCreation" v-el:conf-name-input>
+            <div class="border-line"></div>
+          </div>
+          <button @click="performConfCreation" class="confirmation-btn">
+            {{ t('create') }}
+            <i class="material-icons">keyboard_arrow_right</i>
+          </button>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dialog-overlap" transition="opacity" v-show="proposerDialog">
+      <div class="dialog" @click.stop.prevent>
+        <div class="dialog-title">
+          {{ t('proposerPosition') }}
+        </div>
+        <div class="dialog-content">
+          <div class="dialog-supporting" v-if="proposerDialog">
+            <strong>{{ proposerDialog.proposer }}</strong> {{ t('proposerPositionAsk') }}
+          </div>
+          <div class="selector">
+            <div class="selector-item" @click="resolveProposer('first')">
+              <i class="material-icons">vertical_align_top</i>{{ t('speakFirst') }}
+            </div>
+            <div class="selector-item" @click="resolveProposer('last')">
+              <i class="material-icons">vertical_align_bottom</i>{{ t('speakLast') }}
+            </div>
+            <div class="selector-item" @click="resolveProposer('skip')">
+              <i class="material-icons">close</i>{{ t('proposerSkip') }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

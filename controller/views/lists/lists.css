@@ -1,0 +1,44 @@
+.list-row {
+  display: flex;
+  align-items: center;
+}
+
+.list-name {
+  margin-right: 20px;
+}
+
+.list-speakers {
+  flex: 1;
+  margin-right: 10px;
+  min-width: max-content;
+  font-weight: 300;
+}
+
+.list-speakers .list-speakers-current {
+  display: inline-block;
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.list-speakers .list-speakers-next {
+  display: inline-block;
+  font-size: 16px;
+  opacity: .7;
+}
+
+.list-timer {
+  margin-right: 10px;
+  display: flex;
+  align-items: baseline;
+  min-width: max-content;
+}
+
+.list-timer-icon {
+  display: flex;
+  opacity: 0.54;
+  margin-right: 5px;
+}
+
+.list-name {
+  overflow-wrap: break-word;
+}

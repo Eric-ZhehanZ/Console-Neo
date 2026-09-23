@@ -1,0 +1,239 @@
+.stat-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.stat-tile {
+  border: 1px solid rgba(0,0,0,.12);
+  padding: 14px 20px;
+  margin: 0 12px 12px 0;
+  min-width: 110px;
+  box-sizing: border-box;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 38px;
+  color: rgba(0,0,0,.87);
+}
+
+.stat-value.passed {
+  color: #4CAF50;
+}
+
+.stat-value.failed {
+  color: #F44336;
+}
+
+.stat-sub {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(0,0,0,.54);
+  margin-left: 4px;
+}
+
+.stat-hint {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(0,0,0,.54);
+  margin-top: 2px;
+}
+
+.brand-setting {
+  display: flex;
+  align-items: flex-end;
+  max-width: 480px;
+  margin-bottom: 24px;
+}
+
+.brand-setting .input-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.brand-setting button {
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.history-item .list-item-indicator {
+  opacity: .38;
+}
+
+.history-row {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.history-time {
+  font-size: 13px;
+  color: rgba(0,0,0,.54);
+  width: 92px;
+  min-width: 92px;
+}
+
+.history-icon {
+  font-size: 18px;
+  color: rgba(0,0,0,.54);
+  margin-right: 10px;
+}
+
+.history-text {
+  font-weight: 300;
+  overflow-wrap: break-word;
+}
+
+/* A real table: columns grow with their content and stay aligned
+   across all rows; headers never wrap. Overflow scrolls sideways
+   inside its own container instead of clipping. */
+
+.delegate-scroll {
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+
+.delegate-table {
+  display: table;
+  min-width: 640px;
+}
+
+.delegate-row {
+  display: table-row;
+  font-size: 15px;
+}
+
+.delegate-header {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(0,0,0,.54);
+}
+
+.delegate-name,
+.delegate-cell {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 8px 0 8px 20px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  white-space: nowrap;
+}
+
+.delegate-header .delegate-name,
+.delegate-header .delegate-cell {
+  border-bottom: 1px solid rgba(0,0,0,.12);
+}
+
+.delegate-row:last-child .delegate-name,
+.delegate-row:last-child .delegate-cell {
+  border-bottom: none;
+}
+
+.delegate-name {
+  padding-left: 0;
+  width: 40%;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.delegate-row.absent .delegate-name {
+  color: rgba(0,0,0,.38);
+}
+
+.delegate-row.gone {
+  opacity: .5;
+}
+
+.delegate-gone-hint {
+  font-size: 11px;
+  color: rgba(0,0,0,.38);
+  margin-left: 6px;
+}
+
+.delegate-cell {
+  text-align: right;
+  color: rgba(0,0,0,.7);
+}
+
+.sort-mark {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 2px;
+  vertical-align: middle;
+}
+
+.sort-mark .material-icons {
+  font-size: 13px;
+}
+
+.sort-order {
+  font-size: 10px;
+  margin-left: 1px;
+}
+
+.delegate-cell .delegate-present {
+  font-size: 16px;
+  color: #4CAF50;
+}
+
+.delegate-empty {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.sortable {
+  cursor: pointer;
+  -webkit-user-select: none;
+  -webkit-app-region: no-drag;
+}
+
+.sortable:hover {
+  color: rgba(0,0,0,.87);
+}
+
+.sortable.sorted {
+  color: rgba(0,0,0,.87);
+  font-weight: 600;
+}
+
+.delegate-detail {
+  border: 1px solid rgba(0,0,0,.16);
+  background: transparent;
+  border-radius: 3px;
+  padding: 2px 8px;
+  cursor: pointer;
+  line-height: 0;
+
+  -webkit-app-region: no-drag;
+}
+
+.delegate-detail .material-icons {
+  font-size: 16px;
+  color: rgba(0,0,0,.54);
+}
+
+.delegate-detail:hover {
+  border-color: rgba(0,0,0,.4);
+}
+
+.delegate-detail:hover .material-icons {
+  color: rgba(0,0,0,.87);
+}
+
+.history-note {
+  margin-left: 10px;
+  cursor: pointer;
+  color: rgba(0,0,0,.3);
+
+  -webkit-app-region: no-drag;
+}
+
+.history-note .material-icons {
+  font-size: 16px;
+}
+
+.history-note:hover,
+.history-note.note-has {
+  color: rgba(0,0,0,.8);
+}

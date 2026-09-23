@@ -1,0 +1,142 @@
+.input-group {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.input-group .hint, .timer-input-hint {
+  font-weight: 400;
+  color: rgba(0,0,0,.3);
+  line-height: 20px;
+  font-size: 12px;
+}
+
+.input-group input, .input-group textarea, .input-group [contenteditable="true"] {
+  outline: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  width: 100%;
+  line-height: 32px;
+  font-size: 18px;
+  font-family: 'Roboto', 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-weight: 300;
+  padding: 1px;
+
+  color: black;
+  opacity: 1;
+  transition: opacity .2s ease;
+
+  /* From default input styles */
+  text-rendering: auto;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  text-align: start;
+  display: inline-block;
+  margin: 0;
+
+  -webkit-app-region: no-drag;
+}
+
+.input-group input[disabled], .input-group textarea[disabled] {
+  opacity: 0.3;
+}
+
+.input-group .border-line {
+  display: block;
+  border-bottom: 1px solid rgba(0,0,0,.24);
+  opacity: .5;
+  transition: opacity .2s ease;
+}
+
+.input-group > :focus + .border-line {
+  opacity: 1;
+}
+
+.timer-input-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.timer-input-group .input-group {
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+.timer-input-group .timer-separator {
+  color: black;
+  font-weight: 400;
+  opacity: 0.3;
+  display: inline-block;
+}
+
+.timer-input-group input {
+  -webkit-appearance: none;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+button {
+  color: rgba(0,0,0,.87);
+  opacity: 0.7;
+  transition: opacity .2s ease;
+
+  border: none;
+  border-radius: 0;
+  outline: 0;
+
+  font-size: 18px;
+  line-height: 24px;
+  background: transparent;
+  cursor: pointer;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  -webkit-app-region: no-drag;
+}
+
+button.embedded {
+  font-size: 14px;
+  line-height: 14px;
+  padding: 0;
+}
+
+button.embedded .material-icons {
+  font-size: 14px;
+}
+
+button:hover {
+  opacity: 1;
+}
+
+button[disabled] {
+  opacity: 0.3;
+  cursor: default;
+  -webkit-app-region: drag;
+}
+
+button[disabled]:hover {
+  opacity: 0.3;
+}
+
+button.light {
+  opacity: 0.35;
+}
+
+button.light:hover {
+  opacity: 0.5;
+}
+
+button.light[disabled] {
+  opacity: 0.15;
+}
+
+button.light[disabled]:hover {
+  opacity: 0.15;
+}

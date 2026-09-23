@@ -1,0 +1,49 @@
+<div class="view">
+  <div class="ctrl-watermark-clip"><i class="material-icons ctrl-watermark">person</i></div>
+  <div class="view-title">
+    {{ t('seats') }}
+  </div>
+  <div class="fab-controls" v-if="authorized">
+    <button class="fab primary" @click="edit" :title="t('editSeatList')">
+      <i class="material-icons">edit</i>
+    </button>
+  </div>
+  <div class="seats list delegation-grid">
+    <div class="seat list-item" v-for="seat of seats" track-by="$index" :class="{ clickable: authorized, bold: seat.present }" @click="toggleStatus(seat)">
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content" :title="seat.name">{{ seat.name }}</div>
+    </div>
+    <div class="empty-hint" v-if="authorized">{{ t('clickEditSeats') }}</div>
+    <div class="empty-hint" v-else>{{ t('seatListEmpty') }}</div>
+  </div>
+  <div class="dialog-overlap" transition="opacity" v-show="editFlag">
+    <div class="dialog wide" @click.stop.prevent>
+      <div class="dialog-title">
+        {{ t('editSeatList') }}
+        <i class="material-icons dialog-close" @click="discardEditing">close</i>
+      </div>
+      <div class="dialog-content">
+        <div class="dialog-supporting">
+          {{ t('seatEditHintLine') }}
+        </div>
+        <div class="dialog-supporting">
+          {{ t('seatEditResetHint') }}
+        </div>
+        <div class="dialog-supporting">
+          {{ t('seatEditListHint') }}
+        </div>
+        <div class="input-group">
+          <div class="hint">{{ t('seatListLabel') }}</div>
+          <div contenteditable="true" class="seats-input-div" v-el:seats-input></div>
+          <div class="border-line"></div>
+        </div>
+        <button @click="sort">{{ t('sortByPinyin') }}</button>
+        <button @click="performEditing" class="confirmation-btn">
+          {{ t('submit') }}
+          <i class="material-icons">keyboard_arrow_right</i>
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

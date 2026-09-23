@@ -1,0 +1,160 @@
+.pmotion-counters {
+  display: flex;
+  align-items: baseline;
+  margin-left: 2.5vw;
+  min-width: max-content;
+}
+
+.pmotion-counter {
+  margin-left: 1.5vw;
+  font-size: 0;
+}
+
+.pmotion-counter-hint {
+  font-size: 1.5vw;
+  font-weight: 300;
+}
+
+.pmotion-counter-value {
+  font-size: 3vw;
+  margin-left: .5vw;
+}
+
+.pmotion-counter.passed .pmotion-counter-value {
+  color: #4CAF50;
+}
+
+.pmotion-counter.failed .pmotion-counter-value {
+  color: #F44336;
+}
+
+.pmotion-counter.withdrawn .pmotion-counter-value {
+  color: rgba(0,0,0,.54);
+}
+
+.pmotions {
+  padding: 1vw 5vw 2vw;
+  overflow-y: auto;
+  -webkit-app-region: no-drag;
+}
+
+/* A persistent rail tells the room when the agenda continues off-screen. */
+.pmotions::-webkit-scrollbar {
+  width: .65vw;
+}
+
+.pmotions::-webkit-scrollbar-track {
+  background: rgba(0,0,0,.05);
+}
+
+.pmotions::-webkit-scrollbar-thumb {
+  border-radius: .4vw;
+  background: rgba(0,0,0,.24);
+}
+
+.pmotion {
+  display: flex;
+  align-items: center;
+  padding: 1.4vw 0;
+  border-bottom: .1vw solid rgba(0,0,0,.06);
+}
+
+.pmotion:last-child {
+  border-bottom: none;
+}
+
+.pmotion-body {
+  flex: 1;
+  min-width: 0;
+  margin-right: 2vw;
+}
+
+.pmotion-name {
+  font-size: 2.6vw;
+  line-height: 3.4vw;
+  font-weight: 300;
+  color: rgba(0,0,0,.54);
+  overflow-wrap: break-word;
+}
+
+.pmotion.pending .pmotion-name {
+  color: rgba(0,0,0,.87);
+}
+
+.pmotion-proposer {
+  font-size: 1.6vw;
+  line-height: 2.2vw;
+  margin-top: .2vw;
+  color: rgba(0,0,0,.54);
+}
+
+.pmotion-outcome {
+  font-size: 1.8vw;
+  line-height: 3vw;
+  padding: 0 1.4vw;
+  border: .15vw solid rgba(0,0,0,.26);
+  color: rgba(0,0,0,.54);
+  white-space: nowrap;
+}
+
+.pmotion-outcome.pending {
+  border-color: rgba(0,0,0,.87);
+  color: rgba(0,0,0,.87);
+}
+
+.pmotion-outcome.passed {
+  border-color: #4CAF50;
+  color: #4CAF50;
+}
+
+.pmotion-outcome.failed {
+  border-color: #F44336;
+  color: #F44336;
+}
+
+.pmotions-empty {
+  font-size: 2.5vw;
+  font-weight: 100;
+  color: rgba(0,0,0,.3);
+  padding: 2vw 0;
+}
+
+.pmotion-draft .pmotion-name {
+  color: rgba(0,0,0,.87);
+}
+
+.pmotion-draft .pmotion-outcome {
+  border-style: dashed;
+}
+
+.pmotion-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 1.6vw;
+  line-height: 2.4vw;
+  margin-top: .3vw;
+  color: rgba(0,0,0,.54);
+}
+
+.pmotion-type {
+  font-size: 1.3vw;
+  line-height: 2vw;
+  padding: 0 .8vw;
+  margin-right: 1.2vw;
+  border: .1vw solid rgba(0,0,0,.16);
+  white-space: nowrap;
+}
+
+.pmotion-meta-group {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 1.5vw;
+  min-width: 0;
+}
+
+.pmotion-meta-group .material-icons {
+  font-size: 1.7vw;
+  margin-right: .3vw;
+  opacity: .7;
+}

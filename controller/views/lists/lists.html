@@ -1,0 +1,113 @@
+<div class="view">
+  <div class="ctrl-watermark-clip"><i class="material-icons ctrl-watermark">record_voice_over</i></div>
+  <div class="view-title">
+    {{ t('debate') }}
+  </div>
+  <div class="fab-controls" v-if="authorized">
+    <button class="fab primary" @click="add" :title="t('createList')">
+      <i class="material-icons">add</i>
+    </button>
+  </div>
+  <div class="view-search">
+    <div class="view-tool" @click="activeOnly = !activeOnly"
+      :title="t('filterActive')" :class="{ on: activeOnly }">
+      <i class="material-icons">bolt</i>
+    </div>
+    <i class="material-icons">search</i>
+    <div class="input-group">
+      <input v-model="searchInput" @keydown.esc="searchInput = ''">
+      <div class="border-line"></div>
+    </div>
+    <div class="clear-btn" @click="searchInput = ''" v-show="searchInput" transition="opacity">
+      <i class="material-icons">close</i>
+    </div>
+  </div>
+  <div class="list">
+    <div class="list-item clickable" v-for="list of shownItems | filterBy searchInput in 'name'" track-by="$index" :class="{ bold: list.timerCurrent && list.timerCurrent.active }" @click="navigateTo(list)">
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content list-row">
+        <div class="list-name" v-if="renameId !== list.id">
+          {{ list.name }}
+        </div>
+        <div class="list-name list-rename" v-else @click.stop>
+          <input class="row-rename-input list-rename-input" v-model="renameInput"
+            @input="dispatchRename(list)"
+            @keydown.enter="renameId = null" @keydown.esc="renameId = null">
+        </div>
+
+        <div class="list-speakers">
+          <div class="list-speakers-current" v-if="list.ptr < list.seats.length">{{ list.seats[list.ptr].name }}</div>
+          <div class="list-speakers-next" v-if="list.ptr < list.seats.length - 1">{{ list.seats[list.ptr + 1].name }}</div>
+        </div>
+
+        <template v-if="list.timerCurrent">
+          <div class="list-timer-icon" :class="{ 'icon-alert': timerAlertOn(list.timerCurrent) }">
+            <i class="material-icons">person</i>
+          </div>
+          <div class="timer-value-wrapper list-timer">
+            <timer class="timer-left" :time="list.timerCurrent.left" :alert-value="list.timerCurrent.value"></timer>
+            <span class="timer-value-separator">/</span>
+            <timer class="timer-value" :time="list.timerCurrent.value"></timer>
+          </div>
+        </template>
+
+        <template v-if="list.timerTotal && list.timerTotal.value > 0">
+          <div class="list-timer-icon">
+            <i class="material-icons">access_time</i>
+          </div>
+          <div class="timer-value-wrapper list-timer">
+            <timer class="timer-left" :time="list.timerTotal.left"></timer>
+            <span class="timer-value-separator">/</span>
+            <timer class="timer-value" :time="list.timerTotal.value"></timer>
+          </div>
+        </template>
+
+        <div class="row-actions" v-if="authorized" @click.stop>
+          <button class="light note-btn" :class="{ 'note-has': hasNote('list:' + list.id) }"
+            @click="note(list)" :title="t('openNote')">
+            <i class="material-icons">comment</i>
+            <span class="note-dots"><span class="note-dot"
+              v-for="d in noteDots('list:' + list.id)"></span></span>
+          </button>
+          <button class="light" @click="toggleRename(list)">
+            <i class="material-icons" v-if="renameId === list.id">check</i>
+            <i class="material-icons" v-else>edit</i>
+          </button>
+          <button class="light" @click="remove(list)">
+            <i class="material-icons">delete</i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <template v-if="!searchInput">
+      <div class="empty-hint" v-if="authorized">{{ t('clickAddList') }}</div>
+      <div class="empty-hint" v-else>{{ t('noLists') }}</div>
+    </template>
+    <div class="empty-hint" v-else>{{ t('noSearchResults') }}</div>
+  </div>
+
+  <div class="dialog-overlap" transition="opacity" v-show="addFlag">
+    <div class="dialog" @click.stop.prevent>
+      <div class="dialog-title">
+        {{ t('createList') }}
+        <i class="material-icons dialog-close" @click="cancelAdd">close</i>
+      </div>
+      <div class="dialog-content">
+        <div class="input-group">
+          <div class="hint">{{ t('displayName') }}</div>
+          <input v-model="name">
+          <div class="border-line"></div>
+        </div>
+        <div class="timer-input-hint">{{ t('totalTimeUnlimited') }}</div>
+        <timer-input-1 :time.sync="totTime"></timer-input-1>
+        <div class="timer-input-hint">{{ t('perDelegate') }}</div>
+        <timer-input :time.sync="eachTime"></timer-input>
+        <button @click="performAdd" class="confirmation-btn">
+          {{ t('submit') }}
+          <i class="material-icons">keyboard_arrow_right</i>
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+.seats {
+  position: absolute;
+  padding: 0 40px;
+  padding-bottom: 18vh;
+  top: 104px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  margin-bottom: 0;
+
+  -webkit-app-region: no-drag;
+}
+
+div.seats-input-div[contenteditable="true"] {
+  font-family: Menlo, Monaco, Consolas;
+  user-modify: read-write-plaintext-only;
+  -webkit-user-modify: read-write-plaintext-only;
+}

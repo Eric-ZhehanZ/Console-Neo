@@ -1,0 +1,25 @@
+<div class="delegate-selector">
+  <input class="ds-input" v-model="value"
+    :placeholder="placeholder"
+    @focus="focused = true"
+    @blur="onBlur"
+    @input="onInput"
+    @keydown.down.prevent="move(1)"
+    @keydown.up.prevent="move(-1)"
+    @keydown.delete="onBackspace"
+    @keydown.tab.stop.prevent="complete"
+    @keydown.enter.stop.prevent="onEnter"
+    @keydown.esc.stop.prevent="onEsc"
+    v-el:input>
+  <div class="ds-drop" v-show="showList">
+    <div class="ds-hint" v-if="!query">{{ t('suggestedDelegates') }}</div>
+    <div class="ds-entry"
+      v-for="name of visible"
+      track-by="$index"
+      :class="{ hi: $index + viewStart === hi, fuzzy: query && $index + viewStart >= exact.length, 'first-fuzzy': $index + viewStart === exact.length && exact.length > 0 }"
+      @mousedown.prevent="pick(name)">
+      {{ name }}
+    </div>
+    <div class="ds-more" v-if="flat.length > viewStart + 4">{{ tf('moreDelegates', { n: flat.length - viewStart - 4 }) }}</div>
+  </div>
+</div>

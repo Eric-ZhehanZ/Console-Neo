@@ -1,0 +1,222 @@
+/* Header right side: round + total on top, the tallies right-aligned
+   directly beneath them */
+
+.vote-head-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 2.5vw;
+}
+
+.vote-head-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+}
+
+.vote-seats {
+  margin-left: 2.5vw;
+  display: inline-block;
+  font-size: 0;
+  white-space: nowrap;
+}
+
+.vote-seats .vote-counter-hint {
+  font-size: 1.5vw;
+  font-weight: 300;
+}
+
+.vote-seats .vote-counter-value {
+  font-size: 3vw;
+  margin-left: .5vw;
+}
+
+.vote-iteration {
+  font-size: 2vw;
+  font-weight: 200;
+  white-space: nowrap;
+}
+
+.vote-seats .material-icons {
+  opacity: 0.54;
+  margin-right: .25vw;
+  font-size: 3vw;
+}
+
+.vote-counters {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  margin-top: .6vw;
+}
+
+.vote-counter {
+  font-weight: 300;
+  margin-left: 1.25vw;
+  white-space: nowrap;
+}
+
+.vote-counter:first-child {
+  margin-left: 0;
+}
+
+.vote-counter-hint {
+  margin-right: .3vw;
+}
+
+.vote-counter-hint {
+  font-size: 1.5vw;
+  font-weight: 300;
+}
+
+.vote-counter-value {
+  font-size: 3vw;
+}
+
+.vote-counter-positive {
+  color: #4caf50;
+}
+
+.vote-counter-negative {
+  color: #f44336;
+}
+
+.vote-counter-abstained {
+  color: black;
+}
+
+.vote-counter-pass {
+  color: rgba(0,0,0,.54);
+}
+
+.vote-counter-target {
+  color: #2196f3;
+}
+
+.list.voters {
+  margin-bottom: 0;
+
+  -webkit-app-region: no-drag;
+}
+
+.voter .list-item-indicator {
+  transition: opacity .2s ease, background-color .2s ease;
+}
+
+.voter .voter-bg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: .625vw;
+  transition: opacity .2s ease, background-color .2s ease;
+
+  opacity: 0;
+  background-color: transparent;
+}
+
+.voter.abstained .list-item-indicator {
+  opacity: .48;
+}
+
+.voter.abstained .voter-bg {
+  background-color: black;
+  opacity: .18;
+}
+
+.voter.positive .list-item-indicator {
+  background-color: #4CAF50;
+  opacity: .48;
+}
+
+.voter.positive .voter-bg {
+  background-color: #4CAF50;
+  opacity: .18;
+}
+
+.voter.negative .list-item-indicator {
+  background-color: #F44336;
+  opacity: .48;
+}
+
+.voter.negative .voter-bg {
+  background-color: #F44336;
+  opacity: .18;
+}
+
+.voter.pass .list-item-indicator {
+  background-color: rgba(0,0,0,.54);
+  opacity: .48;
+}
+
+.voter.pass .voter-bg {
+  background-color: black;
+  opacity: .08;
+}
+
+.voter {
+  font-size: 2vw;
+}
+
+/* The progress bar sits in normal flow beneath the delegation columns,
+   so a full list can never run underneath it */
+.voter-progress-container {
+  position: relative;
+  height: 5vw;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+/* The columns own the space above the bar; their own bottom padding
+   would otherwise reserve room that no longer needs reserving */
+.vote-layer .voters.cast-columns {
+  padding-bottom: 2vw;
+}
+
+.voter-progress {
+  position: relative;
+  width: 50vw;
+  height: 0.5vw;
+  overflow: hidden;
+
+  background: rgba(0,0,0,.1);
+}
+
+.voter-progress-inner {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  transition: transform .2s ease;
+  background: rgba(0,0,0,.3);
+}
+
+.voter-progress-inner.positive {
+  background-color: #A9D9AB;
+}
+
+.voter-progress-inner.negative {
+  background-color: #FAA59E;
+}
+
+.voter-progress-inner.abstained {
+  background-color: #858585;
+}
+
+.voter-progress-target {
+  position: absolute;
+  left: 25vw;
+
+  background-color: #2196F3;
+  height: 2vw;
+  width: 0.5vw;
+  margin-left: -.25vw;
+  transition: transform .2s ease;
+}

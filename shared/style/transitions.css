@@ -1,0 +1,79 @@
+.opacity-transition {
+  transition: opacity 0.2s ease-out;
+  opacity: 1;
+}
+
+.opacity-enter {
+  opacity: 0;
+}
+
+.opacity-leave {
+  transition: opacity 0.2s ease-in;
+  opacity: 0;
+}
+
+.item-move {
+  transition: transform .5s ease;
+}
+
+/* Two blocks that swap places, easing to whatever height the incoming
+   one actually measures. Each row is its own single-track grid animated
+   between 0fr and 1fr, so nothing needs a magic pixel budget - the text
+   inside may wrap to one line in Chinese and two in English.
+ *
+ * Both rows stay in flow, so the container is always as wide as the
+ * wider of the two and a swap never shifts anything sideways.
+ *
+ *   <div class="net-swap" :class="{ online: ok }">
+ *     <div class="net-swap-row net-swap-off"><div class="net-swap-inner">…
+ *     <div class="net-swap-row net-swap-on"><div class="net-swap-inner">…
+ */
+
+.net-swap-row {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows .3s ease, opacity .3s ease;
+}
+
+.net-swap-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.net-swap:not(.online) > .net-swap-off,
+.net-swap.online > .net-swap-on {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.autocompletion-transition {
+  transition: height .2s ease-out, box-shadow .2s ease-out;
+  box-shadow: rgba(0,0,0,.12) 0 2px 3px;
+  height: 40px;
+}
+
+.autocompletion-transition .ac-content {
+  transition: opacity .2s ease;
+  opacity: .7;
+}
+
+.autocompletion-enter {
+  height: 0;
+  box-shadow: none;
+}
+
+.autocompletion-enter .ac-content {
+  opacity: 0;
+}
+
+.autocompletion-leave {
+  transition: opacity .2s ease, height .2s ease-in, box-shadow .2s ease-in;
+  height: 0;
+  box-shadow: none;
+}
+
+.autocompletion-leave .ac-content {
+  transition: opacity .2s ease-in;
+  opacity: 0;
+}

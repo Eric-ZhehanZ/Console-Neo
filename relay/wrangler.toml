@@ -1,0 +1,17 @@
+name = "console-neo-relay"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+workers_dev = true
+
+[[durable_objects.bindings]]
+name = "SESSIONS"
+class_name = "RelaySession"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["RelaySession"]
+
+# Live on the ZhehanZ account since 2026-08-01.
+[[routes]]
+pattern = "connect.consoleneo.com"
+custom_domain = true

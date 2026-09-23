@@ -1,0 +1,24 @@
+.rollcall {
+  margin-bottom: 0;
+
+  -webkit-app-region: no-drag;
+}
+
+.rc-seat .list-item-content {
+  font-size: 2.2vw;
+  line-height: 2.8vw;
+  padding: 1vw 2vw;
+  transition: color .2s ease;
+}
+
+.rc-seat.absent .list-item-content {
+  color: rgba(0,0,0,.26);
+}
+
+.rc-seat .list-item-indicator {
+  transition: opacity .2s ease;
+}
+
+.rollcall-layer .counter-group {
+  min-width: max-content;
+}

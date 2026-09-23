@@ -1,0 +1,12 @@
+# Generated packages carry their own lint configuration and dependencies.
+dist/
+
+# Third-party/vendored sources are checked upstream rather than reformatted here.
+controller/jquery-3.3.1.min.js
+packages/ipv4/
+
+# Test evidence is an artifact, not application source.
+test-results/
+
+# The website is a separate project with its own toolchain.
+website/

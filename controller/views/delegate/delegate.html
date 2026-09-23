@@ -1,0 +1,127 @@
+<div class="view">
+  <div class="ctrl-watermark-clip"><i class="material-icons ctrl-watermark">person</i></div>
+  <div class="view-title">{{ delegateFocus }}</div>
+
+  <div class="delegate-insights">
+    <div class="counter-indicator">
+      <div class="counter-indicator-hint">{{ t('speakingTime') }}</div>
+      <div class="counter-indicator-value">{{ formatDuration(stats.spokenTime) }}</div>
+    </div>
+    <div class="counter-indicator">
+      <div class="counter-indicator-hint">{{ t('speechesShort') }}</div>
+      <div class="counter-indicator-value">{{ stats.speeches }}</div>
+    </div>
+    <div class="counter-indicator">
+      <div class="counter-indicator-hint">{{ t('avgSpeech') }}</div>
+      <div class="counter-indicator-value">{{ formatDuration(avgSpeech) }}</div>
+    </div>
+    <div class="counter-indicator">
+      <div class="counter-indicator-hint">{{ t('motionsShort') }}</div>
+      <div class="counter-indicator-value">{{ stats.motions }}</div>
+    </div>
+    <div class="counter-indicator">
+      <div class="counter-indicator-hint">{{ t('motionsPassed') }}</div>
+      <div class="counter-indicator-value">{{ passedCount }}</div>
+    </div>
+    <div class="counter-indicator">
+      <div class="counter-indicator-hint">{{ t('passRate') }}</div>
+      <div class="counter-indicator-value">{{ theirMotions.length > 0 ? passRate + '%' : '—' }}</div>
+    </div>
+  </div>
+
+  <div class="view-pagetitle">{{ t('theirMotions') }}</div>
+  <div class="list">
+    <div class="list-item" v-for="motion of theirMotions" track-by="id"
+      :class="{ bold: motion.outcome === 'pending' }">
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content motion-row">
+        <div class="motion-main">
+          <div class="motion-name">{{ displayName(motion) }}</div>
+          <div class="motion-meta">
+            <span class="motion-type-chip">{{ typeLabel(motion.type) }}</span>
+            <span class="motion-meta-group" v-if="timerInfo(motion)">
+              <i class="material-icons">timer</i>
+              <span>{{ timerInfo(motion) }}</span>
+            </span>
+            <span class="motion-meta-group motion-doc" v-if="docInfo(motion)">
+              <i class="material-icons">insert_drive_file</i>
+              <span>{{ docInfo(motion) }}</span>
+            </span>
+            <span class="motion-meta-group motion-comment" v-if="motion.params && motion.params.comment">
+              <i class="material-icons">comment</i>
+              <span>{{ motion.params.comment }}</span>
+            </span>
+            <span class="motion-meta-group">
+              <i class="material-icons">access_time</i>
+              <span class="motion-time">{{ formatTime(motion.time) }}</span>
+            </span>
+            <span class="delegate-row-tag" :class="'outcome-' + motion.outcome">{{ t(outcomeKey(motion.outcome)) }}</span>
+          </div>
+        </div>
+        <div class="motion-spanner"></div>
+        <span class="note-btn history-note" v-if="authorized"
+          :class="{ 'note-has': noteDots('motion:' + motion.id) > 0 }"
+          @click.stop="noteMotion(motion)" :title="t('openNote')">
+          <i class="material-icons">comment</i>
+          <span class="note-dots"><span class="note-dot"
+            v-for="d in noteDots('motion:' + motion.id)"></span></span>
+        </span>
+      </div>
+    </div>
+    <div class="empty-hint" v-if="theirMotions.length === 0">{{ t('noRecords') }}</div>
+  </div>
+
+  <div class="view-pagetitle">{{ t('speechHistory') }}</div>
+  <div class="list">
+    <div class="list-item" v-for="entry of speechEntries" track-by="$index">
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content history-row">
+        <div class="history-time">{{ formatTime(entry.time) }}</div>
+        <div class="history-text">{{ entry.data.list }}</div>
+        <span class="delegate-row-tag" v-if="entry.data.duration">{{ formatDuration(entry.data.duration) }}</span>
+        <span class="note-btn history-note" v-if="authorized && entryNote(entry)"
+          :class="{ 'note-has': noteDots((entryNote(entry) || {}).key) > 0 }"
+          @click.stop="openEntryNote(entry)" :title="t('openNote')">
+          <i class="material-icons">comment</i>
+          <span class="note-dots"><span class="note-dot"
+            v-for="d in noteDots((entryNote(entry) || {}).key)"></span></span>
+        </span>
+      </div>
+    </div>
+    <div class="empty-hint" v-if="speechEntries.length === 0">{{ t('noRecords') }}</div>
+  </div>
+
+  <div class="view-pagetitle" v-if="authorized">{{ t('relatedNotes') }}</div>
+  <div class="list" v-if="authorized">
+    <div class="list-item clickable" v-for="row of relatedNotes" track-by="key"
+      @click="openNoteRow(row)">
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content delegate-motion-row">
+        <span class="delegate-row-main">{{ row.label }}</span>
+        <span class="delegate-row-tag" v-if="row.mentions">{{ t('noteMentions') }}</span>
+        <i class="material-icons delegate-note-icon">comment</i>
+      </div>
+    </div>
+    <div class="empty-hint" v-if="relatedNotes.length === 0">{{ t('noRecords') }}</div>
+  </div>
+
+  <div class="view-pagetitle">{{ t('timeline') }}</div>
+  <div class="list">
+    <div class="list-item" v-for="entry of timeline" track-by="$index">
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content history-row">
+        <div class="history-time">{{ formatTime(entry.time) }}</div>
+        <i class="material-icons history-icon">{{ entryIcon(entry) }}</i>
+        <div class="history-text">{{ entryLabel(entry) }}</div>
+        <span class="note-btn history-note" v-if="authorized && entryNote(entry)"
+          :class="{ 'note-has': noteDots((entryNote(entry) || {}).key) > 0 }"
+          @click.stop="openEntryNote(entry)" :title="t('openNote')">
+          <i class="material-icons">comment</i>
+          <span class="note-dots"><span class="note-dot"
+            v-for="d in noteDots((entryNote(entry) || {}).key)"></span></span>
+        </span>
+      </div>
+    </div>
+    <div class="empty-hint" v-if="timeline.length === 0">{{ t('noRecords') }}</div>
+  </div>
+</div>

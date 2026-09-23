@@ -1,0 +1,136 @@
+<div class="view">
+  <div class="ctrl-watermark-clip"><i class="material-icons ctrl-watermark">thumbs_up_down</i></div>
+  <div class="view-title">
+    {{ t('votes') }}
+  </div>
+  <div class="fab-controls" v-if="authorized">
+    <button class="fab primary" @click="add" :title="t('addVote')">
+      <i class="material-icons">add</i>
+    </button>
+  </div>
+  <div class="view-search">
+    <div class="view-tool" @click="activeOnly = !activeOnly"
+      :title="t('filterActive')" :class="{ on: activeOnly }">
+      <i class="material-icons">bolt</i>
+    </div>
+    <i class="material-icons">search</i>
+    <div class="input-group">
+      <input v-model="searchInput" @keydown.esc="searchInput = ''">
+      <div class="border-line"></div>
+    </div>
+    <div class="clear-btn" @click="searchInput = ''" v-show="searchInput" transition="opacity">
+      <i class="material-icons">close</i>
+    </div>
+  </div>
+
+  <div class="list">
+    <div class="list-item clickable"
+      v-for="vote of shownItems | filterBy searchInput in 'name'"
+      track-by="$index"
+      :class="{ bold: vote.status.running }"
+      @click="viewVote(vote)">
+
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content vote-row">
+        <div class="vote-name" v-if="renameId !== vote.id">
+          {{ vote.name }}
+        </div>
+        <div class="vote-name" v-else @click.stop>
+          <input class="row-rename-input vote-rename-input" v-model="renameInput"
+            @input="dispatchRename(vote)"
+            @keydown.enter="renameId = null" @keydown.esc="renameId = null">
+        </div>
+        <div class="vote-rounds-wrapper">
+          <span class="vote-iteration" v-show="vote.status.iteration > 0">{{ vote.status.iteration }}</span>
+          <span class="vote-iteration" v-else>{{ t('notStarted') }}</span>
+          <template v-if="vote.rounds > 0">
+            <span class="vote-rounds-separator">/</span>
+            <span class="vote-rounds">{{ vote.rounds }}</span>
+          </template>
+        </div>
+        <div class="vote-spanner"></div>
+        <div class="vote-type" v-if="vote.target === -1">
+          {{ t('substantiveShort') }}
+        </div>
+        <div class="vote-values">
+          <span class="vote-value positive">{{ countVotes(vote, 1) }}</span>
+          <span class="vote-value-separator">/</span>
+          <span class="vote-value negative">{{ countVotes(vote, -2) }}</span>
+          <span class="vote-value-separator">/</span>
+          <span class="vote-value abstained">{{ countVotes(vote, -1) }}</span>
+          <span class="vote-value-separator" v-if="vote.target !== 0">/</span>
+          <span class="vote-value target" v-if="vote.target > 0">{{ vote.target }}</span>
+          <span class="vote-value target" v-if="vote.target === -1">{{ getFileTwoThird(vote) }}</span>
+        </div>
+        <div class="vote-seats">
+          <i class="material-icons">person</i>
+          {{ vote.matrix.length }}
+        </div>
+        <div class="row-actions" v-if="authorized" @click.stop>
+          <button class="light note-btn" :class="{ 'note-has': hasNote('vote:' + vote.id) }"
+            @click="note(vote)" :title="t('openNote')">
+            <i class="material-icons">comment</i>
+            <span class="note-dots"><span class="note-dot"
+              v-for="d in noteDots('vote:' + vote.id)"></span></span>
+          </button>
+          <button class="light" @click="toggleRename(vote)">
+            <i class="material-icons" v-if="renameId === vote.id">check</i>
+            <i class="material-icons" v-else>edit</i>
+          </button>
+          <button class="light" @click="remove(vote)">
+            <i class="material-icons">delete</i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <template v-if="!searchInput">
+      <div class="empty-hint" v-if="authorized">{{ t('clickAddVote') }}</div>
+      <div class="empty-hint" v-else>{{ t('noVotes') }}</div>
+    </template>
+    <div class="empty-hint" v-else>{{ t('noSearchResults') }}</div>
+  </div>
+
+  <div class="dialog-overlap" transition="opacity" v-show="addFlag">
+    <div class="dialog" @click.stop.prevent>
+      <div class="dialog-title">
+        {{ t('addVote') }}
+        <i class="material-icons dialog-close" @click="discardAddition">close</i>
+      </div>
+      <div class="dialog-content">
+        <div class="dialog-supporting">
+          {{ t('voteSeatsNote') }}
+        </div>
+        <div class="input-group">
+          <div class="hint">{{ t('displayName') }}</div>
+          <input v-model="inputName">
+          <div class="border-line"></div>
+        </div>
+        <div class="input-group">
+          <div class="hint">{{ t('rounds') }}</div>
+          <input v-model="inputRounds" type='number' min='0' number>
+          <div class="border-line"></div>
+        </div>
+        <div class="list">
+          <div class="list-item clickable" :class="{ bold: isSubstantive }" @click="isSubstantive = !isSubstantive">
+            <div class="list-item-indicator"></div>
+            <div class="list-item-content">{{ t('useSubstantiveTwoThirds') }}</div>
+          </div>
+        </div>
+        <template v-if="!isSubstantive">
+          <div class="input-group">
+            <div class="hint">{{ t('targetUndecided') }}</div>
+            <input v-model="inputTarget" type='number' min='0' number>
+            <div class="border-line"></div>
+          </div>
+          <button @click="setToHalf" class="embedded">{{ t('setToHalf') }}</button>
+          <button @click="setToTwoThird" class="embedded">{{ t('setToTwoThirds') }}</button>
+        </template>
+        <button @click="performAddition" class="confirmation-btn">
+          {{ t('submit') }}
+          <i class="material-icons">keyboard_arrow_right</i>
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

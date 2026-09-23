@@ -1,0 +1,345 @@
+@import '../fonts/fonts.css';
+
+@import '../shared/style/common.css';
+@import '../shared/style/transitions.css';
+@import '../shared/style/list.css';
+
+@import '../shared/components/timer.css';
+
+@import './styles/timer.css';
+@import './styles/file.css';
+@import './styles/vote.css';
+@import './styles/list.css';
+@import './styles/motions.css';
+@import './styles/rollcall.css';
+
+@import './styles/override/list.css';
+
+body {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  padding: 0;
+  margin: 0;
+
+  font-family: 'Roboto', 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+  overflow: hidden;
+
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+  cursor: default;
+}
+
+.layer {
+  position: absolute;
+  top: 12.5vw;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  background: white;
+}
+
+.layer.full {
+  bottom: 0;
+}
+
+.bottom-bar.not-tricky {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 12.5vw;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  padding: 0 5vw;
+  background: white !important;
+}
+
+.bottom-bar {
+  position: absolute;
+  top: -12.5vw;
+  right: 0;
+  left: 0;
+  height: 12.5vw;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  padding: 0 5vw;
+  background: white !important;
+}
+
+.bottom-title {
+  font-size: 4vw;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bottom-title > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.motion-title :hover {
+  font-size: 150%;
+  line-height: 120%;
+  text-overflow: initial;
+  overflow: initial;
+  white-space: initial;
+  background-color: #FFF;
+  z-index: 2;
+}
+
+.bottom-title.small {
+  font-size: 3vw;
+}
+
+/* Unified cast page header */
+
+.layer.headered {
+  top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cast-header {
+  box-sizing: border-box;
+  display: flex;
+  align-items: baseline;
+  padding: 3vw 5vw 1vw;
+  background: white;
+  flex-shrink: 0;
+}
+
+.cast-title {
+  display: flex;
+  align-items: flex-start;
+  flex: 1 1 40vw;
+  min-width: 0;
+}
+
+.cast-header {
+  flex-wrap: wrap;
+}
+
+.cast-header-stacked {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.cast-header-stacked .cast-title {
+  flex: 0 0 auto;
+}
+
+.cast-header-row {
+  display: flex;
+  align-items: center;
+  margin-top: 2.4vw;
+}
+
+.cast-header-row .speaker-indicator {
+  margin-left: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.cast-header-spacer {
+  flex: 1;
+}
+
+.cast-title-text {
+  font-size: 3.2vw;
+  line-height: 4.4vw;
+  font-weight: 300;
+  color: rgba(0,0,0,.87);
+
+  /* The full title is always shown, wrapping as needed */
+  overflow-wrap: break-word;
+}
+
+/* Large watermark icon, bottom right of every cast page */
+
+.cast-watermark {
+  position: absolute;
+  right: -3vw;
+  bottom: -5vw;
+  font-size: 38vw;
+  color: black;
+  opacity: .045;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cast-body {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.delegation-grid {
+  column-width: 30vw;
+  column-gap: 2vw;
+}
+
+/* Column flow identical to the speakers list: fill down, then next column */
+.cast-columns {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1.5vw 5vw 18vh;
+}
+
+.cast-columns .list-item {
+  width: 25vw;
+}
+
+.cast-columns .list-item-content {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+/* Motion row transitions */
+.pmotion-transition {
+  transition: opacity .28s ease, transform .28s ease;
+}
+
+.pmotion-enter {
+  opacity: 0;
+  transform: translateY(-1.2vw);
+}
+
+.pmotion-leave {
+  opacity: 0;
+  transform: translateY(-.6vw);
+}
+
+.pmotion-move {
+  transition: transform .3s ease;
+}
+
+.bottom-title .material-icons {
+  margin-right: 2vw;
+  font-size: 4vw;
+}
+
+.background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 1200px) {
+  .brand {
+    font-size: calc(3vw + 24px);
+    font-weight: 100;
+    color: black;
+
+    opacity: 0.3;
+    position: relative;
+    top: -3.5vw;
+  }
+}
+
+@media only screen and (min-width: 1201px) {
+  .brand {
+    font-size: 5vw;
+    font-weight: 100;
+    color: black;
+
+    opacity: 0.3;
+    position: relative;
+    top: -3.5vw;
+  }
+}
+
+.counter-group {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 2.5vw;
+  min-width: max-content;
+}
+
+.counter-group .material-icons {
+  font-size: 3vw;
+  opacity: 0.54;
+}
+
+.counter {
+  display: inline-block;
+  margin-left: .625vw;
+  font-size: 0;
+}
+
+.counter > div {
+  display: inline-block;
+}
+
+.counter .present {
+  font-size: 3vw;
+  line-height: 3vw;
+  font-weight: 400;
+}
+
+.counter .separator {
+  font-size: 2vw;
+  opacity: 0.3;
+  margin: 0 .5vw;
+}
+
+.counter .all {
+  font-size: 2vw;
+  font-weight: 200;
+}
+
+.counter-indicator {
+  display: inline-block;
+  margin-left: 1.25vw;
+  font-size: 0;
+}
+
+.counter-indicator-hint {
+  display: inline-block;
+  font-size: 1.5vw;
+  font-weight: 300;
+}
+
+.counter-indicator-value {
+  display: inline-block;
+  font-size: 3vw;
+  margin-left: .5vw;
+}
+
+.icon-alert .material-icons {
+  color: #F44336;
+  opacity: 1 !important;
+}
+
+
+/* Cast page change: the whole stage fades as one composite,
+   so underlying layers can never bleed through mid-transition */
+
+.stage {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: opacity .24s ease;
+}
+
+.stage.layer-switching {
+  opacity: 0;
+}

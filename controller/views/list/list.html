@@ -1,0 +1,159 @@
+<div class="view list-view"
+  @click="discardAll"
+  @drag="drag"
+  @dragend="dragend"
+  @drop="drop"
+  @dragleave="dragleave"
+  @dragenter="dragenter"
+  @dragover.prevent>
+
+  <div class="view-title">
+    <div class="list-brand" v-if="!renaming" :class="{ renamable: authorized }"
+      @click.stop="startRename">
+      {{ list.name }}
+    </div>
+    <div class="list-brand list-brand-edit" v-else @click.stop>
+      <textarea class="brand-edit-area list-brand-input" v-model="renameInput" rows="1"
+        @input="onRenameInput"
+        @keydown.enter.prevent="renaming = false" @keydown.esc="renaming = false"></textarea>
+    </div>
+
+    <div class="list-timer-group" v-if="list.timerCurrent">
+      <div class="list-timer-icon" :class="{ 'icon-alert': timerAlertOn(list.timerCurrent) }">
+        <i class="material-icons">person</i>
+      </div>
+      <div class="timer-value-wrapper list-timer">
+        <timer class="timer-left" :time="list.timerCurrent.left" :alert-value="list.timerCurrent.value"></timer>
+        <span class="timer-value-separator">/</span>
+        <timer class="timer-value" :time="list.timerCurrent.value"></timer>
+      </div>
+    </div>
+
+    <div class="list-timer-group" v-if="list.timerTotal && list.timerTotal.value > 0">
+      <div class="list-timer-icon">
+        <i class="material-icons">access_time</i>
+      </div>
+      <div class="timer-value-wrapper list-timer">
+        <timer class="timer-left" :time="list.timerTotal.left"></timer>
+        <span class="timer-value-separator">/</span>
+        <timer class="timer-value" :time="list.timerTotal.value"></timer>
+      </div>
+    </div>
+
+    <div class="list-actions">
+      <template v-if="authorized">
+        <button class="light" @click="editTimer">
+          <i class="material-icons" :title="t('editDuration')">edit</i>
+        </button>
+        <button class="light" @click="remove">
+          <i class="material-icons" :title="t('del')">delete</i>
+        </button>
+      </template>
+    </div>
+  </div>
+
+  <div class="fab-controls" v-if="authorized">
+    <button class="fab small" @click.stop="undoStep" :disabled="!undoSnap" :title="t('undoStep')">
+      <i class="material-icons">undo</i>
+    </button>
+    <button class="fab medium" @click.stop="toggleTimer"
+      :disabled="!list.timerCurrent || list.ptr >= list.seats.length || (!list.timerCurrent.active && list.timerCurrent.left === 0)"
+      :title="list.timerCurrent && list.timerCurrent.active ? t('pause') : t('start')">
+      <i class="material-icons">{{ list.timerCurrent && list.timerCurrent.active ? 'pause' : 'play_arrow' }}</i>
+    </button>
+    <button class="fab primary" @click.stop="nextGuarded"
+      :class="{ alerting: playNextAlert, elapsed: playNextElapsed, disarmed: !nextArmed }"
+      :disabled="!list.timerCurrent || list.ptr >= list.seats.length"
+      :title="t('nextSpeaker')">
+      <i class="material-icons">skip_next</i>
+    </button>
+  </div>
+
+  <div class="ctrl-watermark-clip"><i class="material-icons ctrl-watermark">record_voice_over</i></div>
+  <div class="list list-seats" v-el:seats :class="{ 'ac-on-top': attachOnTop }">
+    <div class="list-window-drag-handle"></div>
+    <div class="list-item list-seat" v-for="seat of (dragMode ? dragList : list.seats)" track-by="uid"
+      :class="{ dragging: dragging === seat, overlap: overlap === seat, bold: $index === list.ptr, speaking: $index === list.ptr && list.timerCurrent && list.timerCurrent.active, waiting: $index === list.ptr && (!list.timerCurrent || !list.timerCurrent.active) }"
+      :draggable="authorized"
+      @click.stop="edit(seat, $index)"
+      @drag="drag"
+      @dragstart="dragstart(seat, $index, $event)"
+      transition="item">
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content list-seat-edit"
+        v-if="editTarget == seat.uid"
+        :style="editHeight > 0 ? { height: editHeight + 'px' } : {}"
+        @click.stop>
+
+        <delegate-selector :value.sync="editInput" :candidates="presentNames"
+          @commit="commitEditAdvance" @autosave="performEdit" @cancel="discardAll"
+          @backspace="backspaceEdit"></delegate-selector>
+
+        <i class="material-icons list-seat-input-icon"
+          @mousedown.prevent="performEdit">check</i>
+      </div>
+      <div class="list-item-content list-drag" title="{{ seat.name }}" v-else>
+        <span class="seat-name" data-text="{{ seat.name }}">
+          <span class="seat-name-real">{{ seat.name }}</span>
+        </span>
+        <span class="seat-reorder" v-if="authorized" @click.stop>
+          <i class="material-icons" v-if="$index > 0"
+            @click="moveSeat($index, -1)" :title="t('moveUp')">keyboard_arrow_up</i>
+          <i class="material-icons" v-if="$index < list.seats.length - 1"
+            @click="moveSeat($index, 1)" :title="t('moveDown')">keyboard_arrow_down</i>
+          <i class="material-icons" @click="removeSeat($index)" :title="t('del')">delete</i>
+          <span class="seat-note-wrap" @click="noteSeat(seat)" :title="t('openNote')">
+            <i class="material-icons seat-note" :class="{ 'note-has': hasNote(seat) }">comment</i>
+            <span class="note-dots"><span class="note-dot"
+              v-for="d in noteDots('seat:' + list.id + ':' + seat.uid)"></span></span>
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="list-item list-seat" v-if="addFlag" v-el:add-item>
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content list-seat-edit" @click.stop>
+
+        <delegate-selector :value.sync="editInput" :candidates="presentNames"
+          :stats="delegates" :exclude="queuedNames"
+          @commit="performAddition" @autosave="performAddition"
+          @cancel="discardAll" @backspace="backspaceAdd"></delegate-selector>
+
+        <i class="material-icons list-seat-input-icon"
+          @mousedown.prevent="performAddition">check</i>
+      </div>
+    </div>
+
+    <div class="list-item clickable list-seat-add" @click.stop="add" v-if="authorized">
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content">
+        <i class="material-icons">add</i> {{ t('add') }}
+        <span class="list-spots-box" v-if="spotsLeft !== null" :title="t('spotsLeft')">{{ spotsLeft }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="dialog-overlap" transition="opacity" v-show="editTimerFlag">
+    <div class="dialog" @click.stop.prevent>
+      <div class="dialog-title">
+        {{ t('editDuration') }}
+        <i class="material-icons dialog-close" @click="editTimerFlag = false">close</i>
+      </div>
+      <div class="dialog-content">
+        <div class="timer-input-hint">{{ t('totalTimeUnlimited') }}</div>
+        <timer-input :time.sync="totTime"></timer-input>
+        <div class="timer-input-hint">{{ t('perDelegate') }}</div>
+        <timer-input :time.sync="eachTime"></timer-input>
+        <template v-if="list.timerCurrent && !list.timerCurrent.active">
+          <div class="timer-input-hint">{{ t('currentRemaining') }}</div>
+          <timer-input :time.sync="eachLeft"></timer-input>
+        </template>
+        <button @click="performTimerEdit" class="confirmation-btn">
+          {{ t('submit') }}
+          <i class="material-icons">keyboard_arrow_right</i>
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

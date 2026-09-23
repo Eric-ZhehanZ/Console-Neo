@@ -1,0 +1,13 @@
+@import './seats/seats.css';
+@import './timers/timers.css';
+@import './files/files.css';
+@import './file/file.css';
+@import './votes/votes.css';
+@import './vote/vote.css';
+@import './lists/lists.css';
+@import './list/list.css';
+
+@import './motions/motions.css';
+@import './stats/stats.css';
+@import './timerpage/timerpage.css';
+@import './settings/settings.css';

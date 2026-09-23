@@ -1,0 +1,84 @@
+.delegate-selector {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.ds-input {
+  outline: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  background: transparent;
+
+  font: inherit;
+  color: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+
+  -webkit-app-region: no-drag;
+}
+
+.ds-drop {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 100%;
+  max-width: 320px;
+  z-index: 10;
+
+  background: white;
+  box-shadow: rgba(0,0,0,.2) 0 2px 6px;
+}
+
+.ac-on-top .ds-drop {
+  top: auto;
+  bottom: 100%;
+}
+
+.ds-entry {
+  padding: 9px 16px;
+  font-size: 15px;
+  line-height: 20px;
+  cursor: pointer;
+
+  /* Long delegation names wrap instead of truncating */
+  white-space: normal;
+  overflow-wrap: break-word;
+
+  color: rgba(0,0,0,.87);
+  transition: background .15s ease;
+
+  -webkit-user-select: none;
+}
+
+.ds-entry:hover,
+.ds-entry.hi {
+  background: rgba(0,0,0,.06);
+}
+
+.ds-entry.fuzzy {
+  color: rgba(0,0,0,.54);
+}
+
+.ds-entry.first-fuzzy {
+  border-top: 1px solid rgba(0,0,0,.12);
+}
+
+.ds-hint {
+  font-size: 11px;
+  line-height: 20px;
+  padding: 4px 12px 0;
+  color: rgba(0,0,0,.38);
+  -webkit-user-select: none;
+}
+
+.ds-more {
+  text-align: center;
+  font-size: 11px;
+  line-height: 14px;
+  color: rgba(0,0,0,.3);
+  padding-bottom: 4px;
+  -webkit-user-select: none;
+}

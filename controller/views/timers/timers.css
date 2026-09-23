@@ -1,0 +1,37 @@
+.timer-row {
+  display: flex;
+  align-items: center;
+}
+
+.timer-name {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.timer-value-wrapper {
+  display: inline-flex;
+  font-size: 0;
+  align-items: baseline;
+}
+
+.timer.timer-left {
+  display: inline-block;
+  font-size: 18px;
+}
+
+.timer.timer-value, .timer-value-separator {
+  display: inline-block;
+  margin-left: 2px;
+  opacity: 0.54;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.timer-actions {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.timer-action {
+}

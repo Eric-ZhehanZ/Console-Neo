@@ -1,0 +1,695 @@
+@import './views/styles.css';
+@import './views/delegate/delegate.css';
+
+@import '../shared/components/timer.css';
+@import '../shared/components/delegate-selector.css';
+
+.frame {
+  z-index: 1000;
+}
+
+.action-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  z-index: 1;
+  border-top: 1px solid rgba(0,0,0,.12);
+
+  padding: 0 40px;
+
+  display: flex;
+  align-items: center;
+
+  background: white;
+
+  -webkit-user-select: none;
+}
+
+.title {
+  font-size: 32px;
+  height: 100%;
+  line-height: 100px;
+  display: inline-block;
+
+  cursor: pointer;
+
+  opacity: 0.87;
+  transition: opacity .2s ease;
+
+  -webkit-user-select: none;
+  -webkit-app-region: no-drag;
+}
+
+.title:hover {
+  opacity: 1;
+}
+
+.actions {
+  float: right;
+  
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.action {
+  margin-right: 15px;
+  font-size: 16px;
+  display: inline-block;
+  cursor: pointer;
+  opacity: 0.54;
+  transition: opacity 0.2s ease;
+
+  -webkit-app-region: no-drag;
+}
+
+.action:hover {
+  opacity: 1;
+}
+
+.action:last-child {
+  margin-right: 0;
+}
+
+.view {
+  background-color: white;
+  padding: 40px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 101px;
+  z-index: 2;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.view.horizontal {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.view-title {
+  font-size: 28px;
+  line-height: 40px;
+  font-weight: 300;
+  margin-bottom: 24px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  -webkit-app-region: drag;
+  -webkit-user-select: none;
+}
+
+.view-title-action {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.view-search {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.view-search .material-icons {
+  opacity: 0.54;
+}
+
+.view-search .input-group {
+  display: inline-block;
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+
+.view-search .input-group input {
+  padding-right: 24px;
+  box-sizing: border-box;
+}
+
+.view-search .clear-btn {
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+}
+
+.view-pagetitle {
+  font-size: 18px;
+  margin-bottom: 12px;
+  line-height: 24px;
+  font-weight: 600;
+  color: rgba(0,0,0,.54);
+
+  -webkit-app-region: drag;
+  -webkit-user-select: none;
+}
+
+.view-pagetitle.clickable {
+  color: rgba(0,0,0,.54);
+  transition: color .2s ease;
+  cursor: pointer;
+
+  -webkit-app-region: no-drag;
+}
+
+.view-pagetitle.clickable:hover {
+  color: rgba(0,0,0,.75);
+}
+
+.counter-group {
+  display: inline-flex;
+  align-items: center;
+  flex: 1;
+}
+
+.counter-group .material-icons {
+  opacity: 0.54;
+}
+
+.counter {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.counter > div {
+  display: inline-block;
+}
+
+.counter .present {
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.counter .separator {
+  opacity: 0.3;
+}
+
+.counter .all {
+  font-size: 16px;
+  font-weight: 200;
+}
+
+.counter-indicator {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.counter-indicator-hint {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.counter-indicator-value {
+  display: inline-block;
+  font-size: 24px;
+}
+
+/* Inline row editing & row actions */
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.row-actions .light .material-icons {
+  font-size: 20px;
+}
+
+.row-rename-input {
+  outline: none;
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,.24);
+  padding: 0;
+  margin: 0;
+  background: transparent;
+
+  font: inherit;
+  color: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+
+  -webkit-app-region: no-drag;
+}
+
+/* Rounded action buttons docked on the divider line above the bottom bar.
+   Gray filled circle with a white icon; the fill turns black on hover. */
+
+.fab-controls {
+  position: fixed;
+  right: 32px;
+  bottom: 87px;
+  display: flex;
+  align-items: flex-end;
+  z-index: 3000;
+}
+
+.fab {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #757575;
+  border: none;
+  /* defeat the global button { opacity: .7 } rule - fabs are fully opaque */
+  opacity: 1 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 14px;
+  padding: 0;
+  outline: none;
+  transition: background .5s ease;
+
+  -webkit-app-region: no-drag;
+  -webkit-user-select: none;
+}
+
+.fab:hover {
+  background: #212121;
+}
+
+/* While the timer runs red, the primary button slowly saturates to match;
+   pressing it (next/reset) drops the alert and the redness fades right out */
+.fab.alerting {
+  background: #E53935;
+  transition: background 6s ease;
+}
+
+/* At full elapse the red arrives at once instead of continuing the ramp */
+.fab.elapsed {
+  background: #E53935;
+  transition: background .3s ease;
+}
+
+.fab.alerting:hover {
+  background: #C62828;
+  transition: background .2s ease;
+}
+
+.fab .material-icons {
+  font-size: 28px;
+  color: white;
+}
+
+.fab.medium {
+  width: 46px;
+  height: 46px;
+  margin-bottom: 3px;
+}
+
+.fab.medium .material-icons {
+  font-size: 24px;
+}
+
+.fab.small {
+  width: 38px;
+  height: 38px;
+  margin-bottom: 5px;
+}
+
+.fab.small .material-icons {
+  font-size: 19px;
+}
+
+.fab[disabled] {
+  pointer-events: none;
+  background: #D9D9D9;
+}
+
+/* Cooldown after "next": briefly grayed so the swallowed second press
+   is visible, then the normal color fades back in */
+.fab.disarmed {
+  background: #D9D9D9 !important;
+  transition: background .15s ease;
+}
+
+.fab[disabled] .material-icons {
+  color: white;
+}
+
+/* Unified page-cast button states */
+
+.action.page-cast.cast-disabled {
+  opacity: .2;
+}
+
+.icon-alert,
+.icon-alert .material-icons {
+  color: #F44336;
+  opacity: 1 !important;
+}
+
+/* In-place multi-line rename: identical metrics to the display text */
+
+.brand-edit-area {
+  display: block;
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  resize: none;
+  overflow: hidden;
+  background: transparent;
+
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+
+  box-shadow: 0 1px 0 rgba(0,0,0,.24);
+  -webkit-app-region: no-drag;
+}
+
+
+/* Staggered page-enter transitions */
+
+@keyframes view-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes view-enter-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.view > * {
+  animation: view-enter .32s cubic-bezier(.25, .5, .25, 1) both;
+}
+
+.view > *:nth-child(2) { animation-delay: .05s; }
+.view > *:nth-child(n+3) { animation-delay: .09s; }
+
+/* The fab group appears only after the page transition completes,
+   and vanishes instantly when its page starts leaving - so it is never
+   seen half-covered by the incoming layer */
+.view > .fab-controls {
+  animation: view-enter-fade .25s ease both;
+  animation-delay: .3s;
+}
+
+/* Exit: quick whole-group fade, finishing before the incoming layer lands */
+.view.opacity-leave .fab-controls {
+  animation: view-leave-fade .16s ease both;
+}
+
+@keyframes view-leave-fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.view > .dialog-overlap {
+  animation: none;
+}
+
+
+.view.list-view .view-title {
+  align-items: baseline;
+}
+
+.view.list-view .list-timer-group,
+.view.list-view .list-actions {
+  align-self: flex-start;
+  /* same 40px band as .view-title-action, so icons align across pages */
+  height: 40px;
+}
+
+.view.list-view .list-timer-icon .material-icons {
+  font-size: 28px;
+}
+
+.view.list-view .list-timer .timer-left {
+  font-size: 18px;
+}
+
+.view.list-view .list-timer .timer-value,
+.view.list-view .list-timer .timer-value-separator {
+  font-size: 12px;
+}
+
+/* Back-to-previous arrow: a thin wide-angled chevron in the left gutter */
+
+.back-arrow {
+  position: fixed;
+  left: 6px;
+  top: 40px;
+  width: 26px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  opacity: .1;
+  cursor: pointer;
+  transition: opacity .2s ease;
+  z-index: 1400;
+
+  -webkit-app-region: no-drag;
+  -webkit-user-select: none;
+}
+
+.back-arrow:hover {
+  opacity: .8;
+}
+
+.back-arrow-svg {
+  width: 22px;
+  height: 40px;
+}
+
+.home-title-text.renamable {
+  cursor: text;
+  -webkit-app-region: no-drag;
+}
+
+
+.mrow-transition {
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+.mrow-enter {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.mrow-leave {
+  opacity: 0;
+}
+
+.mrow-move {
+  transition: transform .3s ease;
+}
+
+
+/* Join-info badge (server machine only): bottom-right on the home page,
+   clear of the action bar; the launch page centers it instead */
+
+.home-code {
+  position: fixed;
+  right: 40px;
+  bottom: 130px;
+  text-align: right;
+  z-index: 5;
+
+  -webkit-app-region: no-drag;
+}
+
+/* Reachability indicators, top-right of the home page. Same icon-button
+   language as the per-page actions elsewhere; a transport that is down
+   dims rather than disappears, so the pair never reflows */
+
+.net-status {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.net-status button {
+  transition: opacity .3s ease;
+  opacity: .8;
+}
+
+.net-status button.off {
+  opacity: .28;
+}
+
+.net-status button.busy {
+  opacity: .5;
+  pointer-events: none;
+}
+
+.net-status button.busy .material-icons {
+  animation: net-status-spin 1s linear infinite;
+}
+
+@keyframes net-status-spin {
+  from { transform: none; }
+  to { transform: rotate(360deg); }
+}
+
+/* Connect dialog: nearby services & code entry */
+
+.service-info {
+  min-width: 0;
+}
+
+.service-id {
+  font-size: 15px;
+}
+
+.service-conf {
+  font-size: 12px;
+  color: rgba(0,0,0,.45);
+  line-height: 16px;
+}
+
+.code-input {
+  font-size: 22px;
+  text-transform: uppercase;
+}
+
+
+/* Large watermark, bottom right of controller pages (mirrors the cast) */
+
+/* The clip box ends exactly at the footer divider, so however large the
+   watermark grows, the footer always covers it */
+.ctrl-watermark-clip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 101px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ctrl-watermark {
+  position: absolute;
+  right: -4vw;
+  bottom: -7vw;
+  font-size: 38vw;
+  color: black;
+  opacity: .035;
+  pointer-events: none;
+  animation: none !important;
+}
+
+
+/* Small tool buttons to the left of the search box */
+
+.view-tool {
+  margin-right: 12px;
+  cursor: pointer;
+  opacity: .38;
+  transition: opacity .2s ease;
+
+  -webkit-app-region: no-drag;
+  -webkit-user-select: none;
+}
+
+.view-tool:hover {
+  opacity: .7;
+}
+
+.view-tool.on {
+  opacity: .87;
+}
+
+.view-tool .material-icons {
+  opacity: 1;
+}
+
+
+/* Note buttons: darker once a note exists */
+
+.row-actions .note-has .material-icons,
+.timer-action.note-has .material-icons,
+.seat-note.note-has {
+  color: rgba(0,0,0,.87);
+  opacity: 1;
+}
+
+.seat-note {
+  margin-left: 2px;
+}
+
+
+/* Note-volume dots under every notes icon. The dots hang below the
+   button's own box, so the icon keeps the exact height of its siblings
+   and never shifts upward. */
+
+.note-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.note-dots {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  height: 3px;
+  margin-top: -1px;
+  pointer-events: none;
+}
+
+.note-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  margin: 0 1px;
+}
+
+.seat-note-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Shown while a remote session's link is down. Fixed and centered at the
+   top so nothing underneath reflows when it comes and goes */
+
+.conn-lost {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 18px;
+  background: rgba(33, 33, 33, .88);
+  color: white;
+  font-size: 13px;
+  white-space: nowrap;
+  z-index: 5000;
+  pointer-events: none;
+
+  -webkit-app-region: no-drag;
+}
+
+.conn-lost .material-icons {
+  font-size: 18px;
+}

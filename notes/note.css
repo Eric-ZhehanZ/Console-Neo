@@ -1,0 +1,61 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Roboto', 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+.note-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.note-title {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 12px 14px 4px;
+  color: rgba(0,0,0,.87);
+  -webkit-user-select: none;
+}
+
+.note-status {
+  font-size: 11px;
+  min-height: 14px;
+  padding: 0 14px 4px;
+  color: rgba(0,0,0,.38);
+}
+
+.note-editor-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+
+.note-editor-wrap .ql-toolbar {
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.note-editor-wrap #editor {
+  flex: 1;
+  overflow-y: auto;
+  border: none;
+  font-size: 14px;
+}
+
+.note-footer {
+  font-size: 11px;
+  text-align: right;
+  padding: 4px 14px 8px;
+  color: rgba(0,0,0,.3);
+  -webkit-user-select: none;
+}
+
+.note-footer .over {
+  color: #F44336;
+}

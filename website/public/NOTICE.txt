@@ -1,0 +1,38 @@
+Console Neo Product Site — License and Attribution Notice
+
+Inherited Console Lite software
+--------------------------------
+
+Portions of Console Neo are derived from Console Lite and Console Lite Edited.
+Those inherited portions remain available under the MIT License and retain the
+following copyright notices:
+
+Copyright (c) 2016 Liu Xiaoyi
+Copyright (c) 2018 Pan Ruizhe
+
+The complete, unmodified license text is provided at:
+licenses/INHERITED-MIT.txt
+
+Third-party fonts
+-----------------
+
+Roboto font files in public/fonts/
+Copyright 2015 Google Inc.
+Licensed under the Apache License, Version 2.0.
+
+Material Icons font in public/fonts/material.woff2
+Licensed under the Apache License, Version 2.0.
+
+The Apache License, Version 2.0 text is provided at:
+licenses/APACHE-2.0.txt
+
+Private 2026 work
+-----------------
+
+The new 2026 Console Neo revamp and this product-site work remain private while
+their ownership and licensing are being decided. No public license is granted
+for the use, copying, modification, or distribution of that new work at this
+time. All rights in that new work are reserved by their respective owners.
+
+Nothing in this notice limits or changes the rights granted for inherited or
+third-party materials under the MIT License or Apache License, Version 2.0.

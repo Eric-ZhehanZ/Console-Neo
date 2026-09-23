@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Console Neo - Cast</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./action.js"></script>
+  </head>
+  <body onload="setup()">
+    <div class="stage" :class="{ 'layer-switching': switching }">
+    <div class="layer full background">
+      <div class="brand">
+        {{ brand }}
+      </div>
+    </div>
+
+    <div class="bottom-bar not-tricky" v-show="connected" transition="opacity">
+      <div class="bottom-title small">
+        <span>{{ conf }}</span>
+      </div>
+      <div class="counter-group">
+        <i class="material-icons">person</i>
+        <div class="counter">
+          <div class="present">{{ present }}</div>
+          <div class="separator">/</div>
+          <div class="all">{{ seat }}</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">{{ t('simpleMajority') }}</div>
+          <div class="counter-indicator-value">{{ simpleHalfCount }}</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">{{ t('twoThirds') }}</div>
+          <div class="counter-indicator-value">{{ twoThirdCount }}</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">{{ t('oneFifth') }}</div>
+          <div class="counter-indicator-value">{{ twentyPercentCount }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer timer-layer" v-show="mode === 'timer'">
+      <i class="material-icons cast-watermark">timer</i>
+      <div class="timer-name">{{ timerName }}</div>
+      <timer class="timer-left" :time="timerLeft" :fix-minute="true" :alert-value="timerValue"></timer>
+      <div class="timer-total-line" v-if="timerValue > 0">
+        <span class="timer-total-hint">{{ t('totalTime') }}</span>
+        <timer :time="timerValue" :fix-minute="true"></timer>
+      </div>
+      <div class="timer-progress" :class="{ active: timerActive }">
+        <div class="timer-progress-inner"
+          :style="{ transform: timerProgressOffset }">
+        </div>
+      </div>
+    </div>
+
+    <div class="layer file-layer full file-full" v-show="mode === 'file'" :class="{ scrolling: fileScrolling }">
+      <i class="material-icons cast-watermark">insert_drive_file</i>
+      <div class="file-pdf" v-el:pages v-show="fileType === 'pdf'"></div>
+      <div class="file-image" v-if="fileType === 'image'">
+        <img :src="imgRendered"></img>
+      </div>
+      <div class="file-overlay">{{ shortName }}</div>
+    </div>
+
+    <div class="layer full vote-layer headered" v-if="mode === 'vote' && vote">
+      <i class="material-icons cast-watermark">thumbs_up_down</i>
+      <div class="cast-header">
+        <div class="cast-title">
+          <span class="cast-title-text">{{ vote.name }}</span>
+        </div>
+        <div class="vote-head-right">
+          <div class="vote-head-top">
+            <div class="vote-iteration" v-if="vote.status.iteration > 0">
+              {{ tf('roundCurrentFmt', { n: vote.status.iteration }) }}<template v-if="vote.rounds > 0"> / {{ tf('roundOfFmt', { n: vote.rounds }) }}</template>
+            </div>
+            <div class="vote-iteration" v-else>
+              {{ t('notStarted') }}
+            </div>
+            <div class="vote-seats">
+              <span class="vote-counter-hint">{{ t('total') }}</span>
+              <span class="vote-counter-value">{{ vote.matrix.length }}</span>
+            </div>
+          </div>
+
+          <div class="vote-counters">
+            <div class="vote-counter vote-counter-positive">
+              <span class="vote-counter-hint">{{ t('favor') }}</span>
+              <span class="vote-counter-value">{{ positiveCount }}</span>
+            </div>
+            <div class="vote-counter vote-counter-negative">
+              <span class="vote-counter-hint">{{ t('against') }}</span>
+              <span class="vote-counter-value">{{ negativeCount }}</span>
+            </div>
+            <div class="vote-counter vote-counter-abstained">
+              <span class="vote-counter-hint">{{ t('abstain') }}</span>
+              <span class="vote-counter-value">{{ abstainedCount }}</span>
+            </div>
+            <div class="vote-counter vote-counter-pass"
+              v-if="voteRoundComplete && passOrNoVoteCount > 0">
+              <span class="vote-counter-hint">{{ t('passOrNoVoteShort') }}</span>
+              <span class="vote-counter-value">{{ passOrNoVoteCount }}</span>
+            </div>
+            <div class="vote-counter vote-counter-target" v-if="vote.target > 0">
+              <span class="vote-counter-hint">{{ t('target') }}</span>
+              <span class="vote-counter-value">{{ vote.target }}</span>
+            </div>
+            <div class="vote-counter vote-counter-target" v-if="vote.target === -1">
+              <span class="vote-counter-hint">{{ t('target') }}</span>
+              <span class="vote-counter-value">{{ fileTwoThird }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="voters list cast-columns cast-body" v-el:voters>
+        <div class="voter list-item" v-for="voter of voteMat" transition="item"
+          :class="{ positive: voter.vote === 1, abstained: voter.vote === -1,
+            negative: voter.vote === -2, pass: voteRoundComplete && voter.vote === 0 }">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">{{ voter.name }}</div>
+          <div class="voter-bg"></div>
+        </div>
+      </div>
+      <div class="voter-progress-container">
+        <div class="voter-progress">
+          <div class="voter-progress-inner positive"
+            :style="{ transform: positiveProgressOffset }">
+          </div>
+          <div class="voter-progress-inner negative"
+            :style="{ transform: negativeProgressOffset }">
+          </div>
+          <div class="voter-progress-inner abstained"
+            :style="{ transform: abstainedProgressOffset }">
+          </div>
+        </div>
+        <div class="voter-progress-target"
+          :style="{ transform: targetOffset }">
+        </div>
+      </div>
+    </div>
+
+    <div class="layer list-layer full headered" v-if="mode === 'list'">
+      <i class="material-icons cast-watermark">record_voice_over</i>
+      <div class="cast-header cast-header-stacked">
+        <div class="cast-title">
+          <span class="cast-title-text">{{ list.name }}</span>
+        </div>
+        <div class="cast-header-row">
+          <div class="speaker-indicator" v-if="list.ptr < list.seats.length">
+            <span class="speaker-current-wrap">
+              <span class="speaker-current" v-for="n of currentSpeakerName"
+                :class="{ long: n.length > 14, xlong: n.length > 28 }"
+                transition="speaker-swap">{{ n }}</span>
+            </span>
+            <span class="speaker-next-wrap">
+              <span class="speaker-next" v-for="n of nextSpeakerName"
+                :class="{ long: n.length > 20 }"
+                transition="speaker-swap">{{ n }}</span>
+            </span>
+          </div>
+          <div class="cast-header-spacer"></div>
+          <div class="timer-current" :class="{ 'icon-alert': timerAlertOn(list.timerCurrent) }" v-if="list.timerCurrent">
+            <i class="material-icons">person</i>
+            <timer :time="list.timerCurrent.left" :fix-minute="true" :alert-value="list.timerCurrent.value"></timer>
+          </div>
+          <div class="timer-total" v-if="list.timerTotal && list.timerTotal.value > 0">
+            <i class="material-icons">access_time</i>
+            <timer :time="list.timerTotal.left" :fix-minute="true"></timer>
+          </div>
+        </div>
+      </div>
+      <div class="list speakers cast-body" v-el:speakers>
+        <div class="list-item speaker"
+          v-for="speaker of list.seats"
+          track-by="uid"
+          transition="item"
+          :class="{ bold: list.ptr === $index, speaking: list.ptr === $index && list.timerCurrent && list.timerCurrent.active, waiting: list.ptr === $index && (!list.timerCurrent || !list.timerCurrent.active) }">
+
+          <div class="list-item-indicator" @transitionend.stop.prevent></div>
+          <div class="list-item-content speaker-name" data-text="{{ speaker.name }}">
+            <span class="speaker-name-real">{{ speaker.name }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer motions-layer full headered" v-if="mode === 'motions'">
+      <i class="material-icons cast-watermark">gavel</i>
+      <div class="cast-header">
+        <div class="cast-title">
+          <span class="cast-title-text">{{ t('motions') }}</span>
+        </div>
+        <div class="pmotion-counters">
+          <div class="pmotion-counter passed">
+            <span class="pmotion-counter-hint">{{ t('outcomePassed') }}</span>
+            <span class="pmotion-counter-value">{{ motionCount('passed') }}</span>
+          </div>
+          <div class="pmotion-counter failed">
+            <span class="pmotion-counter-hint">{{ t('outcomeFailed') }}</span>
+            <span class="pmotion-counter-value">{{ motionCount('failed') }}</span>
+          </div>
+          <div class="pmotion-counter withdrawn">
+            <span class="pmotion-counter-hint">{{ t('outcomeWithdrawn') }}</span>
+            <span class="pmotion-counter-value">{{ motionCount('withdrawn') }}</span>
+          </div>
+          <div class="pmotion-counter">
+            <span class="pmotion-counter-hint">{{ t('outcomePending') }}</span>
+            <span class="pmotion-counter-value">{{ motionCount('pending') }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="pmotions cast-body" v-el:motions>
+        <div class="pmotion pmotion-draft" v-if="motionDraft" transition="pmotion">
+          <div class="pmotion-body">
+            <div class="pmotion-name">{{ displayName(motionDraft) }}</div>
+            <div class="pmotion-meta">
+              <span class="pmotion-type">{{ motionDraft.typeLabel }}</span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">person</i>{{ motionDraft.proposer }}
+              </span>
+              <span class="pmotion-meta-group" v-if="motionTimerInfo(motionDraft)">
+                <i class="material-icons">timer</i>{{ motionTimerInfo(motionDraft) }}
+              </span>
+              <span class="pmotion-meta-group" v-if="motionDocInfo(motionDraft)">
+                <i class="material-icons">insert_drive_file</i>{{ motionDocInfo(motionDraft) }}
+              </span>
+              <span class="pmotion-meta-group" v-if="motionDraft.params && motionDraft.params.comment">
+                <i class="material-icons">comment</i>{{ motionDraft.params.comment }}
+              </span>
+            </div>
+          </div>
+          <div class="pmotion-outcome pending">{{ t('proposedDraft') }}</div>
+        </div>
+        <div class="pmotion" v-for="m of motions" track-by="id" transition="pmotion" :class="{ pending: m.outcome === 'pending' }">
+          <div class="pmotion-body">
+            <div class="pmotion-name">{{ displayName(m) }}</div>
+            <div class="pmotion-meta">
+              <span class="pmotion-type" v-if="m.type">{{ typeLabel(m.type) }}</span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">person</i>{{ m.proposer }}
+              </span>
+              <span class="pmotion-meta-group" v-if="motionTimerInfo(m)">
+                <i class="material-icons">timer</i>{{ motionTimerInfo(m) }}
+              </span>
+              <span class="pmotion-meta-group" v-if="motionDocInfo(m)">
+                <i class="material-icons">insert_drive_file</i>{{ motionDocInfo(m) }}
+              </span>
+              <span class="pmotion-meta-group" v-if="m.params && m.params.comment">
+                <i class="material-icons">comment</i>{{ m.params.comment }}
+              </span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">access_time</i>{{ motionClock(m) }}
+              </span>
+            </div>
+          </div>
+          <div class="pmotion-outcome" :class="m.outcome">{{ outcomeText(m.outcome) }}</div>
+        </div>
+        <div class="pmotions-empty" v-if="motions.length === 0 && !motionDraft">{{ t('noMotions') }}</div>
+      </div>
+    </div>
+
+    <div class="layer rollcall-layer full headered" v-if="mode === 'rollcall'">
+      <i class="material-icons cast-watermark">person</i>
+      <div class="cast-header">
+        <div class="cast-title">
+          <span class="cast-title-text">{{ t('rollcall') }}</span>
+        </div>
+        <div class="counter-group">
+          <i class="material-icons">person</i>
+          <div class="counter">
+            <div class="present">{{ rcPresent }}</div>
+            <div class="separator">/</div>
+            <div class="all">{{ rcSeats.length }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="rollcall list cast-columns cast-body">
+        <div class="list-item rc-seat" v-for="s of rcSeats" track-by="$index"
+          :class="{ bold: s.present, absent: !s.present }">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">{{ s.name }}</div>
+        </div>
+        <div class="pmotions-empty" v-if="rcSeats.length === 0">{{ t('seatListEmpty') }}</div>
+      </div>
+    </div>
+
+    </div>
+    <div class="layer full mask" v-show="!ready"></div>
+  </body>
+</html>

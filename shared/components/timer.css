@@ -1,0 +1,18 @@
+.timer {
+  font-weight: 300;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.timer-separator {
+  font-weight: 200;
+}
+
+.timer.timer-alert {
+  color: #F44336;
+  opacity: 1;
+}
+
+.timer.timer-alert .timer-separator {
+  color: inherit;
+}

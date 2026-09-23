@@ -1,0 +1,17 @@
+.list {
+  margin-bottom: 3vw；
+}
+
+.list-item-indicator {
+  width: .625vw;
+}
+
+.list-item-content {
+  padding: 1.25vw 2.5vw;
+  font-size: 2vw;
+  line-height: 2.5vw;
+}
+
+.empty-hint {
+  margin-left: -.625vw;
+}

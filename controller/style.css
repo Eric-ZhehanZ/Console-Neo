@@ -1,0 +1,36 @@
+@import '../fonts/fonts.css';
+
+@import '../shared/style/common.css';
+@import '../shared/style/selector.css';
+@import '../shared/style/input.css';
+@import '../shared/style/dialog.css';
+@import '../shared/style/transitions.css';
+@import '../shared/style/list.css';
+
+@import './startup.css';
+@import './frame.css';
+
+body {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  padding: 0;
+  margin: 0;
+
+  font-family: 'Roboto', 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+  overflow: hidden;
+
+  -webkit-app-region: drag;
+}
+
+.list-drag {
+  cursor: text;
+}
+
+.list-drag:active {
+  cursor: move;
+}

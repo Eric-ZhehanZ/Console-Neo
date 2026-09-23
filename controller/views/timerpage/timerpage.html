@@ -1,0 +1,65 @@
+<div class="view timerpage-view">
+  <div class="ctrl-watermark-clip"><i class="material-icons ctrl-watermark">timer</i></div>
+  <div class="view-title">
+    <div class="list-brand" v-if="!renaming" :class="{ renamable: authorized }"
+      @click.stop="startRename">
+      {{ focusTimer.name }}
+    </div>
+    <div class="list-brand list-brand-edit" v-else @click.stop>
+      <input class="row-rename-input list-brand-input" v-model="renameInput"
+        @input="dispatchRename"
+        @keydown.enter="renaming = false" @keydown.esc="renaming = false">
+    </div>
+    <div class="list-actions">
+      <template v-if="authorized">
+        <button class="light" @click="edit" :disabled="focusTimer.active">
+          <i class="material-icons" :title="t('edit')">edit</i>
+        </button>
+        <button class="light" @click="remove">
+          <i class="material-icons" :title="t('del')">delete</i>
+        </button>
+      </template>
+    </div>
+  </div>
+
+  <div class="timerpage-body">
+    <timer class="timerpage-display" :time="focusTimer.left" :alert-value="focusTimer.value"></timer>
+    <div class="timerpage-total">
+      <span class="timerpage-total-hint">{{ t('totalTime') }}</span>
+      <timer class="timerpage-total-value" :time="focusTimer.value"></timer>
+    </div>
+    <div class="timerpage-progress">
+      <div class="timerpage-progress-inner" :style="{ transform: progressOffset }"></div>
+    </div>
+  </div>
+
+  <div class="fab-controls" v-if="authorized">
+    <button class="fab small" @click="reset" :title="t('reset')">
+      <i class="material-icons">replay</i>
+    </button>
+    <button class="fab primary" @click="toggle">
+      <i class="material-icons" v-if="focusTimer.active">pause</i>
+      <i class="material-icons" v-else>play_arrow</i>
+    </button>
+  </div>
+
+  <div class="dialog-overlap" transition="opacity" v-show="editFlag">
+    <div class="dialog" @click.stop.prevent>
+      <div class="dialog-title">
+        {{ t('editTimer') }}
+        <i class="material-icons dialog-close" @click="editFlag = false">close</i>
+      </div>
+      <div class="dialog-content">
+        <div class="timer-input-hint">{{ t('totalTime') }}</div>
+        <timer-input :time.sync="timerValue"></timer-input>
+        <div class="timer-input-hint">{{ t('currentRemaining') }}</div>
+        <timer-input :time.sync="timerLeft"></timer-input>
+        <button @click="performEdit" class="confirmation-btn">
+          {{ t('submit') }}
+          <i class="material-icons">keyboard_arrow_right</i>
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

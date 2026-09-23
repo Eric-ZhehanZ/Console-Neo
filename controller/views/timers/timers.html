@@ -1,0 +1,85 @@
+<div class="view">
+  <div class="ctrl-watermark-clip"><i class="material-icons ctrl-watermark">timer</i></div>
+  <div class="view-title">
+    {{ t('timers') }}
+  </div>
+  <div class="fab-controls" v-if="authorized">
+    <button class="fab primary" @click="add" :title="t('createTimer')">
+      <i class="material-icons">add</i>
+    </button>
+  </div>
+  <div class="view-search">
+    <div class="view-tool" @click="activeOnly = !activeOnly"
+      :title="t('filterActive')" :class="{ on: activeOnly }">
+      <i class="material-icons">bolt</i>
+    </div>
+    <i class="material-icons">search</i>
+    <div class="input-group">
+      <input v-model="searchInput" @keydown.esc="searchInput = ''">
+      <div class="border-line"></div>
+    </div>
+    <div class="clear-btn" @click="searchInput = ''" v-show="searchInput" transition="opacity">
+      <i class="material-icons">close</i>
+    </div>
+  </div>
+  <div class="list">
+    <div class="list-item clickable" v-for="timer of shownItems | filterBy isStandaloneTimer | filterBy searchInput in 'name'" track-by="$index" :class="{ bold: timer.active }" @click="view(timer)">
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content timer-row">
+        <div class="timer-name">
+          {{ timer.name }}
+        </div>
+        <div class="timer-value-wrapper">
+          <timer class="timer-left" :time="timer.left" :alert-value="timer.value"></timer>
+          <span class="timer-value-separator">/</span>
+          <timer class="timer-value" :time="timer.value"></timer>
+        </div>
+        <div class="timer-actions" @click.stop>
+          <button class="timer-action light note-btn" v-if="authorized"
+            :class="{ 'note-has': hasNote('timer:' + timer.id) }"
+            @click.stop="note(timer)" :title="t('openNote')">
+            <i class="material-icons">comment</i>
+            <span class="note-dots"><span class="note-dot"
+              v-for="d in noteDots('timer:' + timer.id)"></span></span>
+          </button>
+          <button class="timer-action light" @click="toggle(timer)" v-if="authorized">
+            <i class="material-icons" :title="t('pause')" v-show="timer.active">pause</i>
+            <i class="material-icons" :title="t('start')" v-else>play_arrow</i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <template v-if="!searchInput">
+      <div class="empty-hint" v-if="authorized">{{ t('clickAddTimer') }}</div>
+      <div class="empty-hint" v-else>{{ t('noTimers') }}</div>
+    </template>
+    <div class="empty-hint" v-else>{{ t('noSearchResults') }}</div>
+  </div>
+
+  <div class="dialog-overlap" transition="opacity" v-show="editFlag">
+    <div class="dialog" @click.stop.prevent>
+      <div class="dialog-title">
+        {{ additionMode ? t('createTimer') : t('editTimer') }}
+        <i class="material-icons dialog-close" @click="discardEdit">close</i>
+      </div>
+      <div class="dialog-content">
+        <div class="input-group">
+          <div class="hint">{{ t('displayName') }}</div>
+          <input v-model="timerName">
+          <div class="border-line"></div>
+        </div>
+        <div class="timer-input-hint">{{ additionMode ? t('time') : t('totalTime') }}</div>
+        <timer-input :time.sync="timerValue"></timer-input>
+        <template v-if="!additionMode">
+          <div class="timer-input-hint">{{ t('currentRemaining') }}</div>
+          <timer-input :time.sync="timerLeft"></timer-input>
+        </template>
+        <button @click="performEdit" class="confirmation-btn">
+          {{ t('submit') }}
+          <i class="material-icons">keyboard_arrow_right</i>
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

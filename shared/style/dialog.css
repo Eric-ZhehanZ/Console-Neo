@@ -1,0 +1,78 @@
+.dialog-overlap {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  background: rgba(0,0,0,.12);
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px;
+
+  overflow-y: auto;
+
+  -webkit-app-region: no-drag;
+}
+
+.dialog {
+  width: 300px;
+  background: white;
+  border-radius: 2px;
+  box-shadow: rgba(0,0,0,.3) 0 3px 4px;
+
+  margin: auto;
+
+  -webkit-app-region: drag;
+}
+
+.dialog.wide {
+  width: 450px;
+}
+
+.dialog-title {
+  line-height: 32px;
+  padding: 14px 44px 14px 18px;
+  font-size: 24px;
+  font-weight: 400;
+
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.dialog-content {
+  padding: 18px;
+}
+
+.dialog-supporting {
+  font-size: 14px;
+  color: rgba(0,0,0,.54);
+  line-height: 18px;
+  margin-bottom: 8px;
+}
+
+.dialog .confirmation-btn {
+  float: right;
+}
+
+.dialog-title {
+  position: relative;
+}
+
+.dialog-close {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  opacity: .38;
+  transition: opacity .2s ease;
+  -webkit-app-region: no-drag;
+  -webkit-user-select: none;
+}
+
+.dialog-close:hover {
+  opacity: .87;
+}

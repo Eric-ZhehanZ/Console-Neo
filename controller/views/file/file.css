@@ -1,0 +1,96 @@
+.file-view .view-title {
+  white-space: nowrap;
+}
+
+.file-view-actions .view-title {
+  margin-right: 56px;
+}
+
+.file-view-pdf .view-title {
+  /* Zoom slider + three action buttons, with a gap before the filename. */
+  margin-right: 250px;
+}
+
+.file-container {
+  display: flex;
+  padding: 140px 0;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  top: 104px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background: rgba(0,0,0,.06);
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  -webkit-app-region: no-drag;
+}
+
+.file-pdf {
+  width: min-content;
+  margin: auto;
+  text-align: center;
+}
+
+.file-pdf canvas {
+  margin: auto auto 20px auto;
+  box-shadow: rgba(0,0,0,.12) 0 2px 3px;
+}
+
+.file-pdf canvas:last-child {
+  margin-bottom: auto;
+}
+
+.file-image {
+  margin: auto;
+  max-width: 100%;
+  padding: 0 40px;
+}
+
+.file-image img {
+  box-shadow: rgba(0,0,0,.12) 0 2px 3px;
+  max-width: 100%;
+}
+
+.dnd-mask.dnd-edit {
+  position: absolute;
+  top: 104px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.inset-shadow {
+  position: absolute;
+  top: 104px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  box-shadow: rgba(0,0,0,.12) 0 4px 6px inset;
+  pointer-events: none;
+}
+
+.zoom-slider {
+  -webkit-appearance: none;
+  width: 110px;
+  height: 2px;
+  margin: 0 6px;
+  background: rgba(0,0,0,.24);
+  outline: none;
+  vertical-align: middle;
+  -webkit-app-region: no-drag;
+}
+
+.zoom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(0,0,0,.7);
+  cursor: pointer;
+}

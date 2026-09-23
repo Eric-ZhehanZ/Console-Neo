@@ -1,0 +1,116 @@
+<div class="view vote-view">
+  <div class="ctrl-watermark-clip"><i class="material-icons ctrl-watermark">thumbs_up_down</i></div>
+  <div class="view-title">
+    <div class="vote-name-title">
+      {{ vote.name }}
+    </div>
+
+    <div class="rounds-indicator">
+      <span class="rounds-current" v-if="vote.status.iteration > 0">{{ tf('roundCurrentFmt', { n: vote.status.iteration }) }}</span>
+      <span class="rounds-current" v-else>{{ t('notStarted') }}</span>
+      <span class="rounds-total-wrapper" v-if="vote.rounds > 0">
+        <span class="rounds-separator">/</span>
+        <span class="rounds-total">{{ tf('roundOfFmt', { n: vote.rounds }) }}</span>
+      </span>
+    </div>
+
+    <div class="vote-indicator">
+      <span class="total-count">
+        <span class="vote-indicator-hint">{{ t('total') }}</span>
+        <span class="vote-indicator-value">
+          {{ vote.matrix.length }}
+        </span>
+      </span>
+      <span class="positive-count">
+        <span class="vote-indicator-hint">
+          {{ t('favor') }}
+        </span>
+        <span class="vote-indicator-value">
+          {{ positiveCount }}
+        </span>
+      </span>
+      <span class="negative-count">
+        <span class="vote-indicator-hint">
+          {{ t('against') }}
+        </span>
+        <span class="vote-indicator-value">
+          {{ negativeCount }}
+        </span>
+      </span>
+      <span class="abstained-count">
+        <span class="vote-indicator-hint">
+          {{ t('abstain') }}
+        </span>
+        <span class="vote-indicator-value">
+          {{ abstainedCount }}
+        </span>
+      </span>
+      <span class="pass-count" :title="t('passOrNoVote')"
+        v-if="voteRoundComplete && emptyCount > 0">
+        <span class="vote-indicator-hint">
+          {{ t('passOrNoVoteShort') }}
+        </span>
+        <span class="vote-indicator-value">
+          {{ emptyCount }}
+        </span>
+      </span>
+      <span class="target-count" v-if="vote.target > 0">
+        <span class="vote-indicator-hint">
+          {{ t('target') }}
+        </span>
+        <span class="vote-indicator-value">
+          {{ vote.target }}
+        </span>
+      </span>
+      <span class="target-count" v-if="vote.target === -1">
+        <span class="vote-indicator-hint">
+          {{ t('targetTwoThirds') }}
+        </span>
+        <span class="vote-indicator-value">
+          {{ fileTwoThird }}
+        </span>
+      </span>
+    </div>
+
+  </div>
+
+  <div class="fab-controls" v-if="authorized">
+    <button class="fab primary" @click.stop="toggleRound" :title="roundFabTitle">
+      <i class="material-icons" v-if="vote.status.running">done</i>
+      <i class="material-icons" v-else>play_arrow</i>
+    </button>
+  </div>
+
+  <div class="voters list delegation-grid">
+    <div
+      class="voter list-item"
+      v-for="voter of mat"
+      track-by="originalId"
+      transition="item"
+      :class="{ positive: voter.vote === 1, abstained: voter.vote === -1, negative: voter.vote === -2, clickable: authorized }"
+      @click="manipulate(voter)">
+
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content">{{ voter.name }}</div>
+    </div>
+  </div>
+
+  <div class="dialog-overlap" transition="opacity" v-show="manipulateFlag" @click="discardManipulation">
+    <div class="dialog wide" @click.stop.prevent>
+      <div class="dialog-title">{{ targetVoter.name }}</div>
+      <div class="dialog-content">
+        <div class="list">
+          <div class="list-item clickable" v-for="row in VOTE_ROWS" @click="targetVote = row.code" :class="{ bold: targetVote === row.code }">
+            <div class="list-item-indicator"></div>
+            <div class="list-item-content">{{ t(row.key) }}</div>
+          </div>
+        </div>
+        <button @click="performManipulation" class="confirmation-btn" :disabled="updatingVote">
+          {{ t('confirm') }}
+          <i class="material-icons">keyboard_arrow_right</i>
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,188 @@
+<div class="view">
+  <div class="ctrl-watermark-clip"><i class="material-icons ctrl-watermark">settings</i></div>
+  <div class="view-title">{{ t('settings') }}</div>
+
+  <template v-if="authorized">
+    <div class="view-pagetitle">{{ t('committeeTitle') }}</div>
+    <div class="setting-row">
+      <div class="input-group">
+        <input v-model="titleInput" @keydown.enter="applyTitle">
+        <div class="border-line"></div>
+      </div>
+      <button class="embedded" @click="applyTitle">
+        {{ t('apply') }}<i class="material-icons">check</i>
+      </button>
+    </div>
+
+    <div class="view-pagetitle">{{ t('brandTextTitle') }}</div>
+    <div class="setting-row">
+      <div class="input-group">
+        <div class="hint">{{ t('brandTextHint') }}</div>
+        <input v-model="brandInput" @keydown.enter="applyBrand">
+        <div class="border-line"></div>
+      </div>
+      <button class="embedded" @click="applyBrand">
+        {{ t('apply') }}<i class="material-icons">check</i>
+      </button>
+    </div>
+  </template>
+
+  <div class="view-pagetitle">{{ t('language') }}</div>
+  <div class="reminder-block">
+    <div class="list">
+      <div class="list-item clickable" :class="{ bold: lang === 'zh' }" @click="chooseLang('zh')">
+        <div class="list-item-indicator"></div>
+        <div class="list-item-content">中文</div>
+      </div>
+      <div class="list-item clickable" :class="{ bold: lang === 'en' }" @click="chooseLang('en')">
+        <div class="list-item-indicator"></div>
+        <div class="list-item-content">English</div>
+      </div>
+    </div>
+  </div>
+
+  <template v-if="authorized">
+    <div class="view-pagetitle">{{ t('reminderSound') }}</div>
+    <div class="reminder-block">
+      <div class="list">
+        <div class="list-item clickable" :class="{ bold: reminderEnabled }"
+          @click="setEnabled(true)">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">{{ t('reminderPlay') }}</div>
+        </div>
+        <div class="list-item clickable" :class="{ bold: !reminderEnabled }"
+          @click="setEnabled(false)">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">{{ t('reminderMute') }}</div>
+        </div>
+      </div>
+      <template v-if="reminderEnabled">
+        <div class="list">
+          <div class="list-item clickable" :class="{ bold: reminderSingle }"
+            @click="reminderSingle = !reminderSingle; commitReminder()">
+            <div class="list-item-indicator"></div>
+            <div class="list-item-content">{{ t('reminderSingle') }}</div>
+          </div>
+        </div>
+        <div class="reminder-hint">{{ t('reminderRuleHint') }}</div>
+        <div class="reminder-rule" v-for="(index, rule) of rules">
+          <span class="reminder-label">{{ t('reminderAbove') }}</span>
+          <input class="reminder-input" type="number" min="0" v-model="rule.above" number
+            @input="commitReminder" @change="commitReminder">
+          <select class="reminder-select" v-model="rule.kind" @change="commitReminder">
+            <option value="before">{{ t('remBefore') }}</option>
+            <option value="end">{{ t('remEnd') }}</option>
+          </select>
+          <template v-if="rule.kind !== 'end'">
+            <span class="reminder-label">{{ t('reminderAt') }}</span>
+            <input class="reminder-input" type="number" min="0" v-model="rule.at" number
+              @input="commitReminder" @change="commitReminder">
+          </template>
+          <span class="reminder-label">{{ t('remTimes') }}</span>
+          <input class="reminder-input reminder-times" type="number" min="1" max="5"
+            v-model="rule.times" number
+            @input="commitReminder" @change="commitReminder">
+          <i class="material-icons reminder-remove" @click="removeRule(index)">close</i>
+        </div>
+        <button class="embedded" @click="addRule">
+          {{ t('addRule') }}<i class="material-icons">add</i>
+        </button>
+      </template>
+    </div>
+  </template>
+
+  <template v-if="authorized && serverUrl">
+    <div class="view-pagetitle">{{ t('castSync') }}</div>
+    <div class="reminder-block">
+      <div class="list">
+        <div class="list-item clickable" :class="{ bold: syncCast }" @click="setSync(true)">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">{{ t('castSyncOn') }}</div>
+        </div>
+        <div class="list-item clickable" :class="{ bold: !syncCast }" @click="setSync(false)">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">{{ t('castSyncOff') }}</div>
+        </div>
+      </div>
+      <div class="reminder-hint">{{ t('castSyncHint') }}</div>
+    </div>
+
+    <div class="view-pagetitle">{{ t('castIdleTitle') }}</div>
+    <div class="reminder-block">
+      <div class="list">
+        <div class="list-item clickable" :class="{ bold: castFallback !== 'keep' }"
+          @click="setFallback('base')">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">{{ t('castFallbackBase') }}</div>
+        </div>
+        <div class="list-item clickable" :class="{ bold: castFallback === 'keep' }"
+          @click="setFallback('keep')">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">{{ t('castFallbackKeep') }}</div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <div class="view-pagetitle">{{ t('routingTitle') }}</div>
+  <div class="reminder-block">
+    <div class="list">
+      <div class="list-item clickable" :class="{ bold: routePref !== 'relay' }"
+        @click="setRoute('lan')">
+        <div class="list-item-indicator"></div>
+        <div class="list-item-content">{{ t('routeLanFirst') }}</div>
+      </div>
+      <div class="list-item clickable" :class="{ bold: routePref === 'relay' }"
+        @click="setRoute('relay')">
+        <div class="list-item-indicator"></div>
+        <div class="list-item-content">{{ t('routeRelayAlways') }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="view-pagetitle">{{ t('relayServer') }}</div>
+  <div class="setting-row">
+    <div class="input-group">
+      <input v-model="relayUrlInput" spellcheck="false" @keydown.enter="applyRelayUrl">
+      <div class="border-line"></div>
+    </div>
+    <button class="embedded" @click="applyRelayUrl">
+      {{ t('apply') }}<i class="material-icons">check</i>
+    </button>
+  </div>
+  <div class="reminder-hint relay-status-hint">
+    {{ relayOk ? t('relayConnected') : t('relayOffline') }}
+  </div>
+
+  <template v-if="serverUrl">
+    <div class="view-pagetitle">{{ t('connection') }}</div>
+    <div class="server-info">
+      <server-line :label="t('sessionRow')" :items="sessionItems"></server-line>
+      <div class="net-swap" :class="{ online: collabOk !== false }">
+        <div class="net-swap-row net-swap-off"><div class="net-swap-inner">
+          <div class="conn-offline-text">{{ t('needNetworkForCollab') }}</div>
+        </div></div>
+        <div class="net-swap-row net-swap-on"><div class="net-swap-inner">
+          <server-line :label="t('roleChair')" :items="chairItems"
+            v-if="chairItems.length"></server-line>
+          <server-line :label="t('roleViewer')" :items="viewerItems"
+            v-if="viewerItems.length"></server-line>
+        </div></div>
+      </div>
+    </div>
+    <div class="conn-actions">
+      <button class="embedded" @click="switchCommittee">
+        {{ t('switchCommittee') }}<i class="material-icons">swap_horiz</i>
+      </button>
+      <button class="embedded" @click="connectOther">
+        {{ t('connectOtherServer') }}<i class="material-icons">settings_ethernet</i>
+      </button>
+      <button class="embedded" @click="checkNetwork">
+        {{ t('checkNetwork') }}<i class="material-icons">network_check</i>
+      </button>
+      <button class="embedded danger" v-if="isLocalServer && authorized" @click="resetKeys">
+        {{ t('resetKeys') }}<i class="material-icons">refresh</i>
+      </button>
+    </div>
+  </template>
+</div>

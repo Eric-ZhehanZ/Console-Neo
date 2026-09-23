@@ -1,0 +1,119 @@
+<div class="view">
+  <div class="ctrl-watermark-clip"><i class="material-icons ctrl-watermark">home</i></div>
+  <div class="home-code" v-if="isLocalServer && authorized && serverCode">
+    <code-badge :chair="serverCode" :reader-code="serverReaderCode" :id="serverId"
+      :collab-ok="collabOk"></code-badge>
+  </div>
+  <div class="view-title-action">
+    <net-status :lan-ok="netOk" :relay-ok="relayOk"
+      :lan-checking="netChecking" :relay-checking="relayChecking"></net-status>
+  </div>
+  <div class="view-title home-title">
+    <span class="home-title-text" v-if="!renaming" :class="{ renamable: authorized }"
+      @click="startRename">{{ confTitle || t('committee') }}</span>
+    <textarea class="brand-edit-area home-title-input" v-else v-model="renameInput" rows="1"
+      @input="onRenameInput"
+      @keydown.enter.prevent="renaming = false" @keydown.esc="renaming = false"></textarea>
+  </div>
+  <div class="view-pagetitle clickable" @click="navigateTo('lists')">{{ t('activeLists') }}</div>
+  <div class="list inline">
+    <div class="list-item clickable"
+      v-for="list of lists | filterBy activeList"
+      :class="{ bold: list.timerCurrent && list.timerCurrent.active }"
+      @click="viewList(list)">
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content list-row">
+        <div class="list-name">
+          {{ list.name }}
+        </div>
+
+        <div class="list-speakers">
+          <div class="list-speakers-current" v-if="list.ptr < list.seats.length">{{ list.seats[list.ptr].name }}</div>
+          <div class="list-speakers-next" v-if="list.ptr < list.seats.length - 1">{{ list.seats[list.ptr + 1].name }}</div>
+        </div>
+
+        <template v-if="list.timerCurrent">
+          <div class="list-timer-icon" :class="{ 'icon-alert': timerAlertOn(list.timerCurrent) }">
+            <i class="material-icons">person</i>
+          </div>
+          <div class="timer-value-wrapper list-timer">
+            <timer class="timer-left" :time="list.timerCurrent.left" :alert-value="list.timerCurrent.value"></timer>
+            <span class="timer-value-separator">/</span>
+            <timer class="timer-value" :time="list.timerCurrent.value"></timer>
+          </div>
+        </template>
+
+        <template v-if="list.timerTotal && list.timerTotal.value > 0">
+          <div class="list-timer-icon">
+            <i class="material-icons">access_time</i>
+          </div>
+          <div class="timer-value-wrapper list-timer">
+            <timer class="timer-left" :time="list.timerTotal.left"></timer>
+            <span class="timer-value-separator">/</span>
+            <timer class="timer-value" :time="list.timerTotal.value"></timer>
+          </div>
+        </template>
+      </div>
+    </div>
+    <div class="list-item empty-hint">{{ t('noActiveLists') }}</div>
+  </div>
+  <div class="view-pagetitle clickable" @click="navigateTo('timers')">{{ t('activeTimers') }}</div>
+  <div class="list inline">
+    <div class="list-item clickable" v-for="timer of timers | filterBy activeStandaloneTimer | limitBy 5" @click="gotoTimer(timer.name)">
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content timer-row">
+        <div class="timer-name">
+          {{ timer.name }}
+        </div>
+        <div class="timer-value-wrapper">
+          <timer class="timer-left" :time="timer.left" :alert-value="timer.value"></timer>
+          <span class="timer-value-separator">/</span>
+          <timer class="timer-value" :time="timer.value"></timer>
+        </div>
+      </div>
+    </div>
+    <div class="list-item empty-hint">{{ t('noActiveTimers') }}</div>
+  </div>
+  <div class="view-pagetitle clickable" @click="navigateTo('votes')">{{ t('activeVotes') }}</div>
+  <div class="list inline">
+    <div class="list-item clickable"
+      v-for="vote of votes | filterBy activeVote | limitBy 5"
+      :class="{ bold: vote.status.running }"
+      @click="viewVote(vote)">
+
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content vote-row home-vote-row">
+        <div class="vote-name">
+          {{ vote.name }}
+        </div>
+        <div class="vote-rounds-wrapper">
+          <span class="vote-iteration" v-show="vote.status.iteration > 0">{{ vote.status.iteration }}</span>
+          <span class="vote-iteration" v-else>{{ t('notStarted') }}</span>
+          <template v-if="vote.rounds > 0">
+            <span class="vote-rounds-separator">/</span>
+            <span class="vote-rounds">{{ vote.rounds }}</span>
+          </template>
+        </div>
+        <div class="vote-values home-vote-values">
+          <span class="vote-value-pair positive">
+            <span class="vote-value-label">{{ t('favor') }}</span>
+            <span class="vote-value">{{ countVotes(vote, 1) }}</span>
+          </span>
+          <span class="vote-value-pair negative">
+            <span class="vote-value-label">{{ t('against') }}</span>
+            <span class="vote-value">{{ countVotes(vote, -2) }}</span>
+          </span>
+          <span class="vote-value-pair abstained">
+            <span class="vote-value-label">{{ t('abstain') }}</span>
+            <span class="vote-value">{{ countVotes(vote, -1) }}</span>
+          </span>
+          <span class="vote-value-pair target" v-if="getVoteTarget(vote) > 0">
+            <span class="vote-value-label">{{ t('target') }}</span>
+            <span class="vote-value">{{ getVoteTarget(vote) }}</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="list-item empty-hint">{{ t('noActiveVotes') }}</div>
+  </div>
+</div>

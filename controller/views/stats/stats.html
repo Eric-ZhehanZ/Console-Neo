@@ -1,0 +1,119 @@
+<div class="view">
+  <div class="ctrl-watermark-clip"><i class="material-icons ctrl-watermark">equalizer</i></div>
+  <div class="view-title">{{ t('data') }}</div>
+
+  <div class="view-pagetitle">{{ t('statistics') }}</div>
+  <div class="stat-grid">
+    <div class="stat-tile">
+      <div class="stat-value">{{ spokenFormatted }}</div>
+      <div class="stat-hint">{{ t('totalSpokenTime') }}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-value">{{ motions.length }}</div>
+      <div class="stat-hint">{{ t('totalMotions') }}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-value passed">{{ passedCount }}</div>
+      <div class="stat-hint">{{ t('passedMotions') }}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-value failed">{{ failedCount }}</div>
+      <div class="stat-hint">{{ t('failedMotions') }}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-value">{{ votes.length }}<span class="stat-sub">/ {{ voteRounds }}{{ t('voteRoundsSuffix') }}</span></div>
+      <div class="stat-hint">{{ t('votes') }}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-value">{{ lists.length }}</div>
+      <div class="stat-hint">{{ t('debate') }}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-value">{{ files.length }}</div>
+      <div class="stat-hint">{{ t('files') }}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-value">{{ presentCount }}<span class="stat-sub">/ {{ seats.length }}</span></div>
+      <div class="stat-hint">{{ t('presentSeats') }}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-value">{{ totalSpeeches }}</div>
+      <div class="stat-hint">{{ t('totalSpeeches') }}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-value">{{ formatDuration(avgSpeech) }}</div>
+      <div class="stat-hint">{{ t('avgSpeech') }}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-value">{{ participation }}<span class="stat-sub">%</span></div>
+      <div class="stat-hint">{{ t('participation') }}</div>
+    </div>
+  </div>
+
+  <div class="view-pagetitle">{{ t('delegateData') }}</div>
+  <div class="delegate-scroll" v-if="delegateRows.length > 0">
+  <div class="delegate-table">
+    <div class="delegate-row delegate-header">
+      <div class="delegate-name sortable" @click="setSort('name')"
+        :class="{ sorted: sortState('name') }">{{ t('delegate') }}<span class="sort-mark" v-if="sortState('name')"><i class="material-icons">{{ sortIcon('name') }}</i><span class="sort-order" v-if="sortKeys.length > 1">{{ sortState('name').order }}</span></span></div>
+      <div class="delegate-cell sortable" @click="setSort('present')"
+        :class="{ sorted: sortState('present') }">{{ t('attendance') }}<span class="sort-mark" v-if="sortState('present')"><i class="material-icons">{{ sortIcon('present') }}</i><span class="sort-order" v-if="sortKeys.length > 1">{{ sortState('present').order }}</span></span></div>
+      <div class="delegate-cell sortable" @click="setSort('speeches')"
+        :class="{ sorted: sortState('speeches') }">{{ t('speechCount') }}<span class="sort-mark" v-if="sortState('speeches')"><i class="material-icons">{{ sortIcon('speeches') }}</i><span class="sort-order" v-if="sortKeys.length > 1">{{ sortState('speeches').order }}</span></span></div>
+      <div class="delegate-cell sortable" @click="setSort('spokenTime')"
+        :class="{ sorted: sortState('spokenTime') }">{{ t('speechDuration') }}<span class="sort-mark" v-if="sortState('spokenTime')"><i class="material-icons">{{ sortIcon('spokenTime') }}</i><span class="sort-order" v-if="sortKeys.length > 1">{{ sortState('spokenTime').order }}</span></span></div>
+      <div class="delegate-cell sortable" @click="setSort('avg')"
+        :class="{ sorted: sortState('avg') }">{{ t('avgSpeech') }}<span class="sort-mark" v-if="sortState('avg')"><i class="material-icons">{{ sortIcon('avg') }}</i><span class="sort-order" v-if="sortKeys.length > 1">{{ sortState('avg').order }}</span></span></div>
+      <div class="delegate-cell sortable" @click="setSort('motions')"
+        :class="{ sorted: sortState('motions') }">{{ t('motions') }}<span class="sort-mark" v-if="sortState('motions')"><i class="material-icons">{{ sortIcon('motions') }}</i><span class="sort-order" v-if="sortKeys.length > 1">{{ sortState('motions').order }}</span></span></div>
+      <div class="delegate-cell sortable" @click="setSort('passed')"
+        :class="{ sorted: sortState('passed') }">{{ t('motionsPassed') }}<span class="sort-mark" v-if="sortState('passed')"><i class="material-icons">{{ sortIcon('passed') }}</i><span class="sort-order" v-if="sortKeys.length > 1">{{ sortState('passed').order }}</span></span></div>
+      <div class="delegate-cell sortable" @click="setSort('passRate')"
+        :class="{ sorted: sortState('passRate') }">{{ t('passRate') }}<span class="sort-mark" v-if="sortState('passRate')"><i class="material-icons">{{ sortIcon('passRate') }}</i><span class="sort-order" v-if="sortKeys.length > 1">{{ sortState('passRate').order }}</span></span></div>
+      <div class="delegate-cell"></div>
+    </div>
+    <div class="delegate-row" v-for="row of delegateRows" track-by="name"
+      :class="{ absent: !row.present, gone: !row.inSeats }">
+      <div class="delegate-name">{{ row.name }}<span class="delegate-gone-hint" v-if="!row.inSeats">{{ t('removed') }}</span></div>
+      <div class="delegate-cell">
+        <i class="material-icons delegate-present" v-if="row.present">check</i>
+        <span v-else>—</span>
+      </div>
+      <div class="delegate-cell">{{ row.speeches }}</div>
+      <div class="delegate-cell">{{ formatDuration(row.spokenTime) }}</div>
+      <div class="delegate-cell">{{ formatDuration(row.avg) }}</div>
+      <div class="delegate-cell">{{ row.motions }}</div>
+      <div class="delegate-cell">{{ row.passed }}</div>
+      <div class="delegate-cell">{{ row.proposedNow > 0 ? row.passRate + '%' : '—' }}</div>
+      <div class="delegate-cell">
+        <button class="delegate-detail" @click="openDelegate(row.name)"
+          :title="t('delegatePage')">
+          <i class="material-icons">insights</i>
+        </button>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="empty-hint delegate-empty" v-if="delegateRows.length === 0">{{ t('seatListEmpty') }}</div>
+
+  <div class="view-pagetitle">{{ t('history') }}</div>
+  <div class="list">
+    <div class="list-item history-item" v-for="entry of shownHistory" track-by="$index">
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content history-row">
+        <div class="history-time">{{ formatTime(entry.time) }}</div>
+        <i class="material-icons history-icon">{{ entryIcon(entry) }}</i>
+        <div class="history-text">{{ entryText(entry) }}</div>
+        <span class="note-btn history-note" v-if="authorized && noteTarget(entry)"
+          :class="{ 'note-has': entryHasNote(entry) }"
+          @click.stop="openEntryNote(entry)" :title="t('openNote')">
+          <i class="material-icons">comment</i>
+          <span class="note-dots"><span class="note-dot"
+            v-for="d in noteDots((noteTarget(entry) || {}).key)"></span></span>
+        </span>
+      </div>
+    </div>
+    <div class="empty-hint" v-if="history.length === 0">{{ t('noHistory') }}</div>
+    <div class="reminder-hint" v-if="history.length > 300">{{ tf('historyTruncated', { n: 300 }) }}</div>
+  </div>
+</div>

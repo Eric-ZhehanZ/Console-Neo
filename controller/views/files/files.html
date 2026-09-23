@@ -1,0 +1,68 @@
+<div class="view"
+  @dragenter.stop.prevent
+  @dragover.stop.prevent
+  @drop.stop.prevent="drop">
+
+  <div class="ctrl-watermark-clip"><i class="material-icons ctrl-watermark">folder</i></div>
+  <div class="view-title">
+    {{ t('files') }}
+  </div>
+  <div class="fab-controls" v-if="authorized">
+    <button class="fab primary" @click="triggerUpload" :title="t('uploadFile')">
+      <i class="material-icons">file_upload</i>
+    </button>
+    <input type="file" style="display: none" v-el:upload @change="handleUpload">
+  </div>
+
+  <div class="view-search">
+    <i class="material-icons">search</i>
+    <div class="input-group">
+      <input v-model="searchInput" @keydown.esc="searchInput = ''">
+      <div class="border-line"></div>
+    </div>
+    <div class="clear-btn" @click="searchInput = ''" v-show="searchInput" transition="opacity">
+      <i class="material-icons">close</i>
+    </div>
+  </div>
+
+  <div class="files list">
+    <div class="list-item file clickable" v-for="file of files | filterBy searchInput in 'name' 'type'" @click="viewFile(file)" :class="{ bold: file.highlight }">
+      <div class="list-item-indicator"></div>
+      <div class="list-item-content file-row">
+        <div class="file-name" v-if="renameId !== file.id">
+          {{ file.name.split('.')[0] }}
+        </div>
+        <div class="file-name" v-else @click.stop>
+          <input class="row-rename-input file-rename-input" v-model="renameInput"
+            @input="dispatchRename(file)"
+            @keydown.enter="renameId = null" @keydown.esc="renameId = null">
+        </div>
+        <div class="file-type">
+          {{ file.type }}
+        </div>
+        <div class="file-spanner"></div>
+        <div class="row-actions" v-if="authorized" @click.stop>
+          <button class="light note-btn" :class="{ 'note-has': hasNote('file:' + file.id) }"
+            @click="note(file)" :title="t('openNote')">
+            <i class="material-icons">comment</i>
+            <span class="note-dots"><span class="note-dot"
+              v-for="d in noteDots('file:' + file.id)"></span></span>
+          </button>
+          <button class="light" @click="toggleRename(file)">
+            <i class="material-icons" v-if="renameId === file.id">check</i>
+            <i class="material-icons" v-else>edit</i>
+          </button>
+          <button class="light" @click="remove(file)">
+            <i class="material-icons">delete</i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <template v-if="!searchInput">
+      <div class="empty-hint" v-if="authorized">{{ t('clickDropFiles') }}</div>
+      <div class="empty-hint" v-else>{{ t('noFiles') }}</div>
+    </template>
+    <div class="empty-hint" v-else>{{ t('noSearchResults') }}</div>
+  </div>
+
+</div>

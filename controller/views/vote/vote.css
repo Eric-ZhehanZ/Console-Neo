@@ -1,0 +1,148 @@
+.vote-view .view-title {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  column-gap: 20px;
+  align-items: baseline;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.vote-name-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.voters {
+  position: absolute;
+  padding: 0 40px;
+  padding-bottom: 18vh;
+  top: 104px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  margin-bottom: 0;
+
+  -webkit-app-region: no-drag;
+}
+
+.voter .list-item-indicator {
+  transition: opacity .2s ease, background-color .2s ease;
+}
+
+.voter.abstained .list-item-indicator {
+  opacity: .24;
+}
+
+.voter.positive .list-item-indicator {
+  background-color: #4CAF50;
+  opacity: .24;
+}
+
+.voter.negative .list-item-indicator {
+  background-color: #F44336;
+  opacity: .24;
+}
+
+.rounds-indicator {
+  display: inline-block;
+  font-size: 0; /* For removing whitespaces */
+  margin-left: 0;
+}
+
+.rounds-current {
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.rounds-total-wrapper {
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 200;
+}
+
+.rounds-separator {
+  margin-left: 2px;
+}
+
+.rounds-total {
+  margin-left: 2px;
+}
+
+.vote-indicator {
+  margin-left: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-weight: 300;
+}
+
+.vote-indicator > span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  white-space: nowrap;
+}
+
+.vote-indicator-hint {
+  font-size: 12px;
+}
+
+.vote-indicator-value {
+  font-size: 24px;
+}
+
+.positive-count {
+  color: #4CAF50;
+}
+
+.negative-count {
+  color: #F44336;
+}
+
+.abstained-count {
+  color: black;
+}
+
+.pass-count {
+  color: rgba(0,0,0,.54);
+}
+
+.target-count {
+  color: #2196F3;
+}
+
+.vote-actions {
+  display: flex;
+  align-items: center;
+  min-width: max-content;
+}
+
+
+.total-count .material-icons.vote-indicator-hint {
+  position: relative;
+  top: 5px;
+}
+
+/* Header statistics stay in normal grid flow so their labels cannot wrap below
+   the clipped title band. Narrow windows deliberately use a second row. */
+.vote-view .vote-indicator {
+  height: 40px;
+  justify-self: end;
+}
+
+@media (max-width: 900px) {
+  .vote-view .view-title {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: 40px 40px;
+  }
+
+  .vote-view .vote-indicator {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .vote-view .voters {
+    top: 144px;
+  }
+}

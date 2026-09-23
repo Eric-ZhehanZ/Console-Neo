@@ -1,0 +1,44 @@
+<div class="view file-view"
+  :class="{ 'file-view-actions': type !== 'download', 'file-view-pdf': type === 'pdf' }">
+  <div class="ctrl-watermark-clip"><i class="material-icons ctrl-watermark">insert_drive_file</i></div>
+  <div class="view-title">
+    {{ shortName }}
+  </div>
+
+  <div class="view-title-action" v-if="type !== 'download'">
+    <template v-if="type === 'pdf'">
+      <button class="light" @click="zoomOut()">
+        <i class="material-icons" :title="t('zoom')">zoom_out</i>
+      </button>
+      <input type="range" class="zoom-slider" min="50" max="300" step="5"
+        :value="Math.round(zoom * 100)" @input="onSlider" :title="t('zoom')">
+      <button class="light" @click="zoomIn()">
+        <i class="material-icons" :title="t('zoom')">zoom_in</i>
+      </button>
+    </template>
+    <button class="light" @click="save()">
+      <i class="material-icons">save</i>
+    </button>
+  </div>
+
+  <div class="file-container"
+    @dragenter.stop.prevent
+    @dragover.stop.prevent
+    @drop.stop.prevent="drop"
+    @wheel="wheel"
+    @scroll="scroll">
+    <div class="file-pdf" v-el:pages v-show="type === 'pdf'">
+    </div>
+
+    <div class="file-image" v-if="type === 'image'">
+      <img :src="imgRendered">
+    </div>
+
+    <div class="file-download" v-if="type === 'download'">
+      <button @click="save"><i class="material-icons">save</i> {{ t('save') }}</button>
+    </div>
+  </div>
+
+
+  <div class="inset-shadow"></div>
+</div>

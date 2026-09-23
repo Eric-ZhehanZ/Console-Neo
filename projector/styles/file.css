@@ -1,0 +1,95 @@
+/* Document preview goes truly full screen */
+
+.layer.file-full {
+  top: 0;
+}
+
+.file-pdf {
+  text-align: center;
+  overflow-y: scroll;
+  background: white;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  padding: 9vw 0;
+}
+
+.file-pdf canvas {
+  margin: auto auto 1.5vw auto;
+  box-shadow: rgba(0,0,0,.12) 0 .25vw .375vw;
+  display: block;
+}
+
+.file-pdf canvas:last-child {
+  margin-bottom: auto;
+}
+
+.file-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  padding: 4vw 0;
+  overflow: auto;
+}
+
+.file-image img {
+  max-width: 86%;
+  margin: auto;
+
+  box-shadow: rgba(0,0,0,.12) 0 .25vw .375vw;
+}
+
+/* Document name + watermark show while idle, fade away during scrolling */
+
+.file-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 3.5vw 5vw 5vw;
+
+  font-size: 3.2vw;
+  line-height: 4.4vw;
+  font-weight: 300;
+  color: rgba(0,0,0,.75);
+  overflow-wrap: break-word;
+
+  pointer-events: none;
+  transition: opacity .4s ease;
+}
+
+/* Progressive blur behind the title for a seamless, readable header */
+.file-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+
+  background: linear-gradient(rgba(255,255,255,.75), rgba(255,255,255,0));
+  backdrop-filter: blur(14px);
+  -webkit-mask-image: linear-gradient(black 35%, transparent);
+}
+
+.file-layer .cast-watermark {
+  transition: opacity .4s ease;
+  z-index: 1;
+}
+
+.file-layer.scrolling .file-overlay,
+.file-layer.scrolling .cast-watermark {
+  opacity: 0;
+}
