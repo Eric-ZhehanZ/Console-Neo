@@ -1,0 +1,50 @@
+Console Neo
+Copyright (C) 2026 Zhehan Zhang
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at your
+option) any later version, together with the additional terms below.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License
+for more details. You should have received a copy of it in the file LICENSE.
+
+Portions of this program are derived from Console Lite, Copyright (c) 2016
+Liu Xiaoyi, and Console Lite Edited, Copyright (c) 2018 Pan Ruizhe, used
+under the MIT License. Those notices are reproduced in LICENSES/MIT.txt and
+must be kept in all copies and distributions.
+
+ADDITIONAL TERMS UNDER SECTION 7 OF THE GNU AGPL VERSION 3
+
+These terms apply to the material in this program that is copyrighted by
+Zhehan Zhang. They do not apply to the MIT-licensed upstream material.
+
+1. Attribution (Section 7(b)). Any modified version of this program, and
+   any work that contains it, must preserve the following attribution in
+   the Appropriate Legal Notices it displays, including its About or
+   credits screen, legibly and without requiring special effort to find:
+
+     Based on Console Neo by Zhehan Zhang (https://github.com/Eric-ZhehanZ/Console-Neo)
+
+2. Marking of modified versions (Section 7(c)). Modified versions must be
+   marked in reasonable ways as different from the original version and
+   must not misrepresent their origin.
+
+3. Trademarks (Section 7(e)). This license does not grant any right to use
+   the name "Console Neo", its logos, or the consoleneo.com domain, except
+   for reasonable and customary use in describing the origin of the work
+   and in reproducing the notices above. Modified versions that are
+   distributed or offered to others must use a different name and must not
+   suggest endorsement by the Console Neo project.
+
+COMMERCIAL LICENSING
+
+Licenses without the conditions of the AGPL, including white-label
+licenses, are available from the copyright holder: TODO: contact.
+
+Console Neo is not affiliated with or endorsed by the United Nations.
+
+Third-party software included in distributions is listed in
+THIRD_PARTY_NOTICES.md.
