@@ -164,6 +164,7 @@ export default function Home() {
               </a>
             ))}
           </div>
+          <p className="run-note">{t(ui.runNote)}</p>
           <div className="release">
             <a href={REPO}><GitHubMark />{t(ui.openSource)}</a>
             <a href={RELEASE_PAGE}><Icon>local_offer</Icon>{t(ui.version)}</a>

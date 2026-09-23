@@ -288,6 +288,12 @@ button {
   border-color: #000;
 }
 
+.run-note {
+  margin: 16px 0 0;
+  font-size: 13px;
+  color: var(--fg-2);
+}
+
 .release {
   display: flex;
   justify-content: center;
