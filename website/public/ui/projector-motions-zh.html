@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <title>Console Neo - Cast</title>
+    <link rel="stylesheet" href="/ui/projector.css">
+    
+  <meta name="robots" content="noindex"><style>html,body{overflow:hidden!important;scrollbar-width:none}::-webkit-scrollbar{display:none}*{cursor:default!important}</style></head>
+  <body>
+    <div class="stage">
+    <div class="layer full background">
+      <div class="brand">
+        Console Neo
+      </div>
+    </div>
+
+    <div class="bottom-bar not-tricky opacity-transition" style="">
+      <div class="bottom-title small">
+        <span>联合国安全理事会</span>
+      </div>
+      <div class="counter-group">
+        <i class="material-icons">person</i>
+        <div class="counter">
+          <div class="present">14</div>
+          <div class="separator">/</div>
+          <div class="all">15</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">简单多数</div>
+          <div class="counter-indicator-value">8</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">三分之二多数</div>
+          <div class="counter-indicator-value">10</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">五分之一数</div>
+          <div class="counter-indicator-value">3</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer timer-layer" style="display: none;">
+      <i class="material-icons cast-watermark">timer</i>
+      <div class="timer-name"></div>
+      <div class="timer timer-left">
+  <span class="timer-hour" style="display: none;">
+    0
+  </span>
+  <span class="timer-separator" style="display: none;">:</span>
+  <span class="timer-minute">
+    0
+  </span>
+  <span class="timer-separator">:</span>
+  <span class="timer-second">
+    00
+  </span>
+</div>
+      
+      <div class="timer-progress">
+        <div class="timer-progress-inner" style="transform: translateX(0px);">
+        </div>
+      </div>
+    </div>
+
+    <div class="layer file-layer full file-full" style="display: none;">
+      <i class="material-icons cast-watermark">insert_drive_file</i>
+      <div class="file-pdf" style="display: none;"></div>
+      
+      <div class="file-overlay"></div>
+    </div>
+
+    
+
+    
+
+    <div class="layer motions-layer full headered">
+      <i class="material-icons cast-watermark">gavel</i>
+      <div class="cast-header">
+        <div class="cast-title">
+          <span class="cast-title-text">动议</span>
+        </div>
+        <div class="pmotion-counters">
+          <div class="pmotion-counter passed">
+            <span class="pmotion-counter-hint">通过</span>
+            <span class="pmotion-counter-value">2</span>
+          </div>
+          <div class="pmotion-counter failed">
+            <span class="pmotion-counter-hint">未通过</span>
+            <span class="pmotion-counter-value">1</span>
+          </div>
+          <div class="pmotion-counter withdrawn">
+            <span class="pmotion-counter-hint">撤回</span>
+            <span class="pmotion-counter-value">1</span>
+          </div>
+          <div class="pmotion-counter">
+            <span class="pmotion-counter-hint">待定</span>
+            <span class="pmotion-counter-value">1</span>
+          </div>
+        </div>
+      </div>
+      <div class="pmotions cast-body">
+        
+        <div class="pmotion pmotion-transition pending">
+          <div class="pmotion-body">
+            <div class="pmotion-name">决议草案 1.1</div>
+            <div class="pmotion-meta">
+              <span class="pmotion-type">实质性投票</span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">person</i>美国
+              </span>
+              
+              
+              
+              <span class="pmotion-meta-group">
+                <i class="material-icons">access_time</i>23:11
+              </span>
+            </div>
+          </div>
+          <div class="pmotion-outcome pending">待定</div>
+        </div><div class="pmotion pmotion-transition">
+          <div class="pmotion-body">
+            <div class="pmotion-name">保障关键海上航道安全</div>
+            <div class="pmotion-meta">
+              <span class="pmotion-type">轮流发言</span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">person</i>瑞士
+              </span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">timer</i>1:00/人
+              </span>
+              
+              
+              <span class="pmotion-meta-group">
+                <i class="material-icons">access_time</i>23:11
+              </span>
+            </div>
+          </div>
+          <div class="pmotion-outcome withdrawn">撤回</div>
+        </div><div class="pmotion pmotion-transition">
+          <div class="pmotion-body">
+            <div class="pmotion-name">起草决议草案</div>
+            <div class="pmotion-meta">
+              <span class="pmotion-type">自由磋商</span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">person</i>日本
+              </span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">timer</i>20:00
+              </span>
+              
+              
+              <span class="pmotion-meta-group">
+                <i class="material-icons">access_time</i>23:11
+              </span>
+            </div>
+          </div>
+          <div class="pmotion-outcome failed">未通过</div>
+        </div><div class="pmotion pmotion-transition">
+          <div class="pmotion-body">
+            <div class="pmotion-name">保障关键海上航道安全</div>
+            <div class="pmotion-meta">
+              <span class="pmotion-type">有主持核心磋商</span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">person</i>法国
+              </span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">timer</i>15:00 · 1:30/人
+              </span>
+              
+              
+              <span class="pmotion-meta-group">
+                <i class="material-icons">access_time</i>23:11
+              </span>
+            </div>
+          </div>
+          <div class="pmotion-outcome passed">通过</div>
+        </div><div class="pmotion pmotion-transition">
+          <div class="pmotion-body">
+            <div class="pmotion-name">开启关于海上安全的辩论</div>
+            <div class="pmotion-meta">
+              <span class="pmotion-type">开启辩论</span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">person</i>中国
+              </span>
+              
+              
+              
+              <span class="pmotion-meta-group">
+                <i class="material-icons">access_time</i>23:11
+              </span>
+            </div>
+          </div>
+          <div class="pmotion-outcome passed">通过</div>
+        </div>
+        
+      </div>
+    </div>
+
+    
+
+    </div>
+    <div class="layer full mask" style="display: none;"></div>
+  
+
+</body></html>

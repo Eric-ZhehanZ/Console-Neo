@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <title>Console Neo - Cast</title>
+    <link rel="stylesheet" href="/ui/projector.css">
+    
+  <meta name="robots" content="noindex"><style>html,body{overflow:hidden!important;scrollbar-width:none}::-webkit-scrollbar{display:none}*{cursor:default!important}</style></head>
+  <body>
+    <div class="stage">
+    <div class="layer full background">
+      <div class="brand">
+        Console Neo
+      </div>
+    </div>
+
+    <div class="bottom-bar not-tricky opacity-transition" style="">
+      <div class="bottom-title small">
+        <span>联合国安全理事会</span>
+      </div>
+      <div class="counter-group">
+        <i class="material-icons">person</i>
+        <div class="counter">
+          <div class="present">14</div>
+          <div class="separator">/</div>
+          <div class="all">15</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">简单多数</div>
+          <div class="counter-indicator-value">8</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">三分之二多数</div>
+          <div class="counter-indicator-value">10</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">五分之一数</div>
+          <div class="counter-indicator-value">3</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer timer-layer" style="display: none;">
+      <i class="material-icons cast-watermark">timer</i>
+      <div class="timer-name"></div>
+      <div class="timer timer-left">
+  <span class="timer-hour" style="display: none;">
+    0
+  </span>
+  <span class="timer-separator" style="display: none;">:</span>
+  <span class="timer-minute">
+    0
+  </span>
+  <span class="timer-separator">:</span>
+  <span class="timer-second">
+    00
+  </span>
+</div>
+      
+      <div class="timer-progress">
+        <div class="timer-progress-inner" style="transform: translateX(0px);">
+        </div>
+      </div>
+    </div>
+
+    <div class="layer file-layer full file-full" style="display: none;">
+      <i class="material-icons cast-watermark">insert_drive_file</i>
+      <div class="file-pdf" style="display: none;"></div>
+      
+      <div class="file-overlay"></div>
+    </div>
+
+    <div class="layer full vote-layer headered">
+      <i class="material-icons cast-watermark">thumbs_up_down</i>
+      <div class="cast-header">
+        <div class="cast-title">
+          <span class="cast-title-text">决议草案 1.1</span>
+        </div>
+        <div class="vote-head-right">
+          <div class="vote-head-top">
+            <div class="vote-iteration">
+              第 1 轮 / 共 1 轮
+            </div>
+            
+            <div class="vote-seats">
+              <span class="vote-counter-hint">总计</span>
+              <span class="vote-counter-value">14</span>
+            </div>
+          </div>
+
+          <div class="vote-counters">
+            <div class="vote-counter vote-counter-positive">
+              <span class="vote-counter-hint">赞成</span>
+              <span class="vote-counter-value">9</span>
+            </div>
+            <div class="vote-counter vote-counter-negative">
+              <span class="vote-counter-hint">反对</span>
+              <span class="vote-counter-value">1</span>
+            </div>
+            <div class="vote-counter vote-counter-abstained">
+              <span class="vote-counter-hint">弃权</span>
+              <span class="vote-counter-value">1</span>
+            </div>
+            <div class="vote-counter vote-counter-pass">
+              <span class="vote-counter-hint">过/未投</span>
+              <span class="vote-counter-value">3</span>
+            </div>
+            
+            <div class="vote-counter vote-counter-target">
+              <span class="vote-counter-hint">目标</span>
+              <span class="vote-counter-value">9</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="voters list cast-columns cast-body">
+        <div class="voter list-item item-transition pass">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">大韩民国</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition pass">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">斯洛文尼亚</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition pass">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">瑞士</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">中国</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">法国</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">英国</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">美国</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">阿尔及利亚</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">日本</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">马耳他</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">莫桑比克</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">厄瓜多尔</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition negative">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">俄罗斯联邦</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition abstained">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">圭亚那</div>
+          <div class="voter-bg"></div>
+        </div>
+      </div>
+      <div class="voter-progress-container">
+        <div class="voter-progress">
+          <div class="voter-progress-inner positive" style="transform: translateX(-35.7143%);">
+          </div>
+          <div class="voter-progress-inner negative" style="transform: translateX(85.7143%);">
+          </div>
+          <div class="voter-progress-inner abstained" style="transform: translateX(92.8571%);">
+          </div>
+        </div>
+        <div class="voter-progress-target" style="transform: translateX(32.1429vw);">
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+
+    
+
+    </div>
+    <div class="layer full mask" style="display: none;"></div>
+  
+
+</body></html>

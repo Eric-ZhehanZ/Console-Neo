@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <title>Console Neo - Cast</title>
+    <link rel="stylesheet" href="/ui/projector.css">
+    
+  <meta name="robots" content="noindex"><style>html,body{overflow:hidden!important;scrollbar-width:none}::-webkit-scrollbar{display:none}*{cursor:default!important}</style></head>
+  <body>
+    <div class="stage">
+    <div class="layer full background">
+      <div class="brand">
+        Console Neo
+      </div>
+    </div>
+
+    <div class="bottom-bar not-tricky opacity-transition" style="">
+      <div class="bottom-title small">
+        <span>UN Security Council</span>
+      </div>
+      <div class="counter-group">
+        <i class="material-icons">person</i>
+        <div class="counter">
+          <div class="present">14</div>
+          <div class="separator">/</div>
+          <div class="all">15</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">Simple Majority</div>
+          <div class="counter-indicator-value">8</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">Two-Thirds</div>
+          <div class="counter-indicator-value">10</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">One-Fifth</div>
+          <div class="counter-indicator-value">3</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer timer-layer" style="display: none;">
+      <i class="material-icons cast-watermark">timer</i>
+      <div class="timer-name"></div>
+      <div class="timer timer-left">
+  <span class="timer-hour" style="display: none;">
+    0
+  </span>
+  <span class="timer-separator" style="display: none;">:</span>
+  <span class="timer-minute">
+    0
+  </span>
+  <span class="timer-separator">:</span>
+  <span class="timer-second">
+    00
+  </span>
+</div>
+      
+      <div class="timer-progress">
+        <div class="timer-progress-inner" style="transform: translateX(0px);">
+        </div>
+      </div>
+    </div>
+
+    <div class="layer file-layer full file-full" style="display: none;">
+      <i class="material-icons cast-watermark">insert_drive_file</i>
+      <div class="file-pdf" style="display: none;"></div>
+      
+      <div class="file-overlay"></div>
+    </div>
+
+    
+
+    
+
+    <div class="layer motions-layer full headered">
+      <i class="material-icons cast-watermark">gavel</i>
+      <div class="cast-header">
+        <div class="cast-title">
+          <span class="cast-title-text">Motions</span>
+        </div>
+        <div class="pmotion-counters">
+          <div class="pmotion-counter passed">
+            <span class="pmotion-counter-hint">Passed</span>
+            <span class="pmotion-counter-value">2</span>
+          </div>
+          <div class="pmotion-counter failed">
+            <span class="pmotion-counter-hint">Failed</span>
+            <span class="pmotion-counter-value">1</span>
+          </div>
+          <div class="pmotion-counter withdrawn">
+            <span class="pmotion-counter-hint">Withdrawn</span>
+            <span class="pmotion-counter-value">1</span>
+          </div>
+          <div class="pmotion-counter">
+            <span class="pmotion-counter-hint">Pending</span>
+            <span class="pmotion-counter-value">1</span>
+          </div>
+        </div>
+      </div>
+      <div class="pmotions cast-body">
+        
+        <div class="pmotion pmotion-transition pending">
+          <div class="pmotion-body">
+            <div class="pmotion-name">Draft Resolution 1.1</div>
+            <div class="pmotion-meta">
+              <span class="pmotion-type">Substantive Vote</span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">person</i>United States
+              </span>
+              
+              
+              
+              <span class="pmotion-meta-group">
+                <i class="material-icons">access_time</i>23:11
+              </span>
+            </div>
+          </div>
+          <div class="pmotion-outcome pending">Pending</div>
+        </div><div class="pmotion pmotion-transition">
+          <div class="pmotion-body">
+            <div class="pmotion-name">Securing critical sea lanes</div>
+            <div class="pmotion-meta">
+              <span class="pmotion-type">Tour de Table</span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">person</i>Switzerland
+              </span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">timer</i>1:00/delegate
+              </span>
+              
+              
+              <span class="pmotion-meta-group">
+                <i class="material-icons">access_time</i>23:11
+              </span>
+            </div>
+          </div>
+          <div class="pmotion-outcome withdrawn">Withdrawn</div>
+        </div><div class="pmotion pmotion-transition">
+          <div class="pmotion-body">
+            <div class="pmotion-name">Drafting the resolution</div>
+            <div class="pmotion-meta">
+              <span class="pmotion-type">Unmoderated Caucus</span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">person</i>Japan
+              </span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">timer</i>20:00
+              </span>
+              
+              
+              <span class="pmotion-meta-group">
+                <i class="material-icons">access_time</i>23:11
+              </span>
+            </div>
+          </div>
+          <div class="pmotion-outcome failed">Failed</div>
+        </div><div class="pmotion pmotion-transition">
+          <div class="pmotion-body">
+            <div class="pmotion-name">Securing critical sea lanes</div>
+            <div class="pmotion-meta">
+              <span class="pmotion-type">Moderated Caucus</span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">person</i>France
+              </span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">timer</i>15:00 · 1:30/delegate
+              </span>
+              
+              
+              <span class="pmotion-meta-group">
+                <i class="material-icons">access_time</i>23:11
+              </span>
+            </div>
+          </div>
+          <div class="pmotion-outcome passed">Passed</div>
+        </div><div class="pmotion pmotion-transition">
+          <div class="pmotion-body">
+            <div class="pmotion-name">Open debate on maritime security</div>
+            <div class="pmotion-meta">
+              <span class="pmotion-type">Open Debate</span>
+              <span class="pmotion-meta-group">
+                <i class="material-icons">person</i>China
+              </span>
+              
+              
+              
+              <span class="pmotion-meta-group">
+                <i class="material-icons">access_time</i>23:11
+              </span>
+            </div>
+          </div>
+          <div class="pmotion-outcome passed">Passed</div>
+        </div>
+        
+      </div>
+    </div>
+
+    
+
+    </div>
+    <div class="layer full mask" style="display: none;"></div>
+  
+
+</body></html>

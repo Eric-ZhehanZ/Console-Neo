@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
 async function render() {
@@ -23,28 +23,43 @@ async function render() {
   );
 }
 
-test("server-renders the Console Neo product site", async () => {
+test("server-renders the Console Neo site", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>Console Neo — MUN Meeting Console<\/title>/i);
-  assert.match(html, /Console Neo/);
-  assert.match(html, /让每一项议程/);
-  assert.match(html, /用户指南/);
-  assert.match(html, /MIT License/);
-  assert.match(html, /Copyright \(c\) 2016 Liu Xiaoyi/);
-  assert.doesNotMatch(html, /codex-preview|Your site is taking shape|SkeletonPreview/i);
+  assert.match(html, /<title>Console Neo<\/title>/i);
+  assert.match(html, /模拟联合国会议控制台/);
+  assert.match(html, /\/ui\/controller-list-zh\.html/);
+  assert.match(html, /\/ui\/projector-list-zh\.html/);
+  assert.match(html, /Liu Xiaoyi/);
+  assert.match(html, /Pan Ruizhe/);
+  assert.match(html, /\/licenses\/INHERITED-MIT\.txt/);
+});
+
+test("ships real UI snapshots for every feature in both languages", async () => {
+  const content = await readFile(new URL("../app/content.ts", import.meta.url), "utf8");
+  const snapshots = [...content.matchAll(/(?:controller|cast): "([a-z-]+)"/g)].map((match) => match[1]);
+  assert.ok(snapshots.length >= 7);
+
+  const files = new Set(await readdir(new URL("../public/ui/", import.meta.url)));
+  for(const name of snapshots)
+    for(const lang of ["zh", "en"])
+      assert.ok(files.has(`${name}-${lang}.html`), `missing ui/${name}-${lang}.html`);
+  assert.ok(files.has("controller.css"));
+  assert.ok(files.has("projector.css"));
+
+  const sample = await readFile(new URL("../public/ui/controller-list-en.html", import.meta.url), "utf8");
+  assert.doesNotMatch(sample, /<script/i);
+  assert.match(sample, /\/ui\/controller\.css/);
 });
 
 test("keeps bilingual guides, attribution, and assets self-contained", async () => {
-  const [page, layout, css, packageJson, inheritedLicense, rootLicense,
-    apacheLicense, apacheSource, notice] = await Promise.all([
+  const [content, page, css, inheritedLicense, rootLicense, apacheLicense, apacheSource, notice] = await Promise.all([
+    readFile(new URL("../app/content.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
-    readFile(new URL("../package.json", import.meta.url), "utf8"),
     readFile(new URL("../public/licenses/INHERITED-MIT.txt", import.meta.url), "utf8"),
     readFile(new URL("../../LICENSE", import.meta.url), "utf8"),
     readFile(new URL("../public/licenses/APACHE-2.0.txt", import.meta.url), "utf8"),
@@ -52,37 +67,24 @@ test("keeps bilingual guides, attribution, and assets self-contained", async () 
     readFile(new URL("../public/NOTICE.txt", import.meta.url), "utf8"),
   ]);
 
-  assert.match(page, /Run the room/);
-  assert.match(page, /让每一项议程/);
-  assert.match(page, /id: "start"/);
-  assert.match(page, /id: "session"/);
-  assert.match(page, /id: "meeting"/);
-  assert.match(page, /id: "collaboration"/);
-  assert.match(page, /id: "reference"/);
-  assert.match(page, /id: "data"/);
-  assert.match(page, /id: "troubleshooting"/);
-  assert.match(page, /id: "faq"/);
+  for(const id of ["start", "sessions", "meeting", "collaboration", "reference", "data", "troubleshooting"])
+    assert.match(content, new RegExp(`id: "${id}"`));
   assert.match(page, /console-neo-site-lang/);
-  assert.match(page, /IntersectionObserver/);
   assert.match(css, /prefers-reduced-motion/);
-  assert.match(layout, /og\.png/);
-  assert.doesNotMatch(layout, /\bauthors\s*:/);
-  assert.match(packageJson, /"name": "console-neo-product-site"/);
-  assert.doesNotMatch(packageJson, /react-loading-skeleton|drizzle/);
   assert.equal(inheritedLicense, rootLicense);
   assert.equal(apacheLicense, apacheSource);
   assert.match(notice, /Copyright 2015 Google Inc\./);
   assert.match(notice, /Material Icons/);
-  assert.match(notice, /No public license is granted/);
+  assert.match(notice, /public\/ui\/assets/);
 
   await Promise.all([
     access(new URL("../public/icon.png", import.meta.url)),
+    access(new URL("../public/apple-icon.png", import.meta.url)),
+    access(new URL("../public/favicon.ico", import.meta.url)),
     access(new URL("../public/og.png", import.meta.url)),
-    access(new URL("../public/fonts/Roboto-Light.ttf", import.meta.url)),
+    access(new URL("../public/ui/assets/Roboto-Light.woff2", import.meta.url)),
+    access(new URL("../public/ui/assets/material.woff2", import.meta.url)),
     access(new URL("../public/licenses/INHERITED-MIT.txt", import.meta.url)),
-    access(new URL("../public/licenses/APACHE-2.0.txt", import.meta.url)),
     access(new URL("../public/NOTICE.txt", import.meta.url)),
   ]);
-  await assert.rejects(access(new URL("../public/LICENSE.txt", import.meta.url)));
-  await assert.rejects(access(new URL("../app/_sites-preview", import.meta.url)));
 });

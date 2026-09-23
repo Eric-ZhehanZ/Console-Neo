@@ -16,11 +16,11 @@ licenses/INHERITED-MIT.txt
 Third-party fonts
 -----------------
 
-Roboto font files in public/fonts/
+Roboto font files in public/ui/assets/ (converted to WOFF2)
 Copyright 2015 Google Inc.
 Licensed under the Apache License, Version 2.0.
 
-Material Icons font in public/fonts/material.woff2
+Material Icons font in public/ui/assets/material.woff2
 Licensed under the Apache License, Version 2.0.
 
 The Apache License, Version 2.0 text is provided at:

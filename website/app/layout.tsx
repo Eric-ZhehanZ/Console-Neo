@@ -7,29 +7,17 @@ export async function generateMetadata(): Promise<Metadata> {
   const host = requestHeaders.get("x-forwarded-host") || requestHeaders.get("host") || "localhost:3000";
   const protocol = requestHeaders.get("x-forwarded-proto") || (host.startsWith("localhost") ? "http" : "https");
   const origin = `${protocol}://${host}`;
-  const description = "A calm, synchronized desktop console for Model United Nations—chairing, projection, collaboration, motions, speakers, documents, voting, and complete bilingual guides.";
+  const description = "The meeting console for Model UN. The chair works in the controller, the room follows on the cast, and co-chairs collaborate live from their own devices.";
 
   return {
     metadataBase: new URL(origin),
-    title: {
-      default: "Console Neo — MUN Meeting Console",
-      template: "%s · Console Neo",
-    },
+    title: "Console Neo",
     description,
     applicationName: "Console Neo",
-    keywords: [
-      "Console Neo",
-      "Model United Nations",
-      "MUN",
-      "meeting console",
-      "conference chairing",
-      "模拟联合国",
-      "会场控制台",
-    ],
+    keywords: ["Console Neo", "Model United Nations", "MUN", "模拟联合国", "会议控制台"],
     icons: {
-      icon: "/icon.png",
-      shortcut: "/icon.png",
-      apple: "/icon.png",
+      icon: [{ url: "/favicon.ico", sizes: "any" }, { url: "/icon.png", type: "image/png", sizes: "512x512" }],
+      apple: "/apple-icon.png",
     },
     alternates: {
       languages: {
@@ -39,15 +27,15 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     openGraph: {
       type: "website",
-      title: "Console Neo — Run the room. Keep everyone in sync.",
+      title: "Console Neo",
       description,
       locale: "zh_CN",
       alternateLocale: ["en_US"],
-      images: [{ url: `${origin}/og.png`, width: 1744, height: 908, alt: "Console Neo controller and synchronized room cast" }],
+      images: [{ url: `${origin}/og.png`, width: 1200, height: 630, alt: "Console Neo" }],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Console Neo — Run the room. Keep everyone in sync.",
+      title: "Console Neo",
       description,
       images: [`${origin}/og.png`],
     },

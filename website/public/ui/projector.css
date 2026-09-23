@@ -1,0 +1,1387 @@
+/* fonts/fonts.css */
+/* Material icons */
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/ui/assets/material.woff2')  format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Rules for sizing the icon. */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 100;
+  src: url('/ui/assets/Roboto-Thin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/ui/assets/Roboto-Light.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/ui/assets/Roboto-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/ui/assets/Roboto-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/ui/assets/Roboto-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 900;
+  src: url('/ui/assets/Roboto-Black.woff2') format('woff2');
+}
+
+
+
+/* shared/style/common.css */
+.clearfix {
+  height: 0;
+  width: 100%;
+  display: block;
+  clear: both;
+}
+
+/* shared/style/transitions.css */
+.opacity-transition {
+  transition: opacity 0.2s ease-out;
+  opacity: 1;
+}
+
+.opacity-enter {
+  opacity: 0;
+}
+
+.opacity-leave {
+  transition: opacity 0.2s ease-in;
+  opacity: 0;
+}
+
+.item-move {
+  transition: transform .5s ease;
+}
+
+/* Two blocks that swap places, easing to whatever height the incoming
+   one actually measures. Each row is its own single-track grid animated
+   between 0fr and 1fr, so nothing needs a magic pixel budget - the text
+   inside may wrap to one line in Chinese and two in English.
+ *
+ * Both rows stay in flow, so the container is always as wide as the
+ * wider of the two and a swap never shifts anything sideways.
+ *
+ *   <div class="net-swap" :class="{ online: ok }">
+ *     <div class="net-swap-row net-swap-off"><div class="net-swap-inner">…
+ *     <div class="net-swap-row net-swap-on"><div class="net-swap-inner">…
+ */
+
+.net-swap-row {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows .3s ease, opacity .3s ease;
+}
+
+.net-swap-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.net-swap:not(.online) > .net-swap-off,
+.net-swap.online > .net-swap-on {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.autocompletion-transition {
+  transition: height .2s ease-out, box-shadow .2s ease-out;
+  box-shadow: rgba(0,0,0,.12) 0 2px 3px;
+  height: 40px;
+}
+
+.autocompletion-transition .ac-content {
+  transition: opacity .2s ease;
+  opacity: .7;
+}
+
+.autocompletion-enter {
+  height: 0;
+  box-shadow: none;
+}
+
+.autocompletion-enter .ac-content {
+  opacity: 0;
+}
+
+.autocompletion-leave {
+  transition: opacity .2s ease, height .2s ease-in, box-shadow .2s ease-in;
+  height: 0;
+  box-shadow: none;
+}
+
+.autocompletion-leave .ac-content {
+  transition: opacity .2s ease-in;
+  opacity: 0;
+}
+
+/* shared/style/list.css */
+.list {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.list-item {
+  position: relative;
+  padding-left: 5px;
+}
+
+.list-item-indicator {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 5px;
+  display: inline-block;
+
+  background: black;
+  opacity: .06;
+  transition: opacity .2s ease;
+}
+
+.list-item.bold .list-item-indicator {
+  opacity: .24;
+}
+
+.list-item-content {
+  padding: 10px 20px;
+  font-size: 16px;
+  line-height: 20px;
+  color: black;
+}
+
+.list-item.clickable .list-item-content {
+  transition: opacity .2s ease;
+  opacity: 0.7;
+}
+
+.list-item.clickable {
+  cursor: pointer;
+
+  -webkit-user-select: none;
+  -webkit-app-region: no-drag;
+}
+
+.list-item.clickable:hover .list-item-content {
+  opacity: 1;
+}
+
+.empty-hint {
+  display: none;
+  color: rgba(0,0,0,.3);
+}
+
+.list.inline .empty-hint {
+  margin-left: -5px;
+}
+
+.empty-hint:first-child {
+  display: inherit;
+}
+
+/* Delegation grid: automatic column count, shared by both windows */
+
+.delegation-grid {
+  /* Exactly the speakers-list flow: fill top to bottom, then next column */
+  display: flex;
+  flex-flow: column wrap;
+  align-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.delegation-grid .list-item {
+  width: 260px;
+}
+
+.delegation-grid .list-item-content {
+  /* Delegation names are never truncated */
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+
+/* shared/components/timer.css */
+.timer {
+  font-weight: 300;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.timer-separator {
+  font-weight: 200;
+}
+
+.timer.timer-alert {
+  color: #F44336;
+  opacity: 1;
+}
+
+.timer.timer-alert .timer-separator {
+  color: inherit;
+}
+
+
+/* projector/styles/timer.css */
+.layer.timer-layer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.timer-name {
+  font-size: 4vw;
+  font-weight: 400;
+  max-width: 75vw;
+  color: rgba(0,0,0,.54);
+  text-align: center;
+}
+
+.timer.timer-left {
+  font-size: 10vw;
+  font-weight: 200;
+  margin-top: 2.5vw;
+}
+
+.timer.timer-left .timer-separator {
+  font-weight: 200;
+}
+
+/* Mirrors the controller's timer page: the total is always in sight */
+.timer-total-line {
+  margin-top: 1vw;
+  font-size: 1.6vw;
+  font-weight: 300;
+  color: rgba(0,0,0,.45);
+  display: flex;
+  align-items: baseline;
+}
+
+.timer-total-line .timer-total-hint {
+  margin-right: .6em;
+  font-size: 1.2vw;
+}
+
+.timer-progress {
+  width: 50vw;
+  height: 0.5vw;
+  margin-top: 1.25vw;
+
+  background: rgba(0,0,0,.1);
+
+  transition: opacity .2s ease;
+  opacity: 0.3;
+  overflow: hidden;
+}
+
+.timer-progress.active {
+  opacity: 1;
+}
+
+.timer-progress-inner {
+  width: 100%;
+  height: 100%;
+  transition: transform .2s ease;
+  background: rgba(0,0,0,.3);
+}
+
+/* projector/styles/file.css */
+/* Document preview goes truly full screen */
+
+.layer.file-full {
+  top: 0;
+}
+
+.file-pdf {
+  text-align: center;
+  overflow-y: scroll;
+  background: white;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  padding: 9vw 0;
+}
+
+.file-pdf canvas {
+  margin: auto auto 1.5vw auto;
+  box-shadow: rgba(0,0,0,.12) 0 .25vw .375vw;
+  display: block;
+}
+
+.file-pdf canvas:last-child {
+  margin-bottom: auto;
+}
+
+.file-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  padding: 4vw 0;
+  overflow: auto;
+}
+
+.file-image img {
+  max-width: 86%;
+  margin: auto;
+
+  box-shadow: rgba(0,0,0,.12) 0 .25vw .375vw;
+}
+
+/* Document name + watermark show while idle, fade away during scrolling */
+
+.file-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 3.5vw 5vw 5vw;
+
+  font-size: 3.2vw;
+  line-height: 4.4vw;
+  font-weight: 300;
+  color: rgba(0,0,0,.75);
+  overflow-wrap: break-word;
+
+  pointer-events: none;
+  transition: opacity .4s ease;
+}
+
+/* Progressive blur behind the title for a seamless, readable header */
+.file-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+
+  background: linear-gradient(rgba(255,255,255,.75), rgba(255,255,255,0));
+  backdrop-filter: blur(14px);
+  -webkit-mask-image: linear-gradient(black 35%, transparent);
+}
+
+.file-layer .cast-watermark {
+  transition: opacity .4s ease;
+  z-index: 1;
+}
+
+.file-layer.scrolling .file-overlay,
+.file-layer.scrolling .cast-watermark {
+  opacity: 0;
+}
+
+/* projector/styles/vote.css */
+/* Header right side: round + total on top, the tallies right-aligned
+   directly beneath them */
+
+.vote-head-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 2.5vw;
+}
+
+.vote-head-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+}
+
+.vote-seats {
+  margin-left: 2.5vw;
+  display: inline-block;
+  font-size: 0;
+  white-space: nowrap;
+}
+
+.vote-seats .vote-counter-hint {
+  font-size: 1.5vw;
+  font-weight: 300;
+}
+
+.vote-seats .vote-counter-value {
+  font-size: 3vw;
+  margin-left: .5vw;
+}
+
+.vote-iteration {
+  font-size: 2vw;
+  font-weight: 200;
+  white-space: nowrap;
+}
+
+.vote-seats .material-icons {
+  opacity: 0.54;
+  margin-right: .25vw;
+  font-size: 3vw;
+}
+
+.vote-counters {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  margin-top: .6vw;
+}
+
+.vote-counter {
+  font-weight: 300;
+  margin-left: 1.25vw;
+  white-space: nowrap;
+}
+
+.vote-counter:first-child {
+  margin-left: 0;
+}
+
+.vote-counter-hint {
+  margin-right: .3vw;
+}
+
+.vote-counter-hint {
+  font-size: 1.5vw;
+  font-weight: 300;
+}
+
+.vote-counter-value {
+  font-size: 3vw;
+}
+
+.vote-counter-positive {
+  color: #4caf50;
+}
+
+.vote-counter-negative {
+  color: #f44336;
+}
+
+.vote-counter-abstained {
+  color: black;
+}
+
+.vote-counter-pass {
+  color: rgba(0,0,0,.54);
+}
+
+.vote-counter-target {
+  color: #2196f3;
+}
+
+.list.voters {
+  margin-bottom: 0;
+
+  -webkit-app-region: no-drag;
+}
+
+.voter .list-item-indicator {
+  transition: opacity .2s ease, background-color .2s ease;
+}
+
+.voter .voter-bg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: .625vw;
+  transition: opacity .2s ease, background-color .2s ease;
+
+  opacity: 0;
+  background-color: transparent;
+}
+
+.voter.abstained .list-item-indicator {
+  opacity: .48;
+}
+
+.voter.abstained .voter-bg {
+  background-color: black;
+  opacity: .18;
+}
+
+.voter.positive .list-item-indicator {
+  background-color: #4CAF50;
+  opacity: .48;
+}
+
+.voter.positive .voter-bg {
+  background-color: #4CAF50;
+  opacity: .18;
+}
+
+.voter.negative .list-item-indicator {
+  background-color: #F44336;
+  opacity: .48;
+}
+
+.voter.negative .voter-bg {
+  background-color: #F44336;
+  opacity: .18;
+}
+
+.voter.pass .list-item-indicator {
+  background-color: rgba(0,0,0,.54);
+  opacity: .48;
+}
+
+.voter.pass .voter-bg {
+  background-color: black;
+  opacity: .08;
+}
+
+.voter {
+  font-size: 2vw;
+}
+
+/* The progress bar sits in normal flow beneath the delegation columns,
+   so a full list can never run underneath it */
+.voter-progress-container {
+  position: relative;
+  height: 5vw;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+/* The columns own the space above the bar; their own bottom padding
+   would otherwise reserve room that no longer needs reserving */
+.vote-layer .voters.cast-columns {
+  padding-bottom: 2vw;
+}
+
+.voter-progress {
+  position: relative;
+  width: 50vw;
+  height: 0.5vw;
+  overflow: hidden;
+
+  background: rgba(0,0,0,.1);
+}
+
+.voter-progress-inner {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  transition: transform .2s ease;
+  background: rgba(0,0,0,.3);
+}
+
+.voter-progress-inner.positive {
+  background-color: #A9D9AB;
+}
+
+.voter-progress-inner.negative {
+  background-color: #FAA59E;
+}
+
+.voter-progress-inner.abstained {
+  background-color: #858585;
+}
+
+.voter-progress-target {
+  position: absolute;
+  left: 25vw;
+
+  background-color: #2196F3;
+  height: 2vw;
+  width: 0.5vw;
+  margin-left: -.25vw;
+  transition: transform .2s ease;
+}
+
+/* projector/styles/list.css */
+.list-layer .bottom-title {
+  flex: 1;
+  overflow: hidden;
+}
+
+.list.speakers{
+  padding: 1.5vw 5vw 18vh;
+  margin-bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+  flex-flow: column wrap;
+  align-content: flex-start;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  -webkit-app-region: no-drag;
+}
+
+.speaker {
+  width: 25vw;
+}
+
+.timer-total, .timer-current {
+  margin-left: 2.5vw;
+
+  display: flex;
+  align-items: center;
+}
+
+.timer-total .timer, .timer-current .timer {
+  font-size: 4.5vw;
+  font-weight: 300;
+  opacity: 1;
+}
+
+.timer-total .material-icons, .timer-current .material-icons {
+  font-size: 4.8vw;
+  margin-right: .2em;
+  opacity: .7;
+}
+
+.speaker-indicator {
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+  flex: 1;
+}
+
+/* Each name lives in its own positioned wrap so the leaving copy can
+   overlay the entering one - the swap never widens the header */
+.speaker-current-wrap,
+.speaker-next-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+}
+
+.speaker-next-wrap {
+  margin-left: 1.25vw;
+  flex-shrink: 0;
+  max-width: 18vw;
+}
+
+.speaker-current {
+  font-size: 4vw;
+  font-weight: 300;
+  display: block;
+  /* Tight lines: a wrapped name packs like a single-line one */
+  line-height: 1.12;
+  overflow-wrap: break-word;
+  max-width: 42vw;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Long delegation names step down so the header never explodes */
+.speaker-current.long {
+  font-size: 2.8vw;
+}
+
+.speaker-current.xlong {
+  font-size: 2.1vw;
+}
+
+.speaker-next {
+  font-size: 2vw;
+  font-weight: 300;
+  display: block;
+  line-height: 1.12;
+  overflow-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.speaker-next.long {
+  font-size: 1.4vw;
+}
+
+/* Speaker-swap: the new name slides up in while the old one lifts away */
+.speaker-swap-transition {
+  transition: opacity .3s ease, transform .3s ease;
+}
+
+.speaker-swap-enter {
+  opacity: 0;
+  transform: translateY(.45em);
+}
+
+.speaker-swap-leave {
+  opacity: 0;
+  transform: translateY(-.45em);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Mirror the controller's speaking/waiting emphasis */
+
+.speaker.speaking .list-item-indicator {
+  opacity: .87;
+}
+
+.speaker.speaking .speaker-name-real {
+  font-weight: 500;
+  color: #000;
+}
+
+.speaker.waiting .list-item-indicator {
+  animation: cast-waiting-pulse 1.6s ease-in-out infinite;
+  opacity: .54;
+}
+
+.speaker.waiting .speaker-name-real {
+  font-weight: 500;
+  animation: cast-waiting-pulse 1.6s ease-in-out infinite;
+}
+
+/* Always-bold hidden ghost reserves the cell so weight toggling never reflows */
+.speaker-name {
+  display: grid;
+}
+
+.speaker-name::before {
+  content: attr(data-text);
+  grid-area: 1 / 1;
+  font-weight: 500;
+  visibility: hidden;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.speaker-name-real {
+  grid-area: 1 / 1;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+@keyframes cast-waiting-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .45; }
+}
+
+/* projector/styles/motions.css */
+.pmotion-counters {
+  display: flex;
+  align-items: baseline;
+  margin-left: 2.5vw;
+  min-width: max-content;
+}
+
+.pmotion-counter {
+  margin-left: 1.5vw;
+  font-size: 0;
+}
+
+.pmotion-counter-hint {
+  font-size: 1.5vw;
+  font-weight: 300;
+}
+
+.pmotion-counter-value {
+  font-size: 3vw;
+  margin-left: .5vw;
+}
+
+.pmotion-counter.passed .pmotion-counter-value {
+  color: #4CAF50;
+}
+
+.pmotion-counter.failed .pmotion-counter-value {
+  color: #F44336;
+}
+
+.pmotion-counter.withdrawn .pmotion-counter-value {
+  color: rgba(0,0,0,.54);
+}
+
+.pmotions {
+  padding: 1vw 5vw 2vw;
+  overflow-y: auto;
+  -webkit-app-region: no-drag;
+}
+
+/* A persistent rail tells the room when the agenda continues off-screen. */
+.pmotions::-webkit-scrollbar {
+  width: .65vw;
+}
+
+.pmotions::-webkit-scrollbar-track {
+  background: rgba(0,0,0,.05);
+}
+
+.pmotions::-webkit-scrollbar-thumb {
+  border-radius: .4vw;
+  background: rgba(0,0,0,.24);
+}
+
+.pmotion {
+  display: flex;
+  align-items: center;
+  padding: 1.4vw 0;
+  border-bottom: .1vw solid rgba(0,0,0,.06);
+}
+
+.pmotion:last-child {
+  border-bottom: none;
+}
+
+.pmotion-body {
+  flex: 1;
+  min-width: 0;
+  margin-right: 2vw;
+}
+
+.pmotion-name {
+  font-size: 2.6vw;
+  line-height: 3.4vw;
+  font-weight: 300;
+  color: rgba(0,0,0,.54);
+  overflow-wrap: break-word;
+}
+
+.pmotion.pending .pmotion-name {
+  color: rgba(0,0,0,.87);
+}
+
+.pmotion-proposer {
+  font-size: 1.6vw;
+  line-height: 2.2vw;
+  margin-top: .2vw;
+  color: rgba(0,0,0,.54);
+}
+
+.pmotion-outcome {
+  font-size: 1.8vw;
+  line-height: 3vw;
+  padding: 0 1.4vw;
+  border: .15vw solid rgba(0,0,0,.26);
+  color: rgba(0,0,0,.54);
+  white-space: nowrap;
+}
+
+.pmotion-outcome.pending {
+  border-color: rgba(0,0,0,.87);
+  color: rgba(0,0,0,.87);
+}
+
+.pmotion-outcome.passed {
+  border-color: #4CAF50;
+  color: #4CAF50;
+}
+
+.pmotion-outcome.failed {
+  border-color: #F44336;
+  color: #F44336;
+}
+
+.pmotions-empty {
+  font-size: 2.5vw;
+  font-weight: 100;
+  color: rgba(0,0,0,.3);
+  padding: 2vw 0;
+}
+
+.pmotion-draft .pmotion-name {
+  color: rgba(0,0,0,.87);
+}
+
+.pmotion-draft .pmotion-outcome {
+  border-style: dashed;
+}
+
+.pmotion-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 1.6vw;
+  line-height: 2.4vw;
+  margin-top: .3vw;
+  color: rgba(0,0,0,.54);
+}
+
+.pmotion-type {
+  font-size: 1.3vw;
+  line-height: 2vw;
+  padding: 0 .8vw;
+  margin-right: 1.2vw;
+  border: .1vw solid rgba(0,0,0,.16);
+  white-space: nowrap;
+}
+
+.pmotion-meta-group {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 1.5vw;
+  min-width: 0;
+}
+
+.pmotion-meta-group .material-icons {
+  font-size: 1.7vw;
+  margin-right: .3vw;
+  opacity: .7;
+}
+
+/* projector/styles/rollcall.css */
+.rollcall {
+  margin-bottom: 0;
+
+  -webkit-app-region: no-drag;
+}
+
+.rc-seat .list-item-content {
+  font-size: 2.2vw;
+  line-height: 2.8vw;
+  padding: 1vw 2vw;
+  transition: color .2s ease;
+}
+
+.rc-seat.absent .list-item-content {
+  color: rgba(0,0,0,.26);
+}
+
+.rc-seat .list-item-indicator {
+  transition: opacity .2s ease;
+}
+
+.rollcall-layer .counter-group {
+  min-width: max-content;
+}
+
+
+/* projector/styles/override/list.css */
+.list {
+  margin-bottom: 3vw；
+}
+
+.list-item-indicator {
+  width: .625vw;
+}
+
+.list-item-content {
+  padding: 1.25vw 2.5vw;
+  font-size: 2vw;
+  line-height: 2.5vw;
+}
+
+.empty-hint {
+  margin-left: -.625vw;
+}
+
+
+body {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  padding: 0;
+  margin: 0;
+
+  font-family: 'Roboto', 'Noto Sans CJK SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+  overflow: hidden;
+
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+  cursor: default;
+}
+
+.layer {
+  position: absolute;
+  top: 12.5vw;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  background: white;
+}
+
+.layer.full {
+  bottom: 0;
+}
+
+.bottom-bar.not-tricky {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 12.5vw;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  padding: 0 5vw;
+  background: white !important;
+}
+
+.bottom-bar {
+  position: absolute;
+  top: -12.5vw;
+  right: 0;
+  left: 0;
+  height: 12.5vw;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  padding: 0 5vw;
+  background: white !important;
+}
+
+.bottom-title {
+  font-size: 4vw;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bottom-title > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.motion-title :hover {
+  font-size: 150%;
+  line-height: 120%;
+  text-overflow: initial;
+  overflow: initial;
+  white-space: initial;
+  background-color: #FFF;
+  z-index: 2;
+}
+
+.bottom-title.small {
+  font-size: 3vw;
+}
+
+/* Unified cast page header */
+
+.layer.headered {
+  top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cast-header {
+  box-sizing: border-box;
+  display: flex;
+  align-items: baseline;
+  padding: 3vw 5vw 1vw;
+  background: white;
+  flex-shrink: 0;
+}
+
+.cast-title {
+  display: flex;
+  align-items: flex-start;
+  flex: 1 1 40vw;
+  min-width: 0;
+}
+
+.cast-header {
+  flex-wrap: wrap;
+}
+
+.cast-header-stacked {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.cast-header-stacked .cast-title {
+  flex: 0 0 auto;
+}
+
+.cast-header-row {
+  display: flex;
+  align-items: center;
+  margin-top: 2.4vw;
+}
+
+.cast-header-row .speaker-indicator {
+  /* Content width (names cap themselves); the spacer takes the rest */
+  flex: 0 1 auto;
+  margin-left: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.cast-header-spacer {
+  flex: 1;
+}
+
+.cast-title-text {
+  font-size: 3.2vw;
+  line-height: 4.4vw;
+  font-weight: 300;
+  color: rgba(0,0,0,.87);
+
+  /* The full title is always shown, wrapping as needed */
+  overflow-wrap: break-word;
+}
+
+/* Large watermark icon, bottom right of every cast page */
+
+.cast-watermark {
+  position: absolute;
+  right: -3vw;
+  bottom: -5vw;
+  font-size: 38vw;
+  color: black;
+  opacity: .045;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cast-body {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.delegation-grid {
+  column-width: 30vw;
+  column-gap: 2vw;
+}
+
+/* Column flow identical to the speakers list: fill down, then next column */
+.cast-columns {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1.5vw 5vw 18vh;
+}
+
+.cast-columns .list-item {
+  width: 25vw;
+}
+
+.cast-columns .list-item-content {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+/* Motion row transitions */
+.pmotion-transition {
+  transition: opacity .28s ease, transform .28s ease;
+}
+
+.pmotion-enter {
+  opacity: 0;
+  transform: translateY(-1.2vw);
+}
+
+.pmotion-leave {
+  opacity: 0;
+  transform: translateY(-.6vw);
+}
+
+.pmotion-move {
+  transition: transform .3s ease;
+}
+
+.bottom-title .material-icons {
+  margin-right: 2vw;
+  font-size: 4vw;
+}
+
+.background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 1200px) {
+  .brand {
+    font-size: calc(3vw + 24px);
+    font-weight: 100;
+    color: black;
+
+    opacity: 0.3;
+    position: relative;
+    top: -3.5vw;
+  }
+}
+
+@media only screen and (min-width: 1201px) {
+  .brand {
+    font-size: 5vw;
+    font-weight: 100;
+    color: black;
+
+    opacity: 0.3;
+    position: relative;
+    top: -3.5vw;
+  }
+}
+
+.counter-group {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 2.5vw;
+  min-width: max-content;
+}
+
+.counter-group .material-icons {
+  font-size: 3vw;
+  opacity: 0.54;
+}
+
+.counter {
+  display: inline-block;
+  margin-left: .625vw;
+  font-size: 0;
+}
+
+.counter > div {
+  display: inline-block;
+}
+
+.counter .present {
+  font-size: 3vw;
+  line-height: 3vw;
+  font-weight: 400;
+}
+
+.counter .separator {
+  font-size: 2vw;
+  opacity: 0.3;
+  margin: 0 .5vw;
+}
+
+.counter .all {
+  font-size: 2vw;
+  font-weight: 200;
+}
+
+.counter-indicator {
+  display: inline-block;
+  margin-left: 1.25vw;
+  font-size: 0;
+}
+
+.counter-indicator-hint {
+  display: inline-block;
+  font-size: 1.5vw;
+  font-weight: 300;
+}
+
+.counter-indicator-value {
+  display: inline-block;
+  font-size: 3vw;
+  margin-left: .5vw;
+}
+
+.icon-alert .material-icons {
+  color: #F44336;
+  opacity: 1 !important;
+}
+
+
+/* Cast page change: the whole stage fades as one composite,
+   so underlying layers can never bleed through mid-transition */
+
+.stage {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: opacity .24s ease;
+}
+
+.stage.layer-switching {
+  opacity: 0;
+}

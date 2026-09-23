@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <title>Console Neo - Cast</title>
+    <link rel="stylesheet" href="/ui/projector.css">
+    
+  <meta name="robots" content="noindex"><style>html,body{overflow:hidden!important;scrollbar-width:none}::-webkit-scrollbar{display:none}*{cursor:default!important}</style></head>
+  <body>
+    <div class="stage">
+    <div class="layer full background">
+      <div class="brand">
+        Console Neo
+      </div>
+    </div>
+
+    <div class="bottom-bar not-tricky opacity-transition" style="">
+      <div class="bottom-title small">
+        <span>UN Security Council</span>
+      </div>
+      <div class="counter-group">
+        <i class="material-icons">person</i>
+        <div class="counter">
+          <div class="present">14</div>
+          <div class="separator">/</div>
+          <div class="all">15</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">Simple Majority</div>
+          <div class="counter-indicator-value">8</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">Two-Thirds</div>
+          <div class="counter-indicator-value">10</div>
+        </div>
+        <div class="counter-indicator">
+          <div class="counter-indicator-hint">One-Fifth</div>
+          <div class="counter-indicator-value">3</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layer timer-layer" style="display: none;">
+      <i class="material-icons cast-watermark">timer</i>
+      <div class="timer-name"></div>
+      <div class="timer timer-left">
+  <span class="timer-hour" style="display: none;">
+    0
+  </span>
+  <span class="timer-separator" style="display: none;">:</span>
+  <span class="timer-minute">
+    0
+  </span>
+  <span class="timer-separator">:</span>
+  <span class="timer-second">
+    00
+  </span>
+</div>
+      
+      <div class="timer-progress">
+        <div class="timer-progress-inner" style="transform: translateX(0px);">
+        </div>
+      </div>
+    </div>
+
+    <div class="layer file-layer full file-full" style="display: none;">
+      <i class="material-icons cast-watermark">insert_drive_file</i>
+      <div class="file-pdf" style="display: none;"></div>
+      
+      <div class="file-overlay"></div>
+    </div>
+
+    <div class="layer full vote-layer headered">
+      <i class="material-icons cast-watermark">thumbs_up_down</i>
+      <div class="cast-header">
+        <div class="cast-title">
+          <span class="cast-title-text">Draft Resolution 1.1</span>
+        </div>
+        <div class="vote-head-right">
+          <div class="vote-head-top">
+            <div class="vote-iteration">
+              Round 1 / of 1
+            </div>
+            
+            <div class="vote-seats">
+              <span class="vote-counter-hint">Total</span>
+              <span class="vote-counter-value">14</span>
+            </div>
+          </div>
+
+          <div class="vote-counters">
+            <div class="vote-counter vote-counter-positive">
+              <span class="vote-counter-hint">For</span>
+              <span class="vote-counter-value">9</span>
+            </div>
+            <div class="vote-counter vote-counter-negative">
+              <span class="vote-counter-hint">Against</span>
+              <span class="vote-counter-value">1</span>
+            </div>
+            <div class="vote-counter vote-counter-abstained">
+              <span class="vote-counter-hint">Abstain</span>
+              <span class="vote-counter-value">1</span>
+            </div>
+            <div class="vote-counter vote-counter-pass">
+              <span class="vote-counter-hint">Pass/NV</span>
+              <span class="vote-counter-value">3</span>
+            </div>
+            
+            <div class="vote-counter vote-counter-target">
+              <span class="vote-counter-hint">Target</span>
+              <span class="vote-counter-value">9</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="voters list cast-columns cast-body">
+        <div class="voter list-item item-transition pass">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">Republic of Korea</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition pass">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">Slovenia</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition pass">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">Switzerland</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">China</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">France</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">United Kingdom</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">United States</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">Algeria</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">Japan</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">Malta</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">Mozambique</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition positive">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">Ecuador</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition negative">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">Russian Federation</div>
+          <div class="voter-bg"></div>
+        </div><div class="voter list-item item-transition abstained">
+          <div class="list-item-indicator"></div>
+          <div class="list-item-content">Guyana</div>
+          <div class="voter-bg"></div>
+        </div>
+      </div>
+      <div class="voter-progress-container">
+        <div class="voter-progress">
+          <div class="voter-progress-inner positive" style="transform: translateX(-35.7143%);">
+          </div>
+          <div class="voter-progress-inner negative" style="transform: translateX(85.7143%);">
+          </div>
+          <div class="voter-progress-inner abstained" style="transform: translateX(92.8571%);">
+          </div>
+        </div>
+        <div class="voter-progress-target" style="transform: translateX(32.1429vw);">
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+
+    
+
+    </div>
+    <div class="layer full mask" style="display: none;"></div>
+  
+
+</body></html>
