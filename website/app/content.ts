@@ -34,7 +34,7 @@ export const ui = {
     "由模联人打造，为模联人服务。简洁的界面，完整的会议流程，还有联席主席之间的实时协作。",
     "Built by MUNers, for MUNers. A clean interface, the whole committee flow, and real-time collaboration between co-chairs.",
   ),
-  runNote: bi("无需安装：下载后解压，双击 Console Neo 即可运行。", "No installation needed. Unzip after downloading, then double-click Console Neo to run."),
+  runNote: bi("无需安装，下载解压后双击 Console Neo 即可运行。", "No installation needed. Unzip after downloading, then double-click Console Neo to run."),
   openSource: bi("自由开源", "Free and Open Source"),
   version: bi(`版本 ${VERSION}`, `Version ${VERSION}`),
   controller: bi("控制窗口", "Controller"),
