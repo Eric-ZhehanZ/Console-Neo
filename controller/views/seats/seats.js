@@ -8,6 +8,16 @@ const Vue = require('vue');
 const fs = require('fs');
 const pinyin = require('pinyin');
 
+// Phrase segmentation (for polyphonic characters) needs the native nodejieba
+// module, which only ships for macOS. Elsewhere, sort by per-character pinyin
+let canSegment = true;
+try {
+  // Loaded by pinyin itself; this only probes whether the native binary works here
+  require('nodejieba'); // eslint-disable-line global-require, import/no-extraneous-dependencies
+} catch(e) {
+  canSegment = false;
+}
+
 const SeatsView = Vue.extend({
   template: fs.readFileSync(`${__dirname}/seats.html`).toString('utf-8'),
   props: ['seats', 'authorized'],
@@ -69,7 +79,7 @@ const SeatsView = Vue.extend({
             original: e,
             pinyin: pinyin(e, {
               style: pinyin.STYLE_NORMAL,
-              segment: true,
+              segment: canSegment,
             }),
           }))
           .sort((a, b) => {
