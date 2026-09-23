@@ -6,12 +6,19 @@
 //   node bin/build.js darwin          macOS universal (Apple silicon + Intel)
 //   node bin/build.js win32 [x64]     Windows
 // @electron/packager 18 writes Windows resources with resedit, so no Wine is needed.
+//
+// macOS builds are signed with the Developer ID below (hardened runtime) and
+// notarized with the notarytool keychain profile "console-neo". Override with
+// CLN_SIGN_IDENTITY / CLN_NOTARY_PROFILE; CLN_NO_SIGN=1 or CLN_NO_NOTARIZE=1 skip them.
 
 const packager = require('@electron/packager');
 const path = require('path');
 const { version } = require('../package.json');
 
 const ROOT = path.join(__dirname, '..');
+const SIGN_IDENTITY = process.env.CLN_SIGN_IDENTITY
+  || 'Developer ID Application: Zhehan Zhang (Q64ZL36CJN)';
+const NOTARY_PROFILE = process.env.CLN_NOTARY_PROFILE || 'console-neo';
 const NUMERIC = version.split('-')[0]; // OS version fields reject prerelease tags
 
 const IGNORE = [
@@ -35,8 +42,20 @@ function options(platform, arch) {
     appCopyright: 'Copyright (C) 2026 Zhehan Zhang',
   };
 
-  if(platform === 'darwin')
-    return Object.assign(common, {
+  if(platform === 'darwin') {
+    const signing = process.env.CLN_NO_SIGN ? {} : {
+      osxSign: {
+        identity: SIGN_IDENTITY,
+        optionsForFile: () => ({
+          hardenedRuntime: true,
+          entitlements: path.join(__dirname, 'entitlements.mac.plist'),
+        }),
+      },
+    };
+    if(!process.env.CLN_NO_SIGN && !process.env.CLN_NO_NOTARIZE)
+      signing.osxNotarize = { keychainProfile: NOTARY_PROFILE };
+
+    return Object.assign(common, signing, {
       arch: arch || 'universal',
       icon: path.join(ROOT, 'images/icon.icns'),
       // Full prerelease version in CFBundleVersion, numeric in CFBundleShortVersionString
@@ -48,6 +67,7 @@ function options(platform, arch) {
         NSBonjourServices: ['_console-neo._tcp'],
       },
     });
+  }
 
   if(platform === 'win32')
     return Object.assign(common, {
