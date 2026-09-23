@@ -1,3 +1,9 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
+// Copyright (C) 2016 Liu Xiaoyi
+// Copyright (C) 2018 Pan Ruizhe
+// Modifications Copyright (C) 2026 Zhehan Zhang
+// Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
+
 /* eslint-disable spaced-comment */
 /// <reference path="typings/electron.d.ts" />
 /* eslint-enable spaced-comment */

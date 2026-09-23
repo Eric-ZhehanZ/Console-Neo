@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Zhehan Zhang
+// Part of Console Neo. See LICENSE and NOTICE for terms.
+
 /* eslint-disable */
 // Populates an isolated instance (debug port 9225) with a demo committee per language.
 const { attach, sleep } = require('./cdp.cjs');

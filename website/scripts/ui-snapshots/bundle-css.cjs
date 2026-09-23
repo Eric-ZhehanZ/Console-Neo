@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Zhehan Zhang
+// Part of Console Neo. See LICENSE and NOTICE for terms.
+
 /* eslint-disable */
 // Flattens the app's controller/projector stylesheets into public/ui/*.css,
 // copying every url() asset into public/ui/assets/. Italic faces are dropped

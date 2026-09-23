@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Zhehan Zhang
+// Part of Console Neo. See LICENSE and NOTICE for terms.
+
 import assert from "node:assert/strict";
 import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";

@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Zhehan Zhang
+// Part of Console Neo. See LICENSE and NOTICE for terms.
+
 const Vue = require('vue');
 const fs = require('fs');
 const reminder = require('../../../shared/reminder');

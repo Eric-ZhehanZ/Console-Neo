@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: Apache-2.0 AND AGPL-3.0-or-later
+// Based on local-ipv4-address, Copyright Ben Hutchison, Apache License 2.0 (see LICENSE in this folder)
+// Modifications Copyright (C) 2026 Zhehan Zhang
+// Part of Console Neo. See LICENSE and NOTICE at the repository root for terms.
+
 const os = require('os');
 const dgram = require('dgram');
 

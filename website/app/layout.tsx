@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Zhehan Zhang
+// Part of Console Neo. See LICENSE and NOTICE for terms.
+
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
