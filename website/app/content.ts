@@ -9,6 +9,7 @@ const bi = (zh: string, en: string): Localized => ({ zh, en });
 
 export const VERSION = "2.0.0-beta.1";
 export const REPO = "https://github.com/Eric-ZhehanZ/Console-Neo";
+export const RELEASE_PAGE = `${REPO}/releases/tag/v${VERSION}`;
 const RELEASE = `${REPO}/releases/download/v${VERSION}`;
 
 export const downloads = {
@@ -33,7 +34,8 @@ export const ui = {
     "由模联人打造，为模联人服务。简洁的界面，完整的会议流程，还有联席主席之间的实时协作。",
     "Built by MUNers, for MUNers. A clean interface, the whole committee flow, and real-time collaboration between co-chairs.",
   ),
-  release: bi(`公开测试版 ${VERSION} · 免费开源`, `Beta ${VERSION} · Free and open source`),
+  openSource: bi("自由开源", "Free and Open Source"),
+  version: bi(`版本 ${VERSION}`, `Version ${VERSION}`),
   controller: bi("控制窗口", "Controller"),
   cast: bi("会场屏幕", "Room screen"),
   moreTitle: bi("主席台需要的，都在这里", "Everything else a dais needs"),
