@@ -4,54 +4,29 @@
 // Modifications Copyright (C) 2026 Zhehan Zhang
 // Part of Console Neo. See LICENSE, NOTICE, and LICENSES/MIT.txt for terms.
 
-const packager = require('electron-packager');
 const process = require('process');
-const path = require('path');
-const { version } = require('../package.json');
+const { build } = require('./build');
 
+// Packages for the current platform and architecture into dist/ (see bin/build.js)
 function pack(cb, silent) {
   if(!silent) {
     console.log(`Building package for ${process.platform} - ${process.arch}.`);
     console.log('Please ensure that native dependecies are built using correct ABI version');
   }
 
-  const opt = {
-    arch: process.arch,
-    platform: process.platform,
-    out: path.dirname(__dirname),
-    dir: path.dirname(__dirname),
-    prune: true,
-    ignore: [
-      /^\/server\/.*\.db($|\/)/,
-      /^\/server\/.*\.files($|\/)/,
-      /^\/Console Lite/,
-      /^\/Console-Lite-/,
-      /^\/(dist|website|pending|test-results|relay|\.claude|\.vscode)(\/|$)/,
-    ], // Ignores databases, files, artifacts, and non-app sources
-    tmpdir: false,
-    icon: path.join(__dirname, '../images/icon'),
-    // Numeric only: macOS and Windows version fields reject prerelease tags
-    appVersion: version.split('-')[0],
-  };
-
-  if(process.env.ELECTRON_MIRROR)
-    opt.download = {
-      mirror: process.env.ELECTRON_MIRROR,
-    };
-
-  packager(opt, (err, paths) => {
-    if(err) {
+  build(process.platform, process.arch)
+    .then((paths) => {
+      if(!silent)
+        console.log(`Package outputted to: ${paths}`);
+      if(cb) cb(null, paths);
+    })
+    .catch((err) => {
       if(!silent) {
         console.error('Packager failed:');
         console.error(err.stack);
       }
       if(cb) cb(err);
-    } else {
-      if(!silent)
-        console.log(`Package outputted to: ${paths}`);
-      if(cb) cb(null, paths);
-    }
-  });
+    });
 }
 
 /* eslint-disable global-require */

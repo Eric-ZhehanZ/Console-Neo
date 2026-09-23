@@ -15,10 +15,11 @@
     "clean": "rm -rf Console-Lite-* Console\\ Lite*",
     "pack": "node bin/pack.js",
     "rebuildNative": "node bin/rebuild.js",
-    "beforeBuild": "npm i && npm i electron-packager --save-dev && source ./predeploy.sh",
-    "build": "npm run buildMac",
-    "buildMac": "node -e \"require('electron-packager')({ dir: '.', name: 'Console Neo', platform: 'darwin', arch: 'universal', icon: 'images/icon.icns', appVersion: require('./package.json').version.split('-')[0], buildVersion: require('./package.json').version, out: 'dist', overwrite: true, ignore: [/^\\/(dist|website|pending|test-results|relay|\\.claude|\\.vscode)(\\/|$)/], osxUniversal: { x64ArchFiles: '**/*.node' }, extendInfo: { NSLocalNetworkUsageDescription: 'Console Neo discovers nearby sessions on your local network.', NSBonjourServices: ['_console-neo._tcp'] } }).then(p => console.log('PACKAGED:', p))\"",
-    "afterBuild": "tar zcf dist/Console-Neo-$(git log -n 1 --pretty=format:'%h').tar.gz dist/"
+    "beforeBuild": "npm i && source ./predeploy.sh",
+    "build": "npm run buildMac && npm run buildWin",
+    "buildMac": "node bin/build.js darwin",
+    "afterBuild": "tar zcf dist/Console-Neo-$(git log -n 1 --pretty=format:'%h').tar.gz dist/",
+    "buildWin": "node bin/build.js win32 x64"
   },
   "author": "Zhehan Zhang",
   "contributors": [
@@ -36,8 +37,8 @@
   },
   "license": "AGPL-3.0-or-later",
   "devDependencies": {
+    "@electron/packager": "^18.4.4",
     "electron": "^22.3.27",
-    "electron-packager": "^17.1.2",
     "eslint": "^3.3.1",
     "eslint-config-airbnb-base": "^5.0.3",
     "eslint-plugin-import": "^1.14.0",
