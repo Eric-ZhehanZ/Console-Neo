@@ -2,6 +2,7 @@
   "name": "console-neo-product-site",
   "version": "1.0.0",
   "description": "Bilingual product site and user guide for Console Neo",
+  "license": "AGPL-3.0-or-later",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
