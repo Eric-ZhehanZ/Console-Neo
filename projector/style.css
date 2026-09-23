@@ -149,6 +149,8 @@ body {
 }
 
 .cast-header-row .speaker-indicator {
+  /* Content width (names cap themselves); the spacer takes the rest */
+  flex: 0 1 auto;
   margin-left: 0;
   min-width: 0;
   overflow: hidden;

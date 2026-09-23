@@ -236,6 +236,7 @@
 /* Arrow reordering */
 
 .list-drag {
+  position: relative;
   display: flex;
   align-items: center;
 }
@@ -264,9 +265,16 @@
   overflow-wrap: break-word;
 }
 
+/* Overlaid on hover instead of reserving width, so names use the whole row */
 .seat-reorder {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
   display: inline-flex;
   align-items: center;
+  padding-left: 16px;
+  background: linear-gradient(to right, rgba(255,255,255,0), white 16px);
   opacity: 0;
   transition: opacity .15s ease;
 }
