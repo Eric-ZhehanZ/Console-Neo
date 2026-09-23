@@ -61,7 +61,7 @@ tar import, power-save blocker, and global shortcuts.
 
 **Global shortcuts**: `Cmd/Ctrl+\` focus controller · `Cmd/Ctrl+Shift+|` focus/open projector
 · `Cmd/Ctrl+Shift+P` open devtools + `stopTheWorld()` (pauses the running timer, then
-`debugger`) · `Cmd/Ctrl+1..8` jump to a controller page (`util.js`, Pages menu).
+`debugger`) · `Cmd/Ctrl+1..9` jump to a controller page (`util.js`, Pages menu).
 
 **Renderer supervision**: `watchRenderer()` in `main.js` logs `render-process-gone` /
 `unresponsive` and reloads at most once per 30 s so a crash loop can't spin.
@@ -308,6 +308,12 @@ than a fragile regex; follow with `npx eslint <file>`.
 - Branch `main`, pushed to `github.com/Eric-ZhehanZ/Console-Neo`. History starts at the
   initial commit; the Console Lite fork's history was not carried over. `pending/` (new icon
   drafts) and `test-results/` are deliberately not tracked.
-- `dist/` holds macOS universal packages that **predate** the relay resilience fixes, the
-  code-badge redesign, and the vote-projection layout fix. Rebuild before distributing.
+- Version `2.0.0-beta.1` (semver prerelease). macOS builds put the numeric part in
+  `CFBundleShortVersionString` and the full string in `CFBundleVersion`. `npm run build`
+  writes `dist/` (git-ignored); rebuild after any change before distributing.
+- App icon master is `images/icon.png` (full-bleed 1024). `icon.icns` puts it on Apple's
+  824/1024 grid with a drop shadow; `icon.ico` and the window PNGs use it full-bleed.
+- `website/` is a separate Next.js (vinext) project. Its feature sections embed DOM
+  snapshots of the real app (`website/public/ui/`); regenerate them after UI changes with
+  `website/scripts/ui-snapshots/` (see its README).
 - The relay is live and verified end-to-end through production Cloudflare.
